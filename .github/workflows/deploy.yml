@@ -19,8 +19,9 @@ jobs:
           script: |
             cd /var/www/easyfix/easyfix
 
-            # Pull latest changes
-            git pull origin main
+            # Discard local changes and pull latest
+            git fetch origin
+            git reset --hard origin/main
 
             # Install dependencies
             composer install --no-dev --optimize-autoloader --no-interaction
