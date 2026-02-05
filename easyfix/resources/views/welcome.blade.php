@@ -166,41 +166,9 @@
 <body class="antialiased bg-white text-gray-900 dark:bg-slate-950 dark:text-slate-100">
 
     {{-- Navigation --}}
-    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100 dark:bg-slate-950/95 dark:border-slate-800" aria-label="Main navigation">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <a href="/" class="flex items-center gap-2" aria-label="Easy Fix Home">
-                    <div class="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <x-heroicon-o-wrench-screwdriver class="w-5 h-5 text-white" />
-                    </div>
-                    <span class="text-xl font-bold text-gray-900 dark:text-white">Easy Fix</span>
-                </a>
+    <x-navbar />
 
-                <div class="flex items-center gap-4">
-                    <a href="{{ route('about') }}" class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white">
-                        About
-                    </a>
-                    <a href="tel:+9609996210" class="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700">
-                        <x-heroicon-o-phone class="w-4 h-4" />
-                        +960 999 6210
-                    </a>
-                    <button type="button" data-theme-toggle class="p-2 text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800" aria-label="Toggle dark mode">
-                        <x-heroicon-s-sun class="w-5 h-5 hidden dark:block" />
-                        <x-heroicon-s-moon class="w-5 h-5 block dark:hidden" />
-                    </button>
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-slate-300 dark:hover:text-white">
-                            Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-slate-300 dark:hover:text-white">
-                            Login
-                        </a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </nav>
+
 
     <main>
         {{-- HERO SECTION --}}
@@ -389,7 +357,7 @@
         </section>
 
         {{-- WHY CHOOSE US --}}
-        <section class="py-16 sm:py-20 bg-white dark:bg-slate-950" aria-labelledby="why-heading">
+        <section id="pricing" class="py-16 sm:py-20 bg-white dark:bg-slate-950" aria-labelledby="why-heading">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
                     <h2 id="why-heading" class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
@@ -541,7 +509,7 @@
     </main>
 
     {{-- FOOTER --}}
-    <footer class="bg-gray-900 dark:bg-slate-950 text-gray-400">
+    <footer id="contact" class="bg-gray-900 dark:bg-slate-950 text-gray-400">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {{-- Company Info --}}
@@ -618,17 +586,5 @@
         </div>
     </footer>
 
-    {{-- Theme Toggle Script --}}
-    <script>
-        (function () {
-            document.addEventListener('click', (event) => {
-                const target = event.target.closest('[data-theme-toggle]');
-                if (!target) return;
-                event.preventDefault();
-                const isDark = document.documentElement.classList.toggle('dark');
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            });
-        })();
-    </script>
 </body>
 </html>

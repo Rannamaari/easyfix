@@ -40,44 +40,9 @@
 <body class="antialiased bg-white text-gray-900 dark:bg-slate-950 dark:text-slate-100">
 
     {{-- Navigation --}}
-    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100 dark:bg-slate-950/95 dark:border-slate-800">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <a href="/" class="flex items-center gap-2">
-                    <div class="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <x-heroicon-o-wrench-screwdriver class="w-5 h-5 text-white" />
-                    </div>
-                    <span class="text-xl font-bold text-gray-900 dark:text-white">Easy Fix</span>
-                </a>
+    <x-navbar />
 
-                <div class="flex items-center gap-6">
-                    <a href="/" class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white">
-                        Home
-                    </a>
-                    <a href="{{ route('about') }}" class="text-sm font-medium text-blue-600 dark:text-blue-400">
-                        About
-                    </a>
-                    <a href="tel:+9609996210" class="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700">
-                        <x-heroicon-o-phone class="w-4 h-4" />
-                        <span class="hidden sm:inline">999 6210</span>
-                    </a>
-                    <button type="button" data-theme-toggle class="p-2 text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800">
-                        <x-heroicon-s-sun class="w-5 h-5 hidden dark:block" />
-                        <x-heroicon-s-moon class="w-5 h-5 block dark:hidden" />
-                    </button>
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-slate-300 dark:hover:text-white">
-                            Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="hidden sm:block text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-slate-300 dark:hover:text-white">
-                            Login
-                        </a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </nav>
+
 
     <main>
         {{-- HERO SECTION --}}
@@ -498,17 +463,5 @@
         </div>
     </footer>
 
-    {{-- Theme Toggle Script --}}
-    <script>
-        (function () {
-            document.addEventListener('click', (event) => {
-                const target = event.target.closest('[data-theme-toggle]');
-                if (!target) return;
-                event.preventDefault();
-                const isDark = document.documentElement.classList.toggle('dark');
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            });
-        })();
-    </script>
 </body>
 </html>

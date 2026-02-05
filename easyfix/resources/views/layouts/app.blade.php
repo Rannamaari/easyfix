@@ -24,9 +24,7 @@
     </head>
     <body class="font-sans antialiased bg-gray-100 text-gray-900 dark:bg-slate-950 dark:text-slate-100">
         <div class="min-h-screen bg-gray-100 dark:bg-slate-950">
-            @if(!isset($showNav) || $showNav)
-                @include('layouts.navigation')
-            @endif
+            <x-navbar />
 
             <!-- Page Heading -->
             @isset($header)
@@ -42,16 +40,5 @@
                 {{ $slot }}
             </main>
         </div>
-        <script>
-            (function () {
-                document.addEventListener('click', (event) => {
-                    const target = event.target.closest('[data-theme-toggle]');
-                    if (!target) return;
-                    event.preventDefault();
-                    const isDark = document.documentElement.classList.toggle('dark');
-                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                });
-            })();
-        </script>
     </body>
 </html>
