@@ -268,23 +268,34 @@
                     @php
                         $services = [
                             ['icon' => 'sun', 'name' => 'AC Repair', 'desc' => 'AC not cooling? We fix it'],
-                            ['icon' => 'bolt', 'name' => 'Electrician', 'desc' => 'Switches, boards, wiring'],
-                            ['icon' => 'wrench-screwdriver', 'name' => 'Plumber', 'desc' => 'Leaks, taps, blocked pipes'],
-                            ['icon' => 'key', 'name' => 'Door & Locks', 'desc' => 'Handles, hinges, locks'],
+                            ['icon' => 'bolt', 'name' => 'Electrician', 'desc' => 'Switches, boards, wiring', 'coming_soon' => true],
+                            ['icon' => 'wrench-screwdriver', 'name' => 'Plumber', 'desc' => 'Leaks, taps, blocked pipes', 'coming_soon' => true],
+                            ['icon' => 'key', 'name' => 'Door & Locks', 'desc' => 'Handles, hinges, locks', 'coming_soon' => true],
                             ['icon' => 'cube-transparent', 'name' => 'Fridge Repair', 'desc' => 'Refrigerator not cooling?'],
                             ['icon' => 'arrow-path', 'name' => 'Washing Machine', 'desc' => 'Washer repairs & fixes'],
-                            ['icon' => 'sparkles', 'name' => 'Cleaning', 'desc' => 'Deep clean, move-out'],
-                            ['icon' => 'cube', 'name' => 'Small Moving', 'desc' => 'Furniture, appliances'],
+                            ['icon' => 'sparkles', 'name' => 'Cleaning', 'desc' => 'Deep clean, move-out', 'coming_soon' => true],
+                            ['icon' => 'cube', 'name' => 'Small Moving', 'desc' => 'Furniture, appliances', 'coming_soon' => true],
                         ];
                     @endphp
 
                     @foreach($services as $service)
-                        <article class="bg-gray-50 dark:bg-slate-900 rounded-2xl p-5 text-center border border-gray-100 dark:border-slate-800 hover:border-blue-200 dark:hover:border-slate-700 transition-colors">
-                            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mx-auto mb-3">
-                                <x-dynamic-component :component="'heroicon-o-' . $service['icon']" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                        @php $comingSoon = !empty($service['coming_soon']); @endphp
+                        <article class="relative rounded-2xl p-5 text-center border transition-colors
+                            {{ $comingSoon
+                                ? 'bg-gray-100 dark:bg-slate-900/60 border-gray-200 dark:border-slate-800 opacity-60 cursor-not-allowed'
+                                : 'bg-gray-50 dark:bg-slate-900 border-gray-100 dark:border-slate-800 hover:border-blue-200 dark:hover:border-slate-700' }}">
+                            @if($comingSoon)
+                                <span class="absolute top-2 right-2 inline-flex items-center bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">
+                                    Coming Soon
+                                </span>
+                            @endif
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3
+                                {{ $comingSoon ? 'bg-gray-200 dark:bg-slate-800' : 'bg-blue-100 dark:bg-blue-900/30' }}">
+                                <x-dynamic-component :component="'heroicon-o-' . $service['icon']"
+                                    class="w-6 h-6 {{ $comingSoon ? 'text-gray-400 dark:text-slate-500' : 'text-blue-600 dark:text-blue-400' }}" />
                             </div>
-                            <h3 class="font-semibold text-gray-900 dark:text-white">{{ $service['name'] }}</h3>
-                            <p class="text-xs text-gray-500 dark:text-slate-400 mt-1">{{ $service['desc'] }}</p>
+                            <h3 class="font-semibold {{ $comingSoon ? 'text-gray-400 dark:text-slate-500' : 'text-gray-900 dark:text-white' }}">{{ $service['name'] }}</h3>
+                            <p class="text-xs mt-1 {{ $comingSoon ? 'text-gray-400 dark:text-slate-600' : 'text-gray-500 dark:text-slate-400' }}">{{ $service['desc'] }}</p>
                         </article>
                     @endforeach
                 </div>
