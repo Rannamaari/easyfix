@@ -8,10 +8,10 @@
     <title>Easy Fix | Plumber, Electrician & Handyman Services in Malé, Maldives</title>
 
     {{-- SEO Meta Description --}}
-    <meta name="description" content="Need a plumber, electrician or handyman in Malé? Easy Fix provides same-day AC repair, plumbing, electrical, door lock fixes & cleaning services in Malé City, Hulhumalé & Villingili. Call +960 999 6210.">
+    <meta name="description" content="Need a plumber, electrician or handyman in Malé? Easy Fix provides same-day AC repair, fridge repair, washing machine repair, plumbing, electrical & cleaning services in Malé City, Hulhumalé & Villingili. Call +960 999 6210.">
 
     {{-- SEO Keywords --}}
-    <meta name="keywords" content="plumber Malé, electrician Malé, handyman Maldives, AC repair Malé, plumbing Hulhumalé, door lock repair Malé, home repair Maldives, urgent plumber Malé, 24 hour electrician Malé">
+    <meta name="keywords" content="plumber Malé, electrician Malé, handyman Maldives, AC repair Malé, fridge repair Malé, washing machine repair Maldives, refrigerator repair Hulhumalé, appliance repair Malé, plumbing Hulhumalé, home repair Maldives">
 
     {{-- Geo Tags for Local SEO --}}
     <meta name="geo.region" content="MV-MLE">
@@ -23,7 +23,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://easyfix.mv/">
     <meta property="og:title" content="Easy Fix | Plumber, Electrician & Handyman in Malé">
-    <meta property="og:description" content="Same-day home repairs in Malé City. AC repair, plumbing, electrical, door locks & more. Trusted local team. Call +960 999 6210.">
+    <meta property="og:description" content="Same-day home repairs in Malé City. AC repair, plumbing, electrical, door locks & more. Trusted team. Call +960 999 6210.">
     <meta property="og:image" content="https://easyfix.mv/images/easyfix-og.jpg">
     <meta property="og:locale" content="en_MV">
 
@@ -245,7 +245,7 @@
 
                     {{-- Trust Signals --}}
                     <p class="mt-6 text-sm text-gray-500 dark:text-slate-400">
-                        ✓ Same-day service &nbsp; ✓ No hidden charges &nbsp; ✓ Trained local team
+                        ✓ Same-day service &nbsp; ✓ No hidden charges &nbsp; ✓ Trained team
                     </p>
                 </div>
             </div>
@@ -265,13 +265,15 @@
                 </div>
 
                 {{-- Services Grid --}}
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4">
                     @php
                         $services = [
                             ['icon' => 'sun', 'name' => 'AC Repair', 'desc' => 'AC not cooling? We fix it'],
                             ['icon' => 'bolt', 'name' => 'Electrician', 'desc' => 'Switches, boards, wiring'],
                             ['icon' => 'wrench-screwdriver', 'name' => 'Plumber', 'desc' => 'Leaks, taps, blocked pipes'],
                             ['icon' => 'key', 'name' => 'Door & Locks', 'desc' => 'Handles, hinges, locks'],
+                            ['icon' => 'cube-transparent', 'name' => 'Fridge Repair', 'desc' => 'Refrigerator not cooling?'],
+                            ['icon' => 'arrow-path', 'name' => 'Washing Machine', 'desc' => 'Washer repairs & fixes'],
                             ['icon' => 'sparkles', 'name' => 'Cleaning', 'desc' => 'Deep clean, move-out'],
                             ['icon' => 'cube', 'name' => 'Small Moving', 'desc' => 'Furniture, appliances'],
                         ];
@@ -290,7 +292,7 @@
 
                 {{-- Additional Services --}}
                 <p class="text-center mt-8 text-gray-600 dark:text-slate-400">
-                    Also: Kitchen cabinet repairs, furniture assembly, wall mounting, curtain installation, and more handyman services.
+                    Also: Kitchen cabinet repairs, furniture assembly, wall mounting, curtain installation, and more appliance & handyman services.
                 </p>
             </div>
         </section>
@@ -358,7 +360,7 @@
                         <div class="w-11 h-11 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center mb-4">
                             <x-heroicon-o-user-group class="w-6 h-6 text-green-600 dark:text-green-400" />
                         </div>
-                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Trained Local Team</h3>
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Trained Team</h3>
                         <p class="text-sm text-gray-600 dark:text-slate-400">
                             Our own in-house technicians. Not random workers. People we trust and train.
                         </p>
@@ -517,12 +519,14 @@
                 <div>
                     <h4 class="text-white font-semibold mb-4">Our Services</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#services" class="hover:text-white">AC Repair in Malé</a></li>
-                        <li><a href="#services" class="hover:text-white">Electrician in Malé</a></li>
-                        <li><a href="#services" class="hover:text-white">Plumber in Malé</a></li>
+                        <li><a href="#services" class="hover:text-white">AC Repair</a></li>
+                        <li><a href="#services" class="hover:text-white">Fridge Repair</a></li>
+                        <li><a href="#services" class="hover:text-white">Washing Machine Repair</a></li>
+                        <li><a href="#services" class="hover:text-white">Electrician</a></li>
+                        <li><a href="#services" class="hover:text-white">Plumber</a></li>
                         <li><a href="#services" class="hover:text-white">Door & Lock Repair</a></li>
                         <li><a href="#services" class="hover:text-white">Cleaning Services</a></li>
-                        <li><a href="#services" class="hover:text-white">Small Moving Help</a></li>
+                        <li><a href="#services" class="hover:text-white">Small Moving</a></li>
                     </ul>
                 </div>
 
