@@ -168,7 +168,33 @@
     {{-- Navigation --}}
     <x-navbar />
 
-
+    {{-- Beta Announcement Banner --}}
+    <div class="bg-gradient-to-r from-amber-500 to-orange-500 dark:from-amber-600 dark:to-orange-600">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center">
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1 bg-white/20 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
+                        BETA
+                    </span>
+                    <span class="text-white text-sm font-medium">
+                        We're just getting started!
+                    </span>
+                </div>
+                <span class="hidden sm:inline text-white/60">|</span>
+                <p class="text-white/90 text-sm">
+                    <span class="font-medium">Now available:</span> AC Repair, Fridge, Washing Machine, Oven & AC Installation
+                </p>
+            </div>
+            <p class="text-center text-white/80 text-xs mt-1.5">
+                <span class="inline-flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Coming soon: Moto Mechanic & more services
+                </span>
+                · This website is a work in progress — more features on the way!
+            </p>
+        </div>
+    </div>
 
     <main>
         {{-- HERO SECTION --}}
