@@ -68,7 +68,7 @@
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
                     Small fixes.<br>
                     Done right.<br>
-                    Done fast.
+                    Same day.
                 </h1>
 
                 {{-- Subheading --}}
