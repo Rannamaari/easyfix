@@ -10,7 +10,7 @@ return new class extends Migration
     {
         if (!Schema::hasColumn('users', 'username')) {
             Schema::table('users', function (Blueprint $table) {
-                $table->string('username', 50)->nullable()->after('name');
+                $table->string('username', 50)->nullable()->unique();
             });
         }
 
@@ -22,13 +22,6 @@ return new class extends Migration
             \DB::table('users')->where('id', $user->id)->update([
                 'username' => $username,
             ]);
-        }
-
-        $indexes = \DB::select("SHOW INDEX FROM users WHERE Key_name = 'users_username_unique'");
-        if (count($indexes) === 0) {
-            Schema::table('users', function (Blueprint $table) {
-                $table->unique('username');
-            });
         }
     }
 
