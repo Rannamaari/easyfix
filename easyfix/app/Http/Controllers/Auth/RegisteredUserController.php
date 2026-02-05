@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\JobRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -50,6 +51,7 @@ class RegisteredUserController extends Controller
             'address_line1' => $request->address_line1,
             'address_line2' => $request->address_line2,
             'password' => Hash::make($request->password),
+            'role' => 'customer',
         ]);
 
         $address = $request->address_line1;
@@ -63,10 +65,27 @@ class RegisteredUserController extends Controller
             'is_default' => true,
         ]);
 
+        // Link any existing guest job requests to this user (by email or phone)
+        $this->linkGuestJobsToUser($user);
+
         event(new Registered($user));
 
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
+    }
+
+    /**
+     * Link guest job requests to the newly registered user.
+     */
+    protected function linkGuestJobsToUser(User $user): void
+    {
+        // Find guest jobs by email or phone that don't have a customer_id yet
+        JobRequest::whereNull('customer_id')
+            ->where(function ($query) use ($user) {
+                $query->where('guest_email', $user->email)
+                    ->orWhere('guest_phone', $user->phone);
+            })
+            ->update(['customer_id' => $user->id]);
     }
 }
