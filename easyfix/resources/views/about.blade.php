@@ -20,7 +20,7 @@
     <link rel="icon" type="image/png" href="/favicon.ico">
 
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700,800&display=swap" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -34,7 +34,7 @@
     </script>
 
     <style>
-        body { font-family: 'Inter', system-ui, sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
     </style>
 </head>
 <body class="antialiased bg-white text-gray-900 dark:bg-slate-950 dark:text-slate-100">

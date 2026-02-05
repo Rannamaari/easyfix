@@ -169,30 +169,32 @@
     <x-navbar />
 
     {{-- Beta Announcement Banner --}}
-    <div class="bg-gradient-to-r from-amber-500 to-orange-500 dark:from-amber-600 dark:to-orange-600">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center">
+    <div class="border-b border-gray-200 bg-gray-50 dark:border-slate-800 dark:bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-3 sm:gap-4">
+                {{-- Beta Badge + Headline --}}
                 <div class="flex items-center gap-2">
-                    <span class="inline-flex items-center gap-1 bg-white/20 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                    <span class="inline-flex items-center gap-1 bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                         <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
                         BETA
                     </span>
-                    <span class="text-white text-sm font-medium">
+                    <span class="text-gray-900 dark:text-white text-sm font-semibold">
                         We're just getting started!
                     </span>
                 </div>
-                <span class="hidden sm:inline text-white/60">|</span>
-                <p class="text-white/90 text-sm">
-                    <span class="font-medium">Now available:</span> AC Repair, Fridge, Washing Machine, Oven & AC Installation
-                </p>
+
+                {{-- Service Pills --}}
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300 text-xs font-medium px-2.5 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                        Available: AC Repair & Installation · Appliance Repair · On-Site Motorcycle Mechanic
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-slate-300 text-xs font-medium px-2.5 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 bg-gray-400 dark:bg-slate-500 rounded-full"></span>
+                        Coming soon: More Services & Features
+                    </span>
+                </div>
             </div>
-            <p class="text-center text-white/80 text-xs mt-1.5">
-                <span class="inline-flex items-center gap-1">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    Coming soon: Moto Mechanic & more services
-                </span>
-                · This website is a work in progress — more features on the way!
-            </p>
         </div>
     </div>
 

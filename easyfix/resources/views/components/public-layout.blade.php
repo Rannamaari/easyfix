@@ -8,7 +8,8 @@
         <title>{{ $title ?? config('app.name', 'EasyFix') }}</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700,800&display=swap" rel="stylesheet" />
+        <style>body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }</style>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script>

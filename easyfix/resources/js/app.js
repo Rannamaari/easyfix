@@ -70,14 +70,31 @@ function setupMobileNav() {
     const navPanel = document.querySelector('[data-nav-panel]');
     if (!navToggle || !navPanel) return;
 
+    const openIcon = navToggle.querySelector('[data-menu-icon="open"]');
+    const closeIcon = navToggle.querySelector('[data-menu-icon="close"]');
+
+    const updateMenuIcons = (isOpen) => {
+        if (openIcon && closeIcon) {
+            if (isOpen) {
+                openIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                openIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+    };
+
     const closeMenu = () => {
         navPanel.classList.add('hidden');
         navToggle.setAttribute('aria-expanded', 'false');
+        updateMenuIcons(false);
     };
 
     const openMenu = () => {
         navPanel.classList.remove('hidden');
         navToggle.setAttribute('aria-expanded', 'true');
+        updateMenuIcons(true);
     };
 
     navToggle.addEventListener('click', (event) => {
