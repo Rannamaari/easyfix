@@ -177,6 +177,9 @@
                 </a>
 
                 <div class="flex items-center gap-4">
+                    <a href="{{ route('about') }}" class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white">
+                        About
+                    </a>
                     <a href="tel:+9609996210" class="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700">
                         <x-heroicon-o-phone class="w-4 h-4" />
                         +960 999 6210
