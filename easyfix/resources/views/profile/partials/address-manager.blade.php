@@ -1,24 +1,24 @@
-<section>
+<section id="addresses">
     <header>
-        <h2 class="text-lg font-medium text-gray-900">Saved Addresses</h2>
-        <p class="mt-1 text-sm text-gray-600">Choose a default address or add a new one.</p>
+        <h2 class="text-lg font-medium text-gray-900 dark:text-white">Saved Addresses</h2>
+        <p class="mt-1 text-sm text-gray-600 dark:text-slate-300">Choose a default address or add a new one.</p>
     </header>
 
     <div class="mt-6 space-y-4">
         @if($addresses->isEmpty())
-            <p class="text-sm text-gray-600">No saved addresses yet.</p>
+            <p class="text-sm text-gray-600 dark:text-slate-300">No saved addresses yet.</p>
         @else
             <div class="space-y-3">
                 @foreach($addresses as $address)
-                    <div class="border border-gray-200 rounded-md p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="border border-gray-200 dark:border-slate-700 rounded-md p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <p class="text-sm font-semibold text-gray-800">
+                            <p class="text-sm font-semibold text-gray-800 dark:text-white">
                                 {{ ucfirst($address->label) }}
                                 @if($address->is_default)
-                                    <span class="ml-2 inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">Default</span>
+                                    <span class="ml-2 inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-500/10 dark:text-blue-200">Default</span>
                                 @endif
                             </p>
-                            <p class="mt-1 text-sm text-gray-600">{{ $address->address }}</p>
+                            <p class="mt-1 text-sm text-gray-600 dark:text-slate-300">{{ $address->address }}</p>
                         </div>
 
                         <div class="flex flex-wrap gap-2">
@@ -26,7 +26,7 @@
                                 <form method="POST" action="{{ route('profile.addresses.default', $address) }}">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="px-3 py-1.5 text-sm border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50">
+                                    <button type="submit" class="px-3 py-1.5 text-sm border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 dark:border-blue-400 dark:text-blue-200 dark:hover:bg-blue-500/10">
                                         Set Default
                                     </button>
                                 </form>
@@ -35,7 +35,7 @@
                             <form method="POST" action="{{ route('profile.addresses.destroy', $address) }}" onsubmit="return confirm('Remove this address?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="px-3 py-1.5 text-sm border border-red-600 text-red-600 rounded-md hover:bg-red-50">
+                                <button type="submit" class="px-3 py-1.5 text-sm border border-red-600 text-red-600 rounded-md hover:bg-red-50 dark:border-red-400 dark:text-red-300 dark:hover:bg-red-500/10">
                                     Delete
                                 </button>
                             </form>
@@ -49,9 +49,9 @@
     <form method="POST" action="{{ route('profile.addresses.store') }}" class="mt-6 space-y-4">
         @csrf
         <div>
-            <label for="label" class="block text-sm font-medium text-gray-700">Address Type</label>
+            <label for="label" class="block text-sm font-medium text-gray-700 dark:text-slate-200">Address Type</label>
             <select name="label" id="label" required
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white">
                 <option value="">Select type</option>
                 <option value="home">Home</option>
                 <option value="work">Work</option>
@@ -63,9 +63,9 @@
         </div>
 
         <div>
-            <label for="address" class="block text-sm font-medium text-gray-700">Full Address</label>
+            <label for="address" class="block text-sm font-medium text-gray-700 dark:text-slate-200">Full Address</label>
             <textarea name="address" id="address" rows="3" required
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
                 placeholder="Street, city, state, zip">{{ old('address') }}</textarea>
             @error('address')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

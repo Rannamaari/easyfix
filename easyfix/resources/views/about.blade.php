@@ -392,7 +392,7 @@
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-                    <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-colors">
+                    <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-300 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
                         <x-heroicon-o-phone class="w-5 h-5" />
                         Call 999 6210
                     </a>

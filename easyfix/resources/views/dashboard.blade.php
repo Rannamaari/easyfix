@@ -28,7 +28,7 @@
                                     <a href="{{ route('jobs.create') }}" class="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700">
                                         Request a Service
                                     </a>
-                                    <a href="{{ route('jobs.index') }}" class="inline-flex items-center gap-2 bg-white text-gray-700 px-5 py-2.5 rounded-lg border border-gray-200 hover:bg-gray-50">
+                                    <a href="{{ route('jobs.index') }}" class="inline-flex items-center gap-2 bg-white dark:bg-slate-900 text-gray-700 dark:text-slate-200 px-5 py-2.5 rounded-lg border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800">
                                         View My Jobs
                                     </a>
                                 </div>
@@ -78,7 +78,7 @@
         </main>
 
         <footer class="border-t border-gray-200 bg-white dark:bg-slate-900 dark:border-slate-800">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-sm text-gray-600">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-sm text-gray-600 dark:text-slate-300">
                 <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <p class="font-semibold text-gray-900 dark:text-white">Micronet</p>

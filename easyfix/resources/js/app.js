@@ -123,8 +123,67 @@ function setupMobileNav() {
     });
 }
 
+function setupUserMenu() {
+    const getMenu = (id) => document.querySelector(`[data-user-menu="${id}"]`);
+
+    const closeMenu = (toggle, menu) => {
+        menu.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+    };
+
+    const openMenu = (toggle, menu) => {
+        menu.classList.remove('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+    };
+
+    document.addEventListener('click', (event) => {
+        const toggle = event.target.closest('[data-user-menu-toggle]');
+        if (toggle) {
+            event.preventDefault();
+            const id = toggle.getAttribute('data-user-menu-toggle');
+            const menu = getMenu(id);
+            if (!menu) return;
+            if (menu.classList.contains('hidden')) {
+                openMenu(toggle, menu);
+            } else {
+                closeMenu(toggle, menu);
+            }
+            return;
+        }
+
+        document.querySelectorAll('[data-user-menu-toggle]').forEach((activeToggle) => {
+            const id = activeToggle.getAttribute('data-user-menu-toggle');
+            const menu = getMenu(id);
+            if (!menu || menu.classList.contains('hidden')) return;
+            if (menu.contains(event.target) || activeToggle.contains(event.target)) return;
+            closeMenu(activeToggle, menu);
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        document.querySelectorAll('[data-user-menu-toggle]').forEach((activeToggle) => {
+            const id = activeToggle.getAttribute('data-user-menu-toggle');
+            const menu = getMenu(id);
+            if (!menu) return;
+            closeMenu(activeToggle, menu);
+        });
+    });
+
+    document.querySelectorAll('[data-user-menu]').forEach((menu) => {
+        menu.querySelectorAll('a, button').forEach((item) => {
+            item.addEventListener('click', () => {
+                const id = menu.getAttribute('data-user-menu');
+                const toggle = document.querySelector(`[data-user-menu-toggle="${id}"]`);
+                if (toggle) closeMenu(toggle, menu);
+            });
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     setupThemeToggle();
     setupMobileNav();
+    setupUserMenu();
 });

@@ -191,7 +191,7 @@
                     </span>
                     <span class="inline-flex items-center gap-1.5 bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-slate-300 text-xs font-medium px-2.5 py-1 rounded-full">
                         <span class="w-1.5 h-1.5 bg-gray-400 dark:bg-slate-500 rounded-full"></span>
-                        Coming soon: More Services & Features
+                        More services & features coming soon
                     </span>
                 </div>
             </div>
@@ -202,51 +202,77 @@
         {{-- HERO SECTION --}}
         <section class="relative bg-gradient-to-b from-blue-50 to-white dark:from-slate-900 dark:to-slate-950" aria-labelledby="hero-heading">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+                @auth
+                {{-- Personalized Hero for Logged-in Users --}}
                 <div class="max-w-3xl">
-                    {{-- Location Badge --}}
+                    <div class="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+                        <x-heroicon-s-hand-raised class="w-4 h-4" />
+                        <span>Welcome back</span>
+                    </div>
+
+                    <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+                        Hi, {{ auth()->user()->name }}!
+                    </h1>
+
+                    <p class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-slate-300 max-w-xl">
+                        Need something fixed? We're here to help with <strong>same-day repairs</strong> across Malé City, Hulhumalé and Villingili.
+                    </p>
+
+                    <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                        <a href="{{ route('jobs.create') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                            <x-heroicon-o-wrench-screwdriver class="w-5 h-5" />
+                            Request a Service
+                        </a>
+                        <a href="{{ route('jobs.index') }}" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-gray-900 dark:text-white px-6 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                            <x-heroicon-o-clipboard-document-list class="w-5 h-5" />
+                            View My Jobs
+                        </a>
+                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-gray-900 dark:text-white px-6 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                            <x-heroicon-o-phone class="w-5 h-5" />
+                            Call: 999 6210
+                        </a>
+                    </div>
+
+                    <p class="mt-6 text-sm text-gray-500 dark:text-slate-400">
+                        ✓ Same-day service &nbsp; ✓ No hidden charges &nbsp; ✓ Trained team
+                    </p>
+                </div>
+                @else
+                {{-- Default Hero for Guests --}}
+                <div class="max-w-3xl">
                     <div class="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-3 py-1.5 rounded-full text-sm font-medium mb-6">
                         <x-heroicon-s-map-pin class="w-4 h-4" />
                         <span>Plumber & Electrician in Malé City</span>
                     </div>
 
-                    {{-- H1 - Primary Keyword --}}
                     <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
                         Handyman Services in Malé, Maldives
                     </h1>
 
-                    {{-- Subheading with keywords --}}
                     <p class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-slate-300 max-w-xl">
                         <strong>Same-day repairs</strong> for your home and office. AC repair, plumbing, electrical work, door locks, cleaning & small moving in <strong>Malé City, Hulhumalé</strong> and <strong>Villingili</strong>.
                     </p>
 
-                    {{-- CTA Buttons --}}
                     <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                        @auth
-                            <a href="{{ route('jobs.create') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
-                                <x-heroicon-o-calendar-days class="w-5 h-5" />
-                                Book a Service
-                            </a>
-                        @else
-                            <a href="{{ route('guest.create') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
-                                <x-heroicon-o-calendar-days class="w-5 h-5" />
-                                Book a Service
-                            </a>
-                        @endauth
+                        <a href="{{ route('guest.create') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                            <x-heroicon-o-calendar-days class="w-5 h-5" />
+                            Book a Service
+                        </a>
                         <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-gray-900 dark:text-white px-6 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
                             <x-heroicon-o-phone class="w-5 h-5" />
                             Call: 999 6210
                         </a>
-                        <a href="https://wa.me/9609996210?text=Hi,%20I%20need%20a%20repair%20service%20in%20Malé" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-green-700 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                            WhatsApp
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 px-6 py-3.5 rounded-xl font-semibold border border-blue-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700 transition-colors">
+                            <x-heroicon-o-user-plus class="w-5 h-5" />
+                            Sign Up Free
                         </a>
                     </div>
 
-                    {{-- Trust Signals --}}
                     <p class="mt-6 text-sm text-gray-500 dark:text-slate-400">
                         ✓ Same-day service &nbsp; ✓ No hidden charges &nbsp; ✓ Trained team
                     </p>
                 </div>
+                @endauth
             </div>
         </section>
 
@@ -524,12 +550,12 @@
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     @auth
-                        <a href="{{ route('jobs.create') }}" class="inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-colors">
+                        <a href="{{ route('jobs.create') }}" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-300 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
                             <x-heroicon-o-calendar-days class="w-5 h-5" />
                             Book Online
                         </a>
                     @else
-                        <a href="{{ route('guest.create') }}" class="inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-colors">
+                        <a href="{{ route('guest.create') }}" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-300 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
                             <x-heroicon-o-calendar-days class="w-5 h-5" />
                             Book Online
                         </a>
@@ -559,10 +585,10 @@
                         </div>
                         <span class="text-lg font-bold text-white">Easy Fix</span>
                     </div>
-                    <p class="text-sm text-gray-500 mb-4">
+                    <p class="text-sm text-gray-500 dark:text-slate-400 mb-4">
                         Your trusted handyman, plumber and electrician in Malé City, Maldives. Same-day home repairs.
                     </p>
-                    <p class="text-sm text-gray-500">
+                    <p class="text-sm text-gray-500 dark:text-slate-400">
                         A service by Micronet
                     </p>
                 </div>
@@ -598,19 +624,19 @@
                     <h4 class="text-white font-semibold mb-4">Contact Us</h4>
                     <ul class="space-y-3 text-sm">
                         <li class="flex items-center gap-2">
-                            <x-heroicon-o-phone class="w-4 h-4 text-gray-500" />
+                        <x-heroicon-o-phone class="w-4 h-4 text-gray-500 dark:text-slate-400" />
                             <a href="tel:+9609996210" class="hover:text-white">+960 999 6210</a>
                         </li>
                         <li class="flex items-center gap-2">
-                            <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        <svg class="w-4 h-4 text-gray-500 dark:text-slate-400" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                             <a href="https://wa.me/9609996210" target="_blank" class="hover:text-white">WhatsApp</a>
                         </li>
                         <li class="flex items-center gap-2">
-                            <x-heroicon-o-envelope class="w-4 h-4 text-gray-500" />
+                        <x-heroicon-o-envelope class="w-4 h-4 text-gray-500 dark:text-slate-400" />
                             <a href="mailto:hello@micronet.mv" class="hover:text-white">hello@micronet.mv</a>
                         </li>
                         <li class="flex items-start gap-2">
-                            <x-heroicon-o-map-pin class="w-4 h-4 text-gray-500 mt-0.5" />
+                        <x-heroicon-o-map-pin class="w-4 h-4 text-gray-500 dark:text-slate-400 mt-0.5" />
                             <span>Greater Malé Area, Maldives</span>
                         </li>
                     </ul>
@@ -618,7 +644,7 @@
             </div>
 
             {{-- Bottom bar --}}
-            <div class="pt-8 mt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+            <div class="pt-8 mt-8 border-t border-gray-800 dark:border-slate-700 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500 dark:text-slate-400">
                 <p>&copy; {{ date('Y') }} Easy Fix by Micronet. All rights reserved.</p>
                 <p>Handyman Services in Malé, Maldives</p>
             </div>

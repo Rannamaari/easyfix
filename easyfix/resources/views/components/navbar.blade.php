@@ -7,6 +7,9 @@
 
     $ctaHref = auth()->check() ? route('jobs.create') : route('guest.create');
     $ctaLabel = 'Request a Service';
+    $user = auth()->user();
+    $needsAddress = auth()->check() && !$user->addresses()->exists();
+    $addressLink = route('profile.edit') . '#addresses';
 @endphp
 
 <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200 dark:bg-slate-950/95 dark:border-slate-800" aria-label="Main navigation">
@@ -14,7 +17,7 @@
         <div class="flex items-center justify-between h-16">
             {{-- Logo --}}
             <a href="{{ url('/') }}" class="inline-flex items-center gap-2 flex-shrink-0">
-                <x-application-logo class="h-12 sm:h-16 w-auto" />
+                <x-application-logo class="h-24 w-auto" />
             </a>
 
             {{-- Desktop Navigation --}}
@@ -34,6 +37,67 @@
                     999 6210
                 </a>
                 <x-theme-toggle />
+                @guest
+                    <a href="{{ route('login') }}"
+                       class="inline-flex items-center justify-center rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 dark:focus-visible:ring-offset-slate-950">
+                        Login
+                    </a>
+                @else
+                    @if($needsAddress)
+                        <a href="{{ $addressLink }}"
+                           class="inline-flex items-center gap-2 rounded-lg border border-amber-300 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700 hover:bg-amber-100 dark:border-amber-400/40 dark:bg-amber-400/10 dark:text-amber-200 dark:hover:bg-amber-400/20">
+                            <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+                            Add location
+                        </a>
+                    @endif
+                    <div class="relative">
+                        <button type="button"
+                                data-user-menu-toggle="user-menu"
+                                aria-label="Open user menu"
+                                aria-controls="user-menu"
+                                aria-expanded="false"
+                                class="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:border-slate-800 dark:text-slate-100 dark:hover:bg-slate-800 dark:focus-visible:ring-offset-slate-950">
+                            <x-heroicon-o-user-circle class="w-5 h-5 text-gray-500 dark:text-slate-400" />
+                            <span class="max-w-[120px] truncate">{{ $user->name ?? 'Account' }}</span>
+                            <x-heroicon-o-chevron-down class="w-4 h-4 text-gray-400 dark:text-slate-500" />
+                        </button>
+                        <div id="user-menu"
+                             data-user-menu="user-menu"
+                             class="hidden absolute right-0 mt-2 w-56 rounded-xl border border-gray-200 bg-white shadow-lg dark:border-slate-800 dark:bg-slate-900">
+                            <div class="px-4 py-3 border-b border-gray-100 dark:border-slate-800">
+                                <p class="text-xs font-semibold text-gray-500 dark:text-slate-400">Signed in as</p>
+                                <p class="text-sm font-semibold text-gray-900 dark:text-white truncate">{{ $user->email }}</p>
+                            </div>
+                            <div class="py-2">
+                                <a href="{{ route('dashboard') }}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-slate-200 dark:hover:bg-slate-800/60">
+                                    <x-heroicon-o-squares-2x2 class="w-4 h-4" />
+                                    Dashboard
+                                </a>
+                                <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-slate-200 dark:hover:bg-slate-800/60">
+                                    <x-heroicon-o-user class="w-4 h-4" />
+                                    Profile
+                                </a>
+                                <a href="{{ $addressLink }}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-slate-200 dark:hover:bg-slate-800/60">
+                                    <x-heroicon-o-map-pin class="w-4 h-4" />
+                                    Addresses
+                                </a>
+                                <a href="{{ route('jobs.index') }}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-slate-200 dark:hover:bg-slate-800/60">
+                                    <x-heroicon-o-clipboard-document-list class="w-4 h-4" />
+                                    My Jobs
+                                </a>
+                            </div>
+                            <div class="border-t border-gray-100 dark:border-slate-800">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10">
+                                        <x-heroicon-o-arrow-right-on-rectangle class="w-4 h-4" />
+                                        Log Out
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @endguest
                 <a href="{{ $ctaHref }}"
                    class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950">
                     {{ $ctaLabel }}
@@ -89,9 +153,23 @@
 
             <div class="border-t border-gray-100 dark:border-slate-800 my-2 pt-2">
                 @auth
+                    @if($needsAddress)
+                        <a href="{{ $addressLink }}" data-nav-link class="flex items-center gap-3 rounded-xl px-4 py-3 text-base font-semibold text-amber-700 bg-amber-50 dark:text-amber-200 dark:bg-amber-400/10">
+                            <x-heroicon-o-map-pin class="w-5 h-5" />
+                            Add location
+                        </a>
+                    @endif
                     <a href="{{ url('/dashboard') }}" data-nav-link class="flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
                         <x-heroicon-o-squares-2x2 class="w-5 h-5 opacity-70" />
                         Dashboard
+                    </a>
+                    <a href="{{ route('profile.edit') }}" data-nav-link class="flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                        <x-heroicon-o-user class="w-5 h-5 opacity-70" />
+                        Profile
+                    </a>
+                    <a href="{{ $addressLink }}" data-nav-link class="flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
+                        <x-heroicon-o-map-pin class="w-5 h-5 opacity-70" />
+                        Addresses
                     </a>
                     <a href="{{ route('jobs.index') }}" data-nav-link class="flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
                         <x-heroicon-o-clipboard-document-list class="w-5 h-5 opacity-70" />
