@@ -37,6 +37,12 @@ return [
 
     'mailers' => [
 
+        'mailtrap-sdk' => [
+            'transport' => 'mailtrap-sdk',
+            'host' => env('MAILTRAP_HOST', 'send.api.mailtrap.io'),
+            'api_key' => env('MAILTRAP_API_KEY'),
+        ],
+
         'smtp' => [
             'transport' => 'smtp',
             'scheme' => env('MAIL_SCHEME'),

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Enums\JobStatus;
 use App\Http\Requests\StoreGuestJobRequest;
 use App\Models\JobRequest;
+use App\Mail\JobConfirmation;
 use App\Models\ServiceCategory;
+use Illuminate\Support\Facades\Mail;
 
 class GuestJobController extends Controller
 {
@@ -48,6 +50,10 @@ class GuestJobController extends Controller
             'status' => JobStatus::Requested->value,
             'note' => 'Job request submitted by guest',
         ]);
+
+        if ($job->guest_email) {
+            Mail::to($job->guest_email)->send(new JobConfirmation($job));
+        }
 
         return redirect()->route('track.show', $job->guest_token)
             ->with('success', 'Your job request has been submitted. Save this page to track your request.');

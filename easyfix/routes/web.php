@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Customer routes (authenticated)
-Route::middleware(['auth'])->prefix('jobs')->name('jobs.')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('jobs')->name('jobs.')->group(function () {
     Route::get('/', [CustomerJobController::class, 'index'])->name('index');
     Route::get('/request', [CustomerJobController::class, 'create'])->name('create');
     Route::post('/request', [CustomerJobController::class, 'store'])->name('store');
@@ -58,7 +58,7 @@ Route::middleware(['auth'])->prefix('jobs')->name('jobs.')->group(function () {
 });
 
 // Provider routes (authenticated + provider role)
-Route::middleware(['auth'])->prefix('provider')->name('provider.')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('provider')->name('provider.')->group(function () {
     Route::get('/', [ProviderJobController::class, 'index'])->name('index');
     Route::get('/jobs/{jobRequest}', [ProviderJobController::class, 'show'])->name('show');
     Route::post('/jobs/{jobRequest}/en-route', [ProviderJobController::class, 'markEnRoute'])->name('en-route');

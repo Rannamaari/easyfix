@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Mail\JobStatusChanged;
 
 class JobRequest extends Model
 {
@@ -200,6 +202,24 @@ class JobRequest extends Model
         if ($status === JobStatus::Completed) {
             $this->update(['completed_at' => now()]);
         }
+
+        $this->sendStatusChangeEmail($status, $note);
+    }
+
+    private function sendStatusChangeEmail(JobStatus $status, ?string $note): void
+    {
+        // Skip Requested status — already covered by JobConfirmation email
+        if ($status === JobStatus::Requested) {
+            return;
+        }
+
+        $email = $this->contact_email;
+
+        if (!$email) {
+            return;
+        }
+
+        Mail::to($email)->send(new JobStatusChanged($this, $status, $note));
     }
 
     // === Scopes ===

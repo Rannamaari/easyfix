@@ -7,7 +7,9 @@ use App\Http\Requests\StoreJobRequest;
 use App\Models\JobRequest;
 use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\JobConfirmation;
 
 class CustomerJobController extends Controller
 {
@@ -94,6 +96,8 @@ class CustomerJobController extends Controller
             'note' => 'Job request submitted',
             'user_id' => $request->user()->id,
         ]);
+
+        Mail::to($user->email)->send(new JobConfirmation($job));
 
         return redirect()->route('jobs.show', $job)
             ->with('success', 'Your job request has been submitted. We\'ll send you a quote soon.');
