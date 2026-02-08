@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Admin',
                 'password' => bcrypt('password'),
                 'role' => 'admin',
+                'email_verified_at' => now(),
             ]
         );
 
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'John Customer',
                 'password' => bcrypt('password'),
                 'role' => 'customer',
+                'email_verified_at' => now(),
             ]
         );
 
@@ -36,6 +38,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Mike Provider',
                 'password' => bcrypt('password'),
                 'role' => 'provider',
+                'email_verified_at' => now(),
             ]
         );
 
