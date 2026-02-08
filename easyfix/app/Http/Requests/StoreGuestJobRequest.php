@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Validator;
 
 class StoreGuestJobRequest extends FormRequest
 {
@@ -16,31 +15,22 @@ class StoreGuestJobRequest extends FormRequest
     {
         return [
             'guest_name' => ['required', 'string', 'max:255'],
-            'guest_username' => ['nullable', 'string', 'max:50'],
-            'guest_phone' => ['nullable', 'string', 'max:20'],
-            'guest_email' => ['nullable', 'email', 'max:255'],
+            'guest_phone' => ['required', 'string', 'max:20'],
+            'guest_email' => ['required', 'email', 'max:255'],
             'guest_contact_preference' => ['nullable', 'in:phone,email,whatsapp'],
             'service_category_id' => ['required', 'exists:service_categories,id'],
             'service_id' => ['nullable', 'exists:services,id'],
+            'specific_issue' => ['nullable', 'string', 'max:255'],
             'description' => ['required', 'string', 'min:10', 'max:2000'],
             'address' => ['required', 'string', 'max:255'],
             'city' => ['nullable', 'string', 'max:255'],
             'preferred_date' => ['nullable', 'date', 'after_or_equal:today'],
             'preferred_time_slot' => ['nullable', 'string', 'max:10'],
             'preferred_time' => ['nullable', 'date', 'after:now'],
-            'attachments' => ['nullable', 'array', 'max:5'],
-            'attachments.*' => ['file', 'mimes:jpg,jpeg,png,pdf', 'max:5120'],
-        ];
-    }
-
-    public function after(): array
-    {
-        return [
-            function (Validator $validator) {
-                if (empty($this->guest_phone) && empty($this->guest_email)) {
-                    $validator->errors()->add('guest_phone', 'Please provide at least a phone number or email address.');
-                }
-            },
+            'photos' => ['nullable', 'array', 'max:5'],
+            'photos.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
+            'captions' => ['nullable', 'array', 'max:5'],
+            'captions.*' => ['nullable', 'string', 'max:255'],
         ];
     }
 
@@ -48,9 +38,11 @@ class StoreGuestJobRequest extends FormRequest
     {
         return [
             'guest_name.required' => 'Please provide your name.',
+            'guest_phone.required' => 'Please provide your phone number.',
+            'guest_email.required' => 'Please provide your email address.',
             'description.min' => 'Please provide at least 10 characters describing your issue.',
-            'attachments.max' => 'You can upload a maximum of 5 files.',
-            'attachments.*.max' => 'Each file must be under 5MB.',
+            'photos.max' => 'You can upload a maximum of 5 photos.',
+            'photos.*.max' => 'Each photo must be under 10MB.',
         ];
     }
 }
