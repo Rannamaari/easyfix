@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\JobStatusChanged;
+use App\Models\RequestPhoto;
 
 class JobRequest extends Model
 {
@@ -19,7 +20,6 @@ class JobRequest extends Model
     protected $fillable = [
         'customer_id',
         'guest_name',
-        'guest_username',
         'guest_phone',
         'guest_email',
         'guest_contact_preference',
@@ -175,6 +175,11 @@ class JobRequest extends Model
     public function attachments(): HasMany
     {
         return $this->hasMany(JobAttachment::class);
+    }
+
+    public function photos(): HasMany
+    {
+        return $this->hasMany(RequestPhoto::class);
     }
 
     public function statusUpdates(): HasMany

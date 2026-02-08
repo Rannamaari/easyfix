@@ -21,12 +21,6 @@
             </div>
         </div>
 
-        <div>
-            <x-input-label for="username" :value="__('Username')" />
-            <x-text-input id="username" class="block mt-1 w-full h-11" type="text" name="username" :value="old('username')" required autocomplete="username" placeholder="Choose a username" />
-            <x-input-error :messages="$errors->get('username')" class="mt-2" />
-        </div>
-
         <div class="grid gap-4 sm:grid-cols-2">
             <div>
                 <x-input-label for="phone" :value="__('Phone Number')" />

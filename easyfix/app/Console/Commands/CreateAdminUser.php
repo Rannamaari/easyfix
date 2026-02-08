@@ -53,19 +53,8 @@ class CreateAdminUser extends Command
             return Command::FAILURE;
         }
 
-        // Generate username from email
-        $username = explode('@', $email)[0];
-        $baseUsername = $username;
-        $counter = 1;
-
-        while (User::where('username', $username)->exists()) {
-            $username = $baseUsername . $counter;
-            $counter++;
-        }
-
         $user = User::create([
             'name' => $name,
-            'username' => $username,
             'email' => $email,
             'password' => Hash::make($password),
             'role' => 'admin',
@@ -78,7 +67,6 @@ class CreateAdminUser extends Command
             [
                 ['Name', $user->name],
                 ['Email', $user->email],
-                ['Username', $user->username],
                 ['Role', $user->role],
             ]
         );

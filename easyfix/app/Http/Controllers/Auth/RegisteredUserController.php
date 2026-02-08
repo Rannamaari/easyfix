@@ -32,7 +32,6 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:50', 'alpha_dash', 'unique:users,username'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'phone' => ['required', 'string', 'max:30'],
             'address_type' => ['required', 'string', 'in:home,work,other'],
@@ -44,7 +43,6 @@ class RegisteredUserController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'username' => $request->username,
             'email' => $request->email,
             'phone' => $request->phone,
             'address_type' => $request->address_type,
@@ -52,6 +50,7 @@ class RegisteredUserController extends Controller
             'address_line2' => $request->address_line2,
             'password' => Hash::make($request->password),
             'role' => 'customer',
+            'email_verified_at' => now(),
         ]);
 
         $address = $request->address_line1;

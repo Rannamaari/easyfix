@@ -37,8 +37,6 @@ class CustomerResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('username')
-                            ->maxLength(50),
                         Forms\Components\TextInput::make('email')
                             ->email()
                             ->maxLength(255),
@@ -58,9 +56,6 @@ class CustomerResource extends Resource
                     ->label('Customer')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('username')
-                    ->label('Username')
-                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->toggleable(),
