@@ -48,4 +48,8 @@
             </x-primary-button>
         </div>
     </form>
+
+    <p class="mt-6 text-center text-sm text-gray-600 dark:text-slate-400">
+        New here? <a href="{{ route('register') }}" class="text-blue-600 hover:underline dark:text-blue-400">Create an account</a>
+    </p>
 </x-guest-layout>
