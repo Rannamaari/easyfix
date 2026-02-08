@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerJobController;
 use App\Http\Controllers\GuestJobController;
+use App\Http\Controllers\JobAttachmentController;
 use App\Http\Controllers\JobCommunicationController;
 use App\Http\Controllers\ProfessionalApplicationController;
 use App\Http\Controllers\QuotePdfController;
@@ -47,7 +48,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified'])->prefix('jobs')->name('jobs.')->group(function () {
     Route::get('/', [CustomerJobController::class, 'index'])->name('index');
     Route::get('/request', [CustomerJobController::class, 'create'])->name('create');
-    Route::post('/request', [CustomerJobController::class, 'store'])->name('store');
+    Route::post('/request', [CustomerJobController::class, 'store'])->name('store')->middleware('throttle:request-store');
     Route::get('/{jobRequest}', [CustomerJobController::class, 'show'])->name('show');
     Route::post('/{jobRequest}/approve-quote', [CustomerJobController::class, 'approveQuote'])->name('approve-quote');
     Route::post('/{jobRequest}/reject-quote', [CustomerJobController::class, 'rejectQuote'])->name('reject-quote');
@@ -73,7 +74,9 @@ Route::middleware(['auth', 'verified'])->prefix('provider')->name('provider.')->
 // Guest routes (unauthenticated)
 Route::prefix('request')->name('guest.')->group(function () {
     Route::get('/', [GuestJobController::class, 'create'])->name('create');
-    Route::post('/', [GuestJobController::class, 'store'])->name('store');
+    Route::post('/', [GuestJobController::class, 'store'])->name('store')->middleware('throttle:request-store');
+    Route::get('/register', [GuestJobController::class, 'showRegister'])->name('register');
+    Route::post('/register', [GuestJobController::class, 'storeRegister'])->name('register.store');
 });
 
 Route::prefix('track')->name('track.')->group(function () {
@@ -81,5 +84,9 @@ Route::prefix('track')->name('track.')->group(function () {
     Route::post('/{token}/approve-quote', [GuestJobController::class, 'approveQuote'])->name('approve-quote');
     Route::post('/{token}/reject-quote', [GuestJobController::class, 'rejectQuote'])->name('reject-quote');
 });
+
+Route::get('/attachments/{attachment}', [JobAttachmentController::class, 'show'])
+    ->middleware('signed')
+    ->name('attachments.show');
 
 require __DIR__.'/auth.php';
