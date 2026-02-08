@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Enums\JobStatus;
 use App\Http\Requests\StoreJobRequest;
 use App\Models\JobRequest;
+use App\Models\RequestPhoto;
+use App\Jobs\ProcessRequestPhotoJob;
 use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\JobConfirmation;
+use Illuminate\Support\Str;
 
 class CustomerJobController extends Controller
 {
@@ -76,17 +79,25 @@ class CustomerJobController extends Controller
             'status' => JobStatus::Requested,
         ]);
 
-        // Handle attachments
-        if ($request->hasFile('attachments')) {
-            foreach ($request->file('attachments') as $file) {
-                $path = $file->store('job-attachments/' . $job->id, 'public');
-                $job->attachments()->create([
-                    'file_path' => $path,
-                    'file_name' => $file->getClientOriginalName(),
-                    'file_type' => $file->getMimeType(),
-                    'type' => 'photo',
-                    'uploaded_by' => $request->user()->id,
+        // Handle photos (store temp, then queue processing)
+        if ($request->hasFile('photos')) {
+            $captions = $request->input('captions', []);
+            foreach ($request->file('photos') as $index => $file) {
+                $tempPath = $file->storeAs(
+                    'tmp/requests/' . $job->id,
+                    Str::uuid() . '-' . $file->getClientOriginalName(),
+                    'local'
+                );
+
+                $photo = RequestPhoto::create([
+                    'job_request_id' => $job->id,
+                    'original_name' => $file->getClientOriginalName(),
+                    'disk' => config('filesystems.disks.spaces.key') ? 'spaces' : 'public',
+                    'caption' => $captions[$index] ?? null,
+                    'status' => 'processing',
                 ]);
+
+                ProcessRequestPhotoJob::dispatch($photo->id, $tempPath, $file->getClientOriginalName());
             }
         }
 
@@ -99,8 +110,13 @@ class CustomerJobController extends Controller
 
         Mail::to($user->email)->send(new JobConfirmation($job));
 
+        $message = 'Your job request has been submitted. We\'ll send you a quote soon.';
+        if ($request->hasFile('photos')) {
+            $message .= ' Photos uploaded, processing...';
+        }
+
         return redirect()->route('jobs.show', $job)
-            ->with('success', 'Your job request has been submitted. We\'ll send you a quote soon.');
+            ->with('success', $message);
     }
 
     public function show(JobRequest $jobRequest)
@@ -123,6 +139,7 @@ class CustomerJobController extends Controller
             'updateRequests.requestedBy',
             'updateRequests.respondedBy',
             'payment',
+            'photos',
         ]);
 
         $jobRequest->messageReads()->updateOrCreate(

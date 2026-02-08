@@ -152,14 +152,50 @@
                 <div class="p-6">
                     <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Photos</h3>
 
+                    @if($job->photos->isNotEmpty())
+                        <div class="mb-6">
+                            <p class="text-sm text-gray-500 dark:text-slate-400 mb-2">Customer Request Photos</p>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                @foreach($job->photos as $photo)
+                                    @if($photo->status === 'ready')
+                                        @php
+                                            $disk = $photo->disk ?? 'public';
+                                            if ($disk === 'public') {
+                                                $thumbUrl = Storage::disk('public')->url($photo->thumb_path);
+                                                $photoUrl = Storage::disk('public')->url($photo->photo_path);
+                                            } else {
+                                                $thumbUrl = Storage::disk($disk)->temporaryUrl($photo->thumb_path, now()->addMinutes(15));
+                                                $photoUrl = Storage::disk($disk)->temporaryUrl($photo->photo_path, now()->addMinutes(15));
+                                            }
+                                        @endphp
+                                        <a href="{{ $photoUrl }}" target="_blank" class="block group">
+                                            <img src="{{ $thumbUrl }}" class="w-full h-32 object-cover rounded group-hover:opacity-90 transition">
+                                            @if($photo->caption)
+                                                <p class="mt-1 text-xs text-gray-600 dark:text-slate-300 truncate">{{ $photo->caption }}</p>
+                                            @endif
+                                        </a>
+                                    @elseif($photo->status === 'processing')
+                                        <div class="w-full h-32 rounded border border-dashed border-gray-300 dark:border-slate-700 flex items-center justify-center text-xs text-gray-500 dark:text-slate-400">
+                                            Processing…
+                                        </div>
+                                    @else
+                                        <div class="w-full h-32 rounded border border-dashed border-red-300 dark:border-red-500/40 flex items-center justify-center text-xs text-red-600 dark:text-red-300">
+                                            Failed
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
                     {{-- Customer Photos --}}
                     @if($job->attachments->where('type', 'photo')->isNotEmpty())
                         <div class="mb-6">
                             <p class="text-sm text-gray-500 dark:text-slate-400 mb-2">Customer Photos</p>
                             <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
                                 @foreach($job->attachments->where('type', 'photo') as $attachment)
-                                    <a href="{{ Storage::url($attachment->file_path) }}" target="_blank">
-                                        <img src="{{ Storage::url($attachment->file_path) }}" class="w-full h-20 object-cover rounded">
+                                    <a href="{{ URL::signedRoute('attachments.show', ['attachment' => $attachment->id]) }}" target="_blank">
+                                        <img src="{{ URL::signedRoute('attachments.show', ['attachment' => $attachment->id]) }}" class="w-full h-20 object-cover rounded">
                                     </a>
                                 @endforeach
                             </div>
@@ -174,9 +210,9 @@
                             @if($job->attachments->where('type', 'before')->isNotEmpty())
                                 <div class="grid grid-cols-2 gap-2 mb-2">
                                     @foreach($job->attachments->where('type', 'before') as $attachment)
-                                        <a href="{{ Storage::url($attachment->file_path) }}" target="_blank">
-                                            <img src="{{ Storage::url($attachment->file_path) }}" class="w-full h-20 object-cover rounded">
-                                        </a>
+                                    <a href="{{ URL::signedRoute('attachments.show', ['attachment' => $attachment->id]) }}" target="_blank">
+                                        <img src="{{ URL::signedRoute('attachments.show', ['attachment' => $attachment->id]) }}" class="w-full h-20 object-cover rounded">
+                                    </a>
                                     @endforeach
                                 </div>
                             @endif
@@ -196,9 +232,9 @@
                             @if($job->attachments->where('type', 'after')->isNotEmpty())
                                 <div class="grid grid-cols-2 gap-2 mb-2">
                                     @foreach($job->attachments->where('type', 'after') as $attachment)
-                                        <a href="{{ Storage::url($attachment->file_path) }}" target="_blank">
-                                            <img src="{{ Storage::url($attachment->file_path) }}" class="w-full h-20 object-cover rounded">
-                                        </a>
+                                    <a href="{{ URL::signedRoute('attachments.show', ['attachment' => $attachment->id]) }}" target="_blank">
+                                        <img src="{{ URL::signedRoute('attachments.show', ['attachment' => $attachment->id]) }}" class="w-full h-20 object-cover rounded">
+                                    </a>
                                     @endforeach
                                 </div>
                             @endif

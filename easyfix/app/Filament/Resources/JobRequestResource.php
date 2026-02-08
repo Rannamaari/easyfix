@@ -172,6 +172,23 @@ class JobRequestResource extends Resource
                             ->rows(2)
                             ->columnSpanFull(),
                     ]),
+
+                Forms\Components\Section::make('Attachments')
+                    ->schema([
+                        Forms\Components\ViewField::make('attachments_gallery')
+                            ->view('filament.job-attachments'),
+                        Forms\Components\FileUpload::make('new_attachments')
+                            ->label('Upload more photos')
+                            ->multiple()
+                            ->image()
+                            ->imagePreviewHeight('120')
+                            ->panelLayout('grid')
+                            ->disk('local')
+                            ->directory(fn ($record) => 'tmp/requests/' . $record->id)
+                            ->preserveFilenames()
+                            ->dehydrated(false)
+                            ->helperText('JPG/PNG/WEBP. Max 10MB each.'),
+                    ]),
             ]);
     }
 

@@ -16,6 +16,12 @@
                 </div>
             @endif
 
+            @if($job->photos->where('status', 'processing')->count() > 0)
+                <div class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded dark:bg-blue-500/10 dark:border-blue-500/30 dark:text-blue-200">
+                    Photos uploaded, processing…
+                </div>
+            @endif
+
             {{-- Invoice (when approved) --}}
             @if($job->approvedQuote)
                 <div class="bg-white dark:bg-slate-900 overflow-hidden shadow-sm sm:rounded-lg border border-transparent dark:border-slate-800">
@@ -240,16 +246,55 @@
             </div>
 
             {{-- Attachments --}}
+            @if($job->photos->isNotEmpty())
+                <div class="bg-white dark:bg-slate-900 overflow-hidden shadow-sm sm:rounded-lg border border-transparent dark:border-slate-800">
+                    <div class="p-6">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Uploaded Photos</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            @foreach($job->photos as $photo)
+                                @if($photo->status === 'ready')
+                                    @php
+                                        $disk = $photo->disk ?? 'public';
+                                        if ($disk === 'public') {
+                                            $thumbUrl = Storage::disk('public')->url($photo->thumb_path);
+                                            $photoUrl = Storage::disk('public')->url($photo->photo_path);
+                                        } else {
+                                            $thumbUrl = Storage::disk($disk)->temporaryUrl($photo->thumb_path, now()->addMinutes(15));
+                                            $photoUrl = Storage::disk($disk)->temporaryUrl($photo->photo_path, now()->addMinutes(15));
+                                        }
+                                    @endphp
+                                    <a href="{{ $photoUrl }}" target="_blank" class="block group">
+                                        <img src="{{ $thumbUrl }}" alt="{{ $photo->original_name }}" class="w-full h-40 object-cover rounded-lg group-hover:opacity-90 transition">
+                                        @if($photo->caption)
+                                            <p class="mt-1.5 text-xs text-gray-600 dark:text-slate-300 truncate">{{ $photo->caption }}</p>
+                                        @endif
+                                    </a>
+                                @elseif($photo->status === 'processing')
+                                    <div class="w-full h-40 rounded-lg border border-dashed border-gray-300 dark:border-slate-700 flex items-center justify-center text-xs text-gray-500 dark:text-slate-400">
+                                        Processing…
+                                    </div>
+                                @else
+                                    <div class="w-full h-40 rounded-lg border border-dashed border-red-300 dark:border-red-500/40 flex items-center justify-center text-xs text-red-600 dark:text-red-300">
+                                        Failed
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            {{-- Attachments (legacy) --}}
             @if($job->attachments->isNotEmpty())
                 <div class="bg-white dark:bg-slate-900 overflow-hidden shadow-sm sm:rounded-lg border border-transparent dark:border-slate-800">
                     <div class="p-6">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Photos</h3>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             @foreach($job->attachments as $attachment)
-                                <a href="{{ Storage::url($attachment->file_path) }}" target="_blank" class="block">
-                                    @if(Str::startsWith($attachment->file_type, 'image/'))
-                                        <img src="{{ Storage::url($attachment->file_path) }}" alt="{{ $attachment->file_name }}" class="w-full h-24 object-cover rounded-lg">
-                                    @else
+                            <a href="{{ URL::signedRoute('attachments.show', ['attachment' => $attachment->id]) }}" target="_blank" class="block">
+                                @if(Str::startsWith($attachment->file_type, 'image/'))
+                                    <img src="{{ URL::signedRoute('attachments.show', ['attachment' => $attachment->id]) }}" alt="{{ $attachment->file_name }}" class="w-full h-24 object-cover rounded-lg">
+                                @else
                                         <div class="w-full h-24 bg-gray-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
                                             <span class="text-xs text-gray-500 dark:text-slate-300">{{ $attachment->file_name }}</span>
                                         </div>

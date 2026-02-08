@@ -155,7 +155,7 @@
                         <div class="mt-2 grid gap-3 sm:grid-cols-2">
                             <div>
                                 <input type="date" name="preferred_date" id="preferred_date" value="{{ old('preferred_date') }}"
-                                    class="block w-full rounded-md border-gray-300 dark:border-slate-700 dark:bg-slate-950 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                    class="block w-full rounded-md border-gray-300 dark:border-slate-700 dark:bg-slate-950 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:[&::-webkit-calendar-picker-indicator]:invert">
                             </div>
                             <div>
                                 <select name="preferred_time_slot" id="preferred_time_slot"
@@ -183,13 +183,25 @@
                         <p class="mt-2 text-xs text-gray-500 dark:text-slate-400">Only future dates can be selected.</p>
                     </div>
 
-                    {{-- Attachments --}}
+                    {{-- Photos --}}
                     <div>
-                        <label for="attachments" class="block text-sm font-medium text-gray-700 dark:text-slate-200">Photos (optional, max 5)</label>
-                        <input type="file" name="attachments[]" id="attachments" multiple accept="image/*,.pdf"
-                            class="mt-1 block w-full text-sm text-gray-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-500/10 dark:file:text-blue-200">
-                        <p class="mt-1 text-xs text-gray-500 dark:text-slate-400">Upload photos of the issue (JPG, PNG, PDF - max 5MB each)</p>
-                        @error('attachments.*')
+                        <label class="block text-sm font-medium text-gray-700 dark:text-slate-200">Photos (optional)</label>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-slate-400">Up to 5 photos, max 10MB each.</p>
+                        <input type="file" id="photo-picker" multiple accept="image/*" class="hidden">
+                        <button type="button" id="add-photos-btn"
+                            class="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 dark:border-slate-600 text-sm font-medium text-gray-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700">
+                            <x-heroicon-o-camera class="w-5 h-5" />
+                            <span id="add-photos-label">Add Photos</span>
+                        </button>
+                        <div id="photo-preview-list" class="mt-3 space-y-3"></div>
+                        <p id="photo-help" class="mt-2 text-xs text-gray-500 dark:text-slate-400 hidden"></p>
+                        @error('photos.*')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        @error('photos')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        @error('captions.*')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
@@ -327,5 +339,126 @@
 
         preferredDate.addEventListener('change', updatePreferredTime);
         preferredTimeSlot.addEventListener('change', updatePreferredTime);
+
+        // Photo upload with preview and captions
+        const photoPicker = document.getElementById('photo-picker');
+        const addPhotosBtn = document.getElementById('add-photos-btn');
+        const addPhotosLabel = document.getElementById('add-photos-label');
+        const previewList = document.getElementById('photo-preview-list');
+        const photoHelp = document.getElementById('photo-help');
+        const maxPhotos = 5;
+        const maxSize = 10 * 1024 * 1024;
+        let selectedFiles = [];
+
+        addPhotosBtn.addEventListener('click', () => photoPicker.click());
+
+        photoPicker.addEventListener('change', () => {
+            const newFiles = Array.from(photoPicker.files || []);
+            if (!newFiles.length) return;
+
+            for (const file of newFiles) {
+                if (selectedFiles.length >= maxPhotos) {
+                    showPhotoHelp(`Maximum ${maxPhotos} photos allowed.`, true);
+                    break;
+                }
+                if (file.size > maxSize) {
+                    showPhotoHelp(`${file.name} is larger than 10MB.`, true);
+                    continue;
+                }
+                selectedFiles.push({ file, caption: '' });
+            }
+
+            photoPicker.value = '';
+            renderPhotoPreviews();
+        });
+
+        function showPhotoHelp(msg, isError) {
+            photoHelp.textContent = msg;
+            photoHelp.classList.remove('hidden');
+            if (isError) {
+                photoHelp.classList.add('text-red-600', 'dark:text-red-400');
+                photoHelp.classList.remove('text-gray-500', 'dark:text-slate-400');
+            } else {
+                photoHelp.classList.remove('text-red-600', 'dark:text-red-400');
+                photoHelp.classList.add('text-gray-500', 'dark:text-slate-400');
+            }
+        }
+
+        function renderPhotoPreviews() {
+            previewList.innerHTML = '';
+            document.querySelectorAll('input[name="photos[]"], input[name="captions[]"]').forEach(el => el.remove());
+
+            if (selectedFiles.length === 0) {
+                photoHelp.classList.add('hidden');
+                addPhotosLabel.textContent = 'Add Photos';
+                return;
+            }
+
+            addPhotosLabel.textContent = selectedFiles.length >= maxPhotos ? 'Max reached' : 'Add More';
+            if (selectedFiles.length >= maxPhotos) addPhotosBtn.disabled = true;
+            else addPhotosBtn.disabled = false;
+
+            selectedFiles.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = 'flex items-start gap-3 p-3 rounded-lg border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50';
+
+                const thumbUrl = URL.createObjectURL(item.file);
+                row.innerHTML = `
+                    <img src="${thumbUrl}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" alt="Preview">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white truncate">${item.file.name}</p>
+                        <p class="text-xs text-gray-500 dark:text-slate-400">${(item.file.size / (1024 * 1024)).toFixed(1)} MB</p>
+                        <input type="text" placeholder="Add a caption (optional)" value="${item.caption}"
+                            class="mt-1.5 block w-full rounded-md border-gray-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            data-caption-index="${index}">
+                    </div>
+                    <button type="button" data-remove-index="${index}"
+                        class="flex-shrink-0 p-1 text-gray-400 hover:text-red-500 dark:text-slate-500 dark:hover:text-red-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                `;
+
+                row.querySelector(`[data-caption-index="${index}"]`).addEventListener('input', (e) => {
+                    selectedFiles[index].caption = e.target.value;
+                });
+
+                row.querySelector(`[data-remove-index="${index}"]`).addEventListener('click', () => {
+                    selectedFiles.splice(index, 1);
+                    renderPhotoPreviews();
+                });
+
+                previewList.appendChild(row);
+            });
+
+            const dt = new DataTransfer();
+            selectedFiles.forEach(item => dt.items.add(item.file));
+            const hiddenFileInput = document.createElement('input');
+            hiddenFileInput.type = 'file';
+            hiddenFileInput.name = 'photos[]';
+            hiddenFileInput.multiple = true;
+            hiddenFileInput.files = dt.files;
+            hiddenFileInput.className = 'hidden';
+            previewList.appendChild(hiddenFileInput);
+
+            selectedFiles.forEach((item, index) => {
+                const captionInput = document.createElement('input');
+                captionInput.type = 'hidden';
+                captionInput.name = 'captions[]';
+                captionInput.value = item.caption;
+                captionInput.dataset.captionSync = index;
+                previewList.appendChild(captionInput);
+            });
+
+            const totalMb = selectedFiles.reduce((sum, item) => sum + item.file.size, 0) / (1024 * 1024);
+            showPhotoHelp(`${selectedFiles.length} photo(s) • ${totalMb.toFixed(1)} MB total`, false);
+        }
+
+        previewList.addEventListener('input', (e) => {
+            if (e.target.dataset.captionIndex !== undefined) {
+                const idx = parseInt(e.target.dataset.captionIndex);
+                const syncInput = previewList.querySelector(`[data-caption-sync="${idx}"]`);
+                if (syncInput) syncInput.value = e.target.value;
+            }
+        });
     </script>
 </x-app-layout>

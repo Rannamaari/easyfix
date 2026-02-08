@@ -68,6 +68,7 @@ class ProviderJobController extends Controller
             'updateRequests.requestedBy',
             'updateRequests.respondedBy',
             'payment',
+            'photos',
         ]);
 
         $jobRequest->messageReads()->updateOrCreate(
@@ -154,7 +155,7 @@ class ProviderJobController extends Controller
             'type' => ['required', 'in:before,after'],
         ]);
 
-        $path = $request->file('photo')->store('job-attachments/' . $jobRequest->id, 'public');
+        $path = $request->file('photo')->store('job-attachments/' . $jobRequest->id, 'local');
 
         $jobRequest->attachments()->create([
             'file_path' => $path,
