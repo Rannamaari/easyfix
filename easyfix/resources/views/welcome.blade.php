@@ -24,7 +24,9 @@
     <meta property="og:url" content="https://easyfix.mv/">
     <meta property="og:title" content="Easy Fix | Plumber, Electrician & Handyman in Malé">
     <meta property="og:description" content="Same-day home repairs in Malé City. AC repair, plumbing, electrical, door locks & more. Trusted team. Call +960 999 6210.">
-    <meta property="og:image" content="https://easyfix.mv/images/easyfix-og.jpg">
+    <meta property="og:image" content="https://easyfix.mv/images/easyfix-og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:locale" content="en_MV">
 
     {{-- Twitter Card --}}
