@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en-MV">
+<html lang="en-MV" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- SEO Optimized Title --}}
-    <title>Easy Fix | Plumber, Electrician & Handyman Services in Malé, Maldives</title>
+    <title>Easy Fix | Plumber, Electrician & Handyman Services in Greater Malé Area, Maldives</title>
 
     {{-- SEO Meta Description --}}
-    <meta name="description" content="Need a plumber, electrician or handyman in Malé? Easy Fix provides same-day AC repair, fridge repair, washing machine repair, plumbing, electrical & cleaning services in Malé City, Hulhumalé & Villingili. Call +960 999 6210.">
+    <meta name="description" content="Need a plumber, electrician or handyman in Greater Malé Area? Easy Fix provides same-day AC repair, fridge repair, washing machine repair, plumbing, electrical & cleaning services across Malé City, Hulhumalé & Villingili. Call +960 999 6210.">
 
     {{-- SEO Keywords --}}
     <meta name="keywords" content="plumber Malé, electrician Malé, handyman Maldives, AC repair Malé, fridge repair Malé, washing machine repair Maldives, refrigerator repair Hulhumalé, appliance repair Malé, plumbing Hulhumalé, home repair Maldives">
@@ -22,8 +22,8 @@
     {{-- Open Graph / Facebook --}}
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://easyfix.mv/">
-    <meta property="og:title" content="Easy Fix | Plumber, Electrician & Handyman in Malé">
-    <meta property="og:description" content="Same-day home repairs in Malé City. AC repair, plumbing, electrical, door locks & more. Trusted team. Call +960 999 6210.">
+    <meta property="og:title" content="Easy Fix | Handyman Services in Greater Malé Area">
+    <meta property="og:description" content="Same-day home repairs across Malé City, Hulhumalé & Villingili. AC repair, plumbing, electrical, appliance repair & more. Call +960 999 6210.">
     <meta property="og:image" content="https://easyfix.mv/images/easyfix-og.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -31,8 +31,8 @@
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Easy Fix | Handyman Services in Malé, Maldives">
-    <meta name="twitter:description" content="Same-day plumbing, electrical & AC repair in Malé. Call +960 999 6210.">
+    <meta name="twitter:title" content="Easy Fix | Handyman Services in Greater Malé Area">
+    <meta name="twitter:description" content="Same-day plumbing, electrical & AC repair across Malé City, Hulhumalé & Villingili. Call +960 999 6210.">
 
     {{-- Canonical URL --}}
     <link rel="canonical" href="https://easyfix.mv/">
@@ -202,8 +202,10 @@
 
     <main>
         {{-- HERO SECTION --}}
-        <section class="relative bg-gradient-to-b from-blue-50 to-white dark:from-slate-900 dark:to-slate-950" aria-labelledby="hero-heading">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <section id="hero" class="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white dark:from-slate-900 dark:to-slate-950" aria-labelledby="hero-heading">
+            {{-- Interactive glow blob --}}
+            <div id="hero-glow" class="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-0 transition-opacity duration-500 bg-[radial-gradient(circle,rgba(59,130,246,0.15)_0%,transparent_70%)] dark:bg-[radial-gradient(circle,rgba(59,130,246,0.1)_0%,transparent_70%)]" style="left:-100px;top:-100px"></div>
+            <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
                 @auth
                 {{-- Personalized Hero for Logged-in Users --}}
                 <div class="max-w-3xl">
@@ -248,7 +250,7 @@
                     </div>
 
                     <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
-                        Handyman Services in Malé, Maldives
+                        Handyman Services in Greater Malé Area
                     </h1>
 
                     <p class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-slate-300 max-w-xl">
@@ -284,7 +286,7 @@
                 {{-- Section Header --}}
                 <div class="text-center mb-12">
                     <h2 id="services-heading" class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-                        Home Repair Services in Malé
+                        Home Repair Services in Greater Malé Area
                     </h2>
                     <p class="mt-3 text-gray-600 dark:text-slate-400 max-w-xl mx-auto">
                         Quick fixes for everyday problems. We serve Malé City, Hulhumalé Phase 1 & 2, and Villingili.
@@ -340,7 +342,7 @@
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
                     <h2 id="how-heading" class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-                        How to Book a Handyman in Malé
+                        How to Book a Handyman
                     </h2>
                     <p class="mt-3 text-gray-600 dark:text-slate-400">
                         Multiple ways to book. Choose what works for you.
@@ -428,10 +430,10 @@
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
                     <h2 id="why-heading" class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-                        Why Malé Residents Choose Easy Fix
+                        Why Residents Choose Easy Fix
                     </h2>
                     <p class="mt-3 text-gray-600 dark:text-slate-400">
-                        Trusted by homes and offices across Greater Malé Area.
+                        Trusted by homes and offices across Malé City, Hulhumalé & Villingili.
                     </p>
                 </div>
 
@@ -542,7 +544,7 @@
                         Frequently Asked Questions
                     </h2>
                     <p class="mt-3 text-gray-600 dark:text-slate-400">
-                        Common questions about our services in Malé.
+                        Common questions about our services.
                     </p>
                 </div>
 
@@ -599,10 +601,10 @@
         <section class="py-16 sm:py-20 bg-blue-600 dark:bg-blue-700" aria-labelledby="cta-heading">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 id="cta-heading" class="text-3xl sm:text-4xl font-bold text-white mb-4">
-                    Need a Plumber or Electrician in Malé?
+                    Need a Plumber or Electrician?
                 </h2>
                 <p class="text-blue-100 text-lg mb-8 max-w-xl mx-auto">
-                    Don't let small problems become big headaches. Call Easy Fix for same-day repairs in Malé City, Hulhumalé and Villingili.
+                    Don't let small problems become big headaches. Call Easy Fix for same-day repairs across Greater Malé Area.
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -703,10 +705,43 @@
             {{-- Bottom bar --}}
             <div class="pt-8 mt-8 border-t border-gray-800 dark:border-slate-700 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500 dark:text-slate-400">
                 <p>&copy; {{ date('Y') }} Easy Fix by Micronet. All rights reserved.</p>
-                <p>Handyman Services in Malé, Maldives</p>
+                <p>Handyman Services in Greater Malé Area, Maldives</p>
             </div>
         </div>
     </footer>
 
+    <script>
+    (function() {
+        const hero = document.getElementById('hero');
+        const glow = document.getElementById('hero-glow');
+        if (!hero || !glow) return;
+
+        let targetX = 0, targetY = 0, currentX = 0, currentY = 0, raf;
+
+        function animate() {
+            currentX += (targetX - currentX) * 0.08;
+            currentY += (targetY - currentY) * 0.08;
+            glow.style.left = currentX + 'px';
+            glow.style.top = currentY + 'px';
+            raf = requestAnimationFrame(animate);
+        }
+
+        hero.addEventListener('mouseenter', function() {
+            glow.style.opacity = '1';
+            raf = requestAnimationFrame(animate);
+        });
+
+        hero.addEventListener('mousemove', function(e) {
+            const rect = hero.getBoundingClientRect();
+            targetX = e.clientX - rect.left;
+            targetY = e.clientY - rect.top;
+        });
+
+        hero.addEventListener('mouseleave', function() {
+            glow.style.opacity = '0';
+            cancelAnimationFrame(raf);
+        });
+    })();
+    </script>
 </body>
 </html>

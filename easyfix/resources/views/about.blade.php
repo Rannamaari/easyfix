@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html lang="en-MV">
+<html lang="en-MV" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>About Us | Easy Fix - Trusted Handyman Services in Malé, Maldives</title>
+    <title>About Us | Easy Fix - Trusted Handyman Services in Greater Malé Area</title>
 
-    <meta name="description" content="Learn about Easy Fix - Malé's trusted handyman service. Fast response, transparent pricing, and a vetted team for plumbing, electrical, AC repair, and more in Malé City and Hulhumalé.">
+    <meta name="description" content="Learn about Easy Fix - Greater Malé Area's trusted handyman service. Fast response, transparent pricing, and a vetted team for plumbing, electrical, AC repair, and more across Malé City, Hulhumalé & Villingili.">
 
-    <meta name="keywords" content="about Easy Fix, handyman Malé, home repair Maldives, Micro Cool AC, Micronet services">
+    <meta name="keywords" content="about Easy Fix, handyman Malé, home repair Maldives, handyman Hulhumalé, Micro Cool AC, Micronet services">
 
     {{-- Open Graph --}}
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://easyfix.mv/about">
-    <meta property="og:title" content="About Easy Fix | Handyman Services in Malé">
-    <meta property="og:description" content="Malé's trusted handyman service. Fast response, transparent pricing, vetted team.">
+    <meta property="og:title" content="About Easy Fix | Handyman Services in Greater Malé Area">
+    <meta property="og:description" content="Greater Malé Area's trusted handyman service. Malé City, Hulhumalé & Villingili. Fast response, transparent pricing, vetted team.">
+    <meta property="og:image" content="https://easyfix.mv/images/easyfix-og.png">
 
     <link rel="canonical" href="https://easyfix.mv/about">
     <link rel="icon" type="image/png" href="/favicon.ico">
@@ -55,7 +56,7 @@
                     </div>
 
                     <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
-                        Malé's Trusted Handyman Service
+                        Greater Malé Area's Trusted Handyman Service
                     </h1>
 
                     <p class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-slate-300 max-w-xl">
@@ -91,7 +92,7 @@
                         Why People Trust Us
                     </h2>
                     <p class="mt-3 text-gray-600 dark:text-slate-400 max-w-xl mx-auto">
-                        We built Easy Fix on simple principles that matter to every homeowner in Malé.
+                        We built Easy Fix on simple principles that matter to every homeowner in Greater Malé Area.
                     </p>
                 </div>
 
@@ -134,9 +135,9 @@
                         <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center mb-4">
                             <x-heroicon-o-map-pin class="w-6 h-6 text-amber-600 dark:text-amber-400" />
                         </div>
-                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Malé Expertise</h3>
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Local Expertise</h3>
                         <p class="text-sm text-gray-600 dark:text-slate-400">
-                            We know Malé's buildings, common issues, and can navigate the city quickly to reach you.
+                            We know the buildings and common issues across Malé City, Hulhumalé and Villingili.
                         </p>
                     </div>
                 </div>
@@ -190,7 +191,7 @@
                         </h2>
                         <div class="space-y-4 text-gray-600 dark:text-slate-300">
                             <p>
-                                Living in Malé, we've all been there. The kitchen tap starts dripping at 9 PM. The door handle breaks when you have guests coming. The AC stops cooling in the middle of a hot afternoon.
+                                Living in the Greater Malé Area, we've all been there. The kitchen tap starts dripping at 9 PM. The door handle breaks when you have guests coming. The AC stops cooling in the middle of a hot afternoon.
                             </p>
                             <p>
                                 Finding someone reliable to fix these small problems used to mean calling five different people, negotiating prices, and hoping they actually show up. We wanted to change that.
@@ -307,7 +308,7 @@
                             For quick AC troubleshooting, Easy Fix has you covered. But for full installations, major repairs, or maintenance contracts, our sister brand <strong>Micro Cool</strong> specializes in exactly that.
                         </p>
                         <p class="text-gray-600 dark:text-slate-300">
-                            Micro Cool handles everything from installing new split ACs in apartments to servicing commercial cassette units in offices across Malé. Same trusted service, specialized for air conditioning.
+                            Micro Cool handles everything from installing new split ACs in apartments to servicing commercial cassette units in offices across the Greater Malé Area. Same trusted service, specialized for air conditioning.
                         </p>
                     </div>
                 </div>
@@ -324,7 +325,7 @@
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-900 dark:text-white">Part of the Micronet Family</p>
-                            <p class="text-xs text-gray-500 dark:text-slate-400">IT & Services company based in Malé</p>
+                            <p class="text-xs text-gray-500 dark:text-slate-400">IT & Services company based in Greater Malé Area</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-6 text-sm text-gray-500 dark:text-slate-400">
