@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CustomerJobController;
 use App\Http\Controllers\GuestJobController;
 use App\Http\Controllers\JobAttachmentController;
@@ -12,7 +13,8 @@ use App\Http\Controllers\ProviderJobController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $latestPosts = \App\Models\BlogPost::published()->ordered()->take(1)->get();
+    return view('welcome', compact('latestPosts'));
 })->name('home');
 
 Route::get('/about', function () {
@@ -84,6 +86,9 @@ Route::prefix('track')->name('track.')->group(function () {
     Route::post('/{token}/approve-quote', [GuestJobController::class, 'approveQuote'])->name('approve-quote');
     Route::post('/{token}/reject-quote', [GuestJobController::class, 'rejectQuote'])->name('reject-quote');
 });
+
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::get('/attachments/{attachment}', [JobAttachmentController::class, 'show'])
     ->middleware('signed')

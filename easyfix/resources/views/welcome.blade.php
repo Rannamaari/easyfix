@@ -477,6 +477,61 @@
             </div>
         </section>
 
+        {{-- LATEST FROM THE BLOG --}}
+        @if($latestPosts->count())
+        <section class="py-16 sm:py-20 bg-gray-50 dark:bg-slate-900">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between mb-10">
+                    <div>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">Latest from the Blog</h2>
+                        <p class="mt-3 text-gray-600 dark:text-slate-400">Tips, guides, and updates for your home.</p>
+                    </div>
+                    <a href="{{ route('blog.index') }}" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+                        View all articles
+                        <x-heroicon-o-arrow-right class="w-4 h-4" />
+                    </a>
+                </div>
+
+                @php $latest = $latestPosts->first(); @endphp
+                <a href="{{ route('blog.show', $latest->slug) }}"
+                   class="group grid md:grid-cols-2 bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 overflow-hidden hover:shadow-xl hover:border-blue-200 dark:hover:border-slate-600 transition-all duration-300 h-[400px]">
+                    {{-- Image --}}
+                    <div class="overflow-hidden">
+                        @if($latest->featured_image_url)
+                            <img src="{{ $latest->featured_image_url }}"
+                                 alt="{{ $latest->title }}"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        @else
+                            <div class="w-full h-full bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-100 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 flex items-center justify-center">
+                                <x-heroicon-o-newspaper class="w-16 h-16 text-blue-200 dark:text-slate-500" />
+                            </div>
+                        @endif
+                    </div>
+
+                    {{-- Content --}}
+                    <div class="flex flex-col justify-center px-8 py-8 lg:px-10">
+                        <time datetime="{{ $latest->published_at->toDateString() }}"
+                              class="text-xs font-medium text-gray-400 dark:text-slate-500 uppercase tracking-wide">
+                            {{ $latest->published_at->format('F d, Y') }}
+                        </time>
+                        <h3 class="mt-3 text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight line-clamp-3">
+                            {{ $latest->title }}
+                        </h3>
+                        @if($latest->excerpt)
+                            <p class="mt-4 text-gray-600 dark:text-slate-400 leading-relaxed line-clamp-3">
+                                {{ $latest->excerpt }}
+                            </p>
+                        @endif
+                        <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:gap-3 transition-all">
+                            Read more
+                            <x-heroicon-o-arrow-right class="w-4 h-4" />
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </section>
+        @endif
+
         {{-- FAQ SECTION --}}
         <section id="faq" class="py-16 sm:py-20 bg-gray-50 dark:bg-slate-900" aria-labelledby="faq-heading">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
