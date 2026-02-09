@@ -11,6 +11,8 @@
         <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700,800&display=swap" rel="stylesheet" />
         <style>body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }</style>
 
+        {{ $head ?? '' }}
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script>
             (function () {
@@ -26,7 +28,7 @@
             <x-navbar />
 
             <main class="py-8">
-                <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="{{ ($wide ?? false) ? 'max-w-7xl' : 'max-w-2xl' }} mx-auto px-4 sm:px-6 lg:px-8">
                     {{ $slot }}
                 </div>
             </main>

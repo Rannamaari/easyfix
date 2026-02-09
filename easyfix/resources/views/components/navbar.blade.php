@@ -3,6 +3,7 @@
         ['label' => 'Home', 'href' => url('/'), 'active' => request()->is('/'), 'icon' => 'home'],
         ['label' => 'Services', 'href' => url('/#services'), 'active' => false, 'icon' => 'squares-2x2'],
         ['label' => 'About', 'href' => route('about'), 'active' => request()->routeIs('about'), 'icon' => 'information-circle'],
+        ['label' => 'Blog', 'href' => route('blog.index'), 'active' => request()->is('blog*'), 'icon' => 'newspaper'],
     ];
 
     $ctaHref = auth()->check() ? route('jobs.create') : route('guest.create');
