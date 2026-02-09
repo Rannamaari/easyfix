@@ -47,6 +47,10 @@ Route::middleware('auth')->group(function () {
         ->middleware('throttle:6,1')
         ->name('verification.send');
 
+    Route::post('email/update', [EmailVerificationNotificationController::class, 'updateEmail'])
+        ->middleware('throttle:6,1')
+        ->name('verification.update-email');
+
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
         ->name('password.confirm');
 

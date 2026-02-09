@@ -52,6 +52,7 @@ class CustomerJobController extends Controller
         } else {
             $selectedAddress = $user->addresses()->create([
                 'label' => $request->new_address_label,
+                'custom_label' => $request->new_address_label === 'other' ? $request->new_address_custom_label : null,
                 'address' => $request->new_address,
                 'is_default' => $user->addresses()->count() === 0,
             ]);

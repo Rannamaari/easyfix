@@ -113,7 +113,7 @@
                                         $selectedAddressId = old('address_id') ?? $defaultAddressId;
                                     @endphp
                                     <option value="{{ $address->id }}" {{ (string) $selectedAddressId === (string) $address->id ? 'selected' : '' }}>
-                                        {{ ucfirst($address->label) }} - {{ $address->address }}
+                                        {{ $address->displayLabel() }} - {{ $address->address }}
                                     </option>
                                 @endforeach
                             </select>
@@ -133,6 +133,17 @@
                                     <option value="other" {{ old('new_address_label') === 'other' ? 'selected' : '' }}>Other</option>
                                 </select>
                                 @error('new_address_label')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div id="new-address-custom-label-field" class="{{ old('new_address_label') === 'other' ? '' : 'hidden' }}">
+                                <label for="new_address_custom_label" class="block text-sm font-medium text-gray-700 dark:text-slate-200">Address Name</label>
+                                <input type="text" name="new_address_custom_label" id="new_address_custom_label" value="{{ old('new_address_custom_label') }}"
+                                    placeholder="e.g. Parents' house, Vacation home"
+                                    maxlength="50"
+                                    class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-700 dark:bg-slate-950 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                @error('new_address_custom_label')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -265,6 +276,23 @@
 
         addressModeRadios.forEach(radio => radio.addEventListener('change', toggleAddressFields));
         toggleAddressFields();
+
+        const newAddressLabelSelect = document.getElementById('new_address_label');
+        const newAddressCustomLabelField = document.getElementById('new-address-custom-label-field');
+        const newAddressCustomLabelInput = document.getElementById('new_address_custom_label');
+
+        function toggleNewAddressCustomLabel() {
+            if (newAddressLabelSelect.value === 'other') {
+                newAddressCustomLabelField.classList.remove('hidden');
+                newAddressCustomLabelInput.required = true;
+            } else {
+                newAddressCustomLabelField.classList.add('hidden');
+                newAddressCustomLabelInput.required = false;
+            }
+        }
+
+        newAddressLabelSelect.addEventListener('change', toggleNewAddressCustomLabel);
+        toggleNewAddressCustomLabel();
 
         const categoryInput = document.getElementById('service_category_id');
         const serviceIdInput = document.getElementById('service_id');

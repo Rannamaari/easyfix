@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerResource\Pages;
+use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -43,6 +44,19 @@ class CustomerResource extends Resource
                         Forms\Components\TextInput::make('phone')
                             ->tel()
                             ->maxLength(20),
+                        Forms\Components\Toggle::make('is_verified')
+                            ->label('Email Verified')
+                            ->helperText('Mark this user\'s email as verified')
+                            ->dehydrated(false)
+                            ->afterStateHydrated(fn ($component, $record) => $component->state($record?->email_verified_at !== null))
+                            ->afterStateUpdated(function ($state, $record) {
+                                if ($record) {
+                                    $record->update([
+                                        'email_verified_at' => $state ? now() : null,
+                                    ]);
+                                }
+                            })
+                            ->live(),
                     ])
                     ->columns(2),
             ]);
@@ -72,9 +86,12 @@ class CustomerResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('addresses')
                     ->label('Default Address')
-                    ->formatStateUsing(fn ($record) => $record->addresses?->firstWhere('is_default', true)?->address
-                        ?? $record->addresses?->first()?->address
-                        ?? '—')
+                    ->formatStateUsing(function ($record) {
+                        $addr = $record->addresses?->firstWhere('is_default', true)
+                            ?? $record->addresses?->first();
+                        if (!$addr) return '—';
+                        return $addr->displayLabel() . ' — ' . $addr->address;
+                    })
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('jobRequestsAsCustomer_count')
@@ -87,9 +104,25 @@ class CustomerResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->actions([
+                Tables\Actions\Action::make('verify')
+                    ->label('Verify')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalHeading('Verify Email')
+                    ->modalDescription('Mark this user\'s email as verified?')
+                    ->visible(fn ($record) => is_null($record->email_verified_at))
+                    ->action(fn ($record) => $record->update(['email_verified_at' => now()])),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\AddressesRelationManager::class,
+        ];
     }
 
     public static function getPages(): array

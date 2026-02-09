@@ -21,6 +21,7 @@ class StoreJobRequest extends FormRequest
             'address_mode' => ['required', 'in:saved,new'],
             'address_id' => ['required_if:address_mode,saved', 'nullable', 'exists:user_addresses,id'],
             'new_address_label' => ['required_if:address_mode,new', 'in:home,work,other'],
+            'new_address_custom_label' => ['nullable', 'string', 'max:50'],
             'new_address' => ['required_if:address_mode,new', 'string', 'max:500'],
             'preferred_date' => ['nullable', 'date', 'after_or_equal:today'],
             'preferred_time_slot' => ['nullable', 'string', 'max:10'],

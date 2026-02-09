@@ -12,6 +12,7 @@ class ProfileAddressController extends Controller
     {
         $data = $request->validate([
             'label' => ['required', 'in:home,work,other'],
+            'custom_label' => ['required_if:label,other', 'nullable', 'string', 'max:50'],
             'address' => ['required', 'string', 'max:500'],
         ]);
 
@@ -20,6 +21,7 @@ class ProfileAddressController extends Controller
         $isFirst = $user->addresses()->count() === 0;
         $user->addresses()->create([
             'label' => $data['label'],
+            'custom_label' => $data['label'] === 'other' ? $data['custom_label'] : null,
             'address' => $data['address'],
             'is_default' => $isFirst,
         ]);

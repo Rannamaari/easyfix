@@ -13,7 +13,7 @@
                     <div class="border border-gray-200 dark:border-slate-700 rounded-md p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <p class="text-sm font-semibold text-gray-800 dark:text-white">
-                                {{ ucfirst($address->label) }}
+                                {{ $address->displayLabel() }}
                                 @if($address->is_default)
                                     <span class="ml-2 inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-500/10 dark:text-blue-200">Default</span>
                                 @endif
@@ -62,6 +62,17 @@
             @enderror
         </div>
 
+        <div id="custom-label-field" class="hidden">
+            <label for="custom_label" class="block text-sm font-medium text-gray-700 dark:text-slate-200">Address Name</label>
+            <input type="text" name="custom_label" id="custom_label" value="{{ old('custom_label') }}"
+                placeholder="e.g. Parents' house, Vacation home"
+                maxlength="50"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white">
+            @error('custom_label')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
         <div>
             <label for="address" class="block text-sm font-medium text-gray-700 dark:text-slate-200">Full Address</label>
             <textarea name="address" id="address" rows="3" required
@@ -78,4 +89,23 @@
             </button>
         </div>
     </form>
+
+    <script>
+        const addressLabelSelect = document.getElementById('label');
+        const customLabelField = document.getElementById('custom-label-field');
+        const customLabelInput = document.getElementById('custom_label');
+
+        function toggleCustomLabel() {
+            if (addressLabelSelect.value === 'other') {
+                customLabelField.classList.remove('hidden');
+                customLabelInput.required = true;
+            } else {
+                customLabelField.classList.add('hidden');
+                customLabelInput.required = false;
+            }
+        }
+
+        addressLabelSelect.addEventListener('change', toggleCustomLabel);
+        toggleCustomLabel();
+    </script>
 </section>
