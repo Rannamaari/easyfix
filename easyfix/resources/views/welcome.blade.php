@@ -494,13 +494,13 @@
 
                 @php $latest = $latestPosts->first(); @endphp
                 <a href="{{ route('blog.show', $latest->slug) }}"
-                   class="group grid md:grid-cols-2 bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 overflow-hidden hover:shadow-xl hover:border-blue-200 dark:hover:border-slate-600 transition-all duration-300 h-[400px]">
+                   class="group grid md:grid-cols-2 bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 overflow-hidden hover:shadow-xl hover:border-blue-200 dark:hover:border-slate-600 transition-all duration-300 md:h-[400px]">
                     {{-- Image --}}
-                    <div class="overflow-hidden">
+                    <div class="overflow-hidden bg-gray-100 dark:bg-slate-700 aspect-[16/9] md:aspect-auto md:h-full">
                         @if($latest->featured_image_url)
                             <img src="{{ $latest->featured_image_url }}"
                                  alt="{{ $latest->title }}"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                 class="w-full h-full object-contain md:object-cover group-hover:scale-105 transition-transform duration-500">
                         @else
                             <div class="w-full h-full bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-100 dark:from-slate-700 dark:via-slate-600 dark:to-slate-700 flex items-center justify-center">
                                 <x-heroicon-o-newspaper class="w-16 h-16 text-blue-200 dark:text-slate-500" />
