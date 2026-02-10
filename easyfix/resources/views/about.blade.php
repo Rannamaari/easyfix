@@ -6,7 +6,7 @@
 
     <title>About Us | Easy Fix - Trusted Handyman Services in Greater Malé Area</title>
 
-    <meta name="description" content="Learn about Easy Fix - Greater Malé Area's trusted handyman service. Fast response, transparent pricing, and a vetted team for plumbing, electrical, AC repair, and more across Malé City, Hulhumalé & Villingili.">
+    <meta name="description" content="Learn about Easy Fix - Greater Malé Area's trusted handyman service. Fast response, transparent pricing, and a vetted team for AC repair, fridge repair, washing machine repair, plumbing, electrical & more across Malé City, Hulhumalé & Villingili.">
 
     <meta name="keywords" content="about Easy Fix, handyman Malé, home repair Maldives, handyman Hulhumalé, Micro Cool AC, Micronet services">
 
@@ -156,15 +156,17 @@
                     </p>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     @php
                         $services = [
-                            ['icon' => 'wrench-screwdriver', 'name' => 'Plumbing', 'desc' => 'Leaks, taps, pipes'],
-                            ['icon' => 'bolt', 'name' => 'Electrical', 'desc' => 'Switches, outlets, lights'],
-                            ['icon' => 'key', 'name' => 'Door & Locks', 'desc' => 'Hinges, handles, locks'],
-                            ['icon' => 'sun', 'name' => 'AC Repair', 'desc' => 'Quick troubleshooting'],
+                            ['icon' => 'sun', 'name' => 'AC Repair', 'desc' => 'Diagnosis & fix'],
                             ['icon' => 'cube-transparent', 'name' => 'Fridge Repair', 'desc' => 'Cooling issues'],
+                            ['icon' => 'arrow-path', 'name' => 'Washing Machine Repair', 'desc' => 'Repairs & fixes'],
+                            ['icon' => 'bolt', 'name' => 'Electrical', 'desc' => 'Switches, sockets, lights'],
+                            ['icon' => 'wrench-screwdriver', 'name' => 'Plumbing', 'desc' => 'Leaks, taps, drains'],
+                            ['icon' => 'key', 'name' => 'Door & Lock Repair', 'desc' => 'Handles, hinges, locks'],
                             ['icon' => 'sparkles', 'name' => 'Cleaning', 'desc' => 'Deep clean, move-out'],
+                            ['icon' => 'cube', 'name' => 'Small Moving', 'desc' => 'Furniture & appliances'],
                         ];
                     @endphp
 

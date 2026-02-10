@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- SEO Optimized Title --}}
-    <title>Easy Fix | Plumber, Electrician & Handyman Services in Greater Malé Area, Maldives</title>
+    <title>Easy Fix | AC Repair, Plumbing, Electrical & Handyman Services in Greater Malé Area, Maldives</title>
 
     {{-- SEO Meta Description --}}
-    <meta name="description" content="Need a plumber, electrician or handyman in Greater Malé Area? Easy Fix provides same-day AC repair, fridge repair, washing machine repair, plumbing, electrical & cleaning services across Malé City, Hulhumalé & Villingili. Call +960 999 6210.">
+    <meta name="description" content="Need AC repair, plumbing or electrical services in Greater Malé Area? Easy Fix provides same-day AC repair, fridge repair, washing machine repair, plumbing, electrical & cleaning services across Malé City, Hulhumalé & Villingili. Call +960 999 6210.">
 
     {{-- SEO Keywords --}}
-    <meta name="keywords" content="plumber Malé, electrician Malé, handyman Maldives, AC repair Malé, fridge repair Malé, washing machine repair Maldives, refrigerator repair Hulhumalé, appliance repair Malé, plumbing Hulhumalé, home repair Maldives">
+    <meta name="keywords" content="AC repair Malé, plumbing Malé, electrical Malé, handyman Maldives, fridge repair Malé, washing machine repair Maldives, refrigerator repair Hulhumalé, appliance repair Malé, plumbing Hulhumalé, home repair Maldives">
 
     {{-- Geo Tags for Local SEO --}}
     <meta name="geo.region" content="MV-MLE">
@@ -69,7 +69,7 @@
         "@id": "https://easyfix.mv/#business",
         "name": "Easy Fix",
         "alternateName": "Easy Fix Maldives",
-        "description": "Professional handyman, plumber, electrician and home repair services in Malé City, Hulhumalé and Villingili, Maldives. Same-day service available.",
+        "description": "Professional handyman and home repair services in Greater Malé Area, Maldives. AC repair, fridge repair, washing machine repair, plumbing, electrical & more. Same-day service available.",
         "url": "https://easyfix.mv",
         "telephone": "+960-999-6210",
         "email": "hello@micronet.mv",
@@ -246,7 +246,7 @@
                 <div class="max-w-3xl">
                     <div class="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-3 py-1.5 rounded-full text-sm font-medium mb-6">
                         <x-heroicon-s-map-pin class="w-4 h-4" />
-                        <span>Plumber & Electrician in Malé City</span>
+                        <span>Serving Greater Malé Area</span>
                     </div>
 
                     <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
@@ -254,7 +254,7 @@
                     </h1>
 
                     <p class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-slate-300 max-w-xl">
-                        <strong>Same-day repairs</strong> for your home and office. AC repair, plumbing, electrical work, door locks, cleaning & small moving in <strong>Malé City, Hulhumalé</strong> and <strong>Villingili</strong>.
+                        <strong>Same-day repairs</strong> for your home and office. AC repair, fridge repair, washing machine repair, plumbing, electrical & more in <strong>Malé City, Hulhumalé</strong> and <strong>Villingili</strong>.
                     </p>
 
                     <div class="mt-8 flex flex-col sm:flex-row gap-4">
@@ -297,14 +297,14 @@
                 <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4">
                     @php
                         $services = [
-                            ['icon' => 'sun', 'name' => 'AC Repair', 'desc' => 'AC not cooling? We fix it'],
-                            ['icon' => 'bolt', 'name' => 'Electrician', 'desc' => 'Switches, boards, wiring', 'coming_soon' => true],
-                            ['icon' => 'wrench-screwdriver', 'name' => 'Plumber', 'desc' => 'Leaks, taps, blocked pipes', 'coming_soon' => true],
-                            ['icon' => 'key', 'name' => 'Door & Locks', 'desc' => 'Handles, hinges, locks', 'coming_soon' => true],
-                            ['icon' => 'cube-transparent', 'name' => 'Fridge Repair', 'desc' => 'Refrigerator not cooling?'],
-                            ['icon' => 'arrow-path', 'name' => 'Washing Machine', 'desc' => 'Washer repairs & fixes'],
-                            ['icon' => 'sparkles', 'name' => 'Cleaning', 'desc' => 'Deep clean, move-out', 'coming_soon' => true],
-                            ['icon' => 'cube', 'name' => 'Small Moving', 'desc' => 'Furniture, appliances', 'coming_soon' => true],
+                            ['icon' => 'sun', 'name' => 'AC Repair', 'desc' => 'Not cooling, leaking, error codes — quick diagnosis & fix.'],
+                            ['icon' => 'cube-transparent', 'name' => 'Fridge Repair', 'desc' => 'Not cooling, noisy, ice build-up — fast troubleshooting.'],
+                            ['icon' => 'arrow-path', 'name' => 'Washing Machine Repair', 'desc' => 'Not spinning, not draining, error codes — repairs & fixes.'],
+                            ['icon' => 'bolt', 'name' => 'Electrical', 'desc' => 'Switches, sockets, lights, wiring checks & minor repairs.', 'coming_soon' => true],
+                            ['icon' => 'wrench-screwdriver', 'name' => 'Plumbing', 'desc' => 'Leaks, taps, blocked drains — small fixes & replacements.', 'coming_soon' => true],
+                            ['icon' => 'key', 'name' => 'Door & Lock Repair', 'desc' => 'Locks, handles, hinges, alignment — repair or replace.', 'coming_soon' => true],
+                            ['icon' => 'sparkles', 'name' => 'Cleaning', 'desc' => 'Deep clean, move-out cleaning, bathroom/kitchen refresh.', 'coming_soon' => true],
+                            ['icon' => 'cube', 'name' => 'Small Moving', 'desc' => 'Small loads: furniture & appliances within Greater Malé.', 'coming_soon' => true],
                         ];
                     @endphp
 
@@ -312,11 +312,15 @@
                         @php $comingSoon = !empty($service['coming_soon']); @endphp
                         <article class="relative rounded-2xl p-5 text-center border transition-colors
                             {{ $comingSoon
-                                ? 'bg-gray-100 dark:bg-slate-900/60 border-gray-200 dark:border-slate-800 opacity-60 cursor-not-allowed'
+                                ? 'bg-gray-100 dark:bg-slate-900/60 border-gray-200 dark:border-slate-800 opacity-60 cursor-not-allowed pointer-events-none'
                                 : 'bg-gray-50 dark:bg-slate-900 border-gray-100 dark:border-slate-800 hover:border-blue-200 dark:hover:border-slate-700' }}">
                             @if($comingSoon)
                                 <span class="absolute top-2 right-2 inline-flex items-center bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">
                                     Coming Soon
+                                </span>
+                            @else
+                                <span class="absolute top-2 right-2 inline-flex items-center bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">
+                                    Available Now
                                 </span>
                             @endif
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3
@@ -332,7 +336,7 @@
 
                 {{-- Additional Services --}}
                 <p class="text-center mt-8 text-gray-600 dark:text-slate-400">
-                    Also: Kitchen cabinet repairs, furniture assembly, wall mounting, curtain installation, and more appliance & handyman services.
+                    Also: Cabinet/hinge repairs, furniture assembly, wall mounting (TV/shelves), curtain installation, and other small handyman tasks.
                 </p>
             </div>
         </section>
@@ -601,7 +605,7 @@
         <section class="py-16 sm:py-20 bg-blue-600 dark:bg-blue-700" aria-labelledby="cta-heading">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 id="cta-heading" class="text-3xl sm:text-4xl font-bold text-white mb-4">
-                    Need a Plumber or Electrician?
+                    Need a Repair or Fix?
                 </h2>
                 <p class="text-blue-100 text-lg mb-8 max-w-xl mx-auto">
                     Don't let small problems become big headaches. Call Easy Fix for same-day repairs across Greater Malé Area.
@@ -645,7 +649,7 @@
                         <span class="text-lg font-bold text-white">Easy Fix</span>
                     </div>
                     <p class="text-sm text-gray-500 dark:text-slate-400 mb-4">
-                        Your trusted handyman, plumber and electrician in Malé City, Maldives. Same-day home repairs.
+                        Your trusted handyman service in Greater Malé Area, Maldives. Same-day home repairs.
                     </p>
                     <p class="text-sm text-gray-500 dark:text-slate-400">
                         A service by Micronet
@@ -659,10 +663,10 @@
                         <li><a href="#services" class="hover:text-white">AC Repair</a></li>
                         <li><a href="#services" class="hover:text-white">Fridge Repair</a></li>
                         <li><a href="#services" class="hover:text-white">Washing Machine Repair</a></li>
-                        <li><a href="#services" class="hover:text-white">Electrician</a></li>
-                        <li><a href="#services" class="hover:text-white">Plumber</a></li>
+                        <li><a href="#services" class="hover:text-white">Electrical</a></li>
+                        <li><a href="#services" class="hover:text-white">Plumbing</a></li>
                         <li><a href="#services" class="hover:text-white">Door & Lock Repair</a></li>
-                        <li><a href="#services" class="hover:text-white">Cleaning Services</a></li>
+                        <li><a href="#services" class="hover:text-white">Cleaning</a></li>
                         <li><a href="#services" class="hover:text-white">Small Moving</a></li>
                     </ul>
                 </div>
