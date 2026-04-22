@@ -303,11 +303,11 @@
                             ['icon' => 'sun', 'name' => 'AC Repair', 'desc' => 'Not cooling, leaking, error codes — quick diagnosis & fix.'],
                             ['icon' => 'cube-transparent', 'name' => 'Fridge Repair', 'desc' => 'Not cooling, noisy, ice build-up — fast troubleshooting.'],
                             ['icon' => 'arrow-path', 'name' => 'Washing Machine Repair', 'desc' => 'Not spinning, not draining, error codes — repairs & fixes.'],
-                            ['icon' => 'bolt', 'name' => 'Electrical', 'desc' => 'Switches, sockets, lights, wiring checks & minor repairs.', 'coming_soon' => true],
-                            ['icon' => 'wrench-screwdriver', 'name' => 'Plumbing', 'desc' => 'Leaks, taps, blocked drains — small fixes & replacements.', 'coming_soon' => true],
-                            ['icon' => 'key', 'name' => 'Door & Lock Repair', 'desc' => 'Locks, handles, hinges, alignment — repair or replace.', 'coming_soon' => true],
+                            ['icon' => 'bolt', 'name' => 'Electrical', 'desc' => 'Switches, sockets, lights, wiring checks & minor repairs.'],
+                            ['icon' => 'wrench-screwdriver', 'name' => 'Plumbing', 'desc' => 'Leaks, taps, blocked drains — small fixes & replacements.'],
+                            ['icon' => 'key', 'name' => 'Door & Lock Repair', 'desc' => 'Locks, handles, hinges, alignment — repair or replace.'],
                             ['icon' => 'sparkles', 'name' => 'Cleaning', 'desc' => 'Deep clean, move-out cleaning, bathroom/kitchen refresh.', 'coming_soon' => true],
-                            ['icon' => 'cube', 'name' => 'Small Moving', 'desc' => 'Small loads: furniture & appliances within Greater Malé.', 'coming_soon' => true],
+                            ['icon' => 'cube', 'name' => 'Small Moving', 'desc' => 'Small loads: furniture & appliances within Greater Malé.'],
                         ];
                     @endphp
 
