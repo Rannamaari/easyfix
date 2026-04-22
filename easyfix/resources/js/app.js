@@ -181,9 +181,52 @@ function setupUserMenu() {
     });
 }
 
+function setupDesktopNavIndicator() {
+    const rail = document.querySelector('[data-nav-rail]');
+    const indicator = document.querySelector('[data-nav-indicator]');
+    const links = Array.from(document.querySelectorAll('[data-nav-desktop-link]'));
+
+    if (!rail || !indicator || links.length === 0) return;
+
+    const setIndicator = (link) => {
+        if (!link) {
+            indicator.style.width = '0px';
+            indicator.style.opacity = '0';
+            return;
+        }
+
+        const railRect = rail.getBoundingClientRect();
+        const linkRect = link.getBoundingClientRect();
+        indicator.style.width = `${linkRect.width}px`;
+        indicator.style.transform = `translateX(${linkRect.left - railRect.left}px)`;
+        indicator.style.opacity = '1';
+    };
+
+    const activeLink = links.find((link) =>
+        link.classList.contains('text-blue-600') || link.classList.contains('dark:text-blue-400')
+    );
+
+    setIndicator(activeLink);
+
+    links.forEach((link) => {
+        link.addEventListener('mouseenter', () => setIndicator(link));
+        link.addEventListener('focus', () => setIndicator(link));
+    });
+
+    rail.addEventListener('mouseleave', () => setIndicator(activeLink));
+    rail.addEventListener('focusout', (event) => {
+        if (!rail.contains(event.relatedTarget)) {
+            setIndicator(activeLink);
+        }
+    });
+
+    window.addEventListener('resize', () => setIndicator(activeLink));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     setupThemeToggle();
     setupMobileNav();
     setupUserMenu();
+    setupDesktopNavIndicator();
 });

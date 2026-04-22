@@ -22,10 +22,12 @@
             </a>
 
             {{-- Desktop Navigation --}}
-            <div class="hidden md:flex items-center gap-8">
+            <div class="hidden md:flex items-center gap-8 relative" data-nav-rail>
+                <span data-nav-indicator class="pointer-events-none absolute -bottom-2 left-0 h-0.5 w-0 rounded-full bg-blue-600 opacity-0 transition-all duration-300 dark:bg-blue-400"></span>
                 @foreach ($links as $link)
                     <a href="{{ $link['href'] }}"
-                       class="text-sm font-medium transition-colors {{ $link['active'] ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 hover:text-gray-900 dark:text-slate-300 dark:hover:text-white' }}">
+                       data-nav-desktop-link
+                       class="relative text-sm font-medium transition-colors {{ $link['active'] ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 hover:text-gray-900 dark:text-slate-300 dark:hover:text-white' }}">
                         {{ $link['label'] }}
                     </a>
                 @endforeach

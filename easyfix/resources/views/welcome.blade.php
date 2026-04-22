@@ -205,24 +205,74 @@
 
     <main>
         {{-- HERO SECTION --}}
-        <section id="hero" class="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white dark:from-slate-900 dark:to-slate-950" aria-labelledby="hero-heading">
+        @php
+            $heroBanners = [
+                [
+                    'image' => asset('hero/easyfix-ac-repair-male-maldives.png'),
+                    'alt' => 'EasyFix AC repair service banner in Greater Male Area',
+                    'guest_badge' => 'AC Repair Across Greater Malé',
+                    'guest_heading' => 'Fast AC Repair When Cooling Stops',
+                    'guest_copy' => '<strong>Same-day AC repair</strong> for leaking units, weak cooling, error codes, and urgent breakdowns in <strong>Malé City, Hulhumalé</strong> and <strong>Villingili</strong>.',
+                    'auth_heading' => 'Need your AC fixed today?',
+                    'auth_copy' => 'Book a technician for <strong>AC repair, maintenance, or troubleshooting</strong> and we will help you get cool again fast.',
+                ],
+                [
+                    'image' => asset('hero/easyfix-electrical-repair-male-maldives.png'),
+                    'alt' => 'EasyFix electrical repair service banner in Male Maldives',
+                    'guest_badge' => 'Electrical Help On Call',
+                    'guest_heading' => 'Electrical Repairs for Switches, Lights and Sockets',
+                    'guest_copy' => '<strong>Reliable electrical fixes</strong> for faulty switches, loose sockets, lighting issues, and minor wiring checks for homes and offices across Greater Malé.',
+                    'auth_heading' => 'Electrical issue slowing things down?',
+                    'auth_copy' => 'Send your request for <strong>lights, sockets, switches, and small electrical repairs</strong> and we will route it to the right team.',
+                ],
+                [
+                    'image' => asset('hero/easyfix-handyman-services-greater-male-area.png'),
+                    'alt' => 'EasyFix handyman services banner in Greater Male Area',
+                    'guest_badge' => 'Trusted Handyman Support',
+                    'guest_heading' => 'Handyman Services in Greater Malé Area',
+                    'guest_copy' => '<strong>Same-day repairs</strong> for your home and office. AC repair, fridge repair, washing machine repair, plumbing, electrical and more in <strong>Malé City, Hulhumalé</strong> and <strong>Villingili</strong>.',
+                    'auth_heading' => 'Let’s get that repair sorted today',
+                    'auth_copy' => 'Need something fixed? We handle <strong>home repairs, appliance issues, and on-site service calls</strong> across the Greater Malé area.',
+                ],
+                [
+                    'image' => asset('hero/easyfix-home-service-banner-maldives.png'),
+                    'alt' => 'EasyFix home service banner in Maldives',
+                    'guest_badge' => 'Home Services Made Easy',
+                    'guest_heading' => 'Book Home Repair Services Without the Hassle',
+                    'guest_copy' => 'From <strong>plumbing and appliance repair</strong> to urgent home fixes, EasyFix helps you book quickly and get updates without chasing providers.',
+                    'auth_heading' => 'Your next service request is a few clicks away',
+                    'auth_copy' => 'Use your dashboard to request <strong>repairs, follow updates, and manage jobs</strong> with one clean workflow.',
+                ],
+            ];
+            $selectedHeroBanner = $heroBanners[array_rand($heroBanners)];
+        @endphp
+        <section id="hero" class="relative overflow-hidden bg-slate-950" aria-labelledby="hero-heading">
+            <div class="absolute inset-0">
+                <img
+                    src="{{ $selectedHeroBanner['image'] }}"
+                    alt="{{ $selectedHeroBanner['alt'] }}"
+                    class="h-full w-full object-cover object-center"
+                >
+                <div class="absolute inset-0 bg-slate-950/55"></div>
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.22),transparent_38%),linear-gradient(to_bottom,rgba(15,23,42,0.2),rgba(15,23,42,0.78))]"></div>
+            </div>
             {{-- Interactive glow blob --}}
             <div id="hero-glow" class="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-0 transition-opacity duration-500 bg-[radial-gradient(circle,rgba(59,130,246,0.15)_0%,transparent_70%)] dark:bg-[radial-gradient(circle,rgba(59,130,246,0.1)_0%,transparent_70%)]" style="left:-100px;top:-100px"></div>
             <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
                 @auth
                 {{-- Personalized Hero for Logged-in Users --}}
                 <div class="max-w-3xl">
-                    <div class="inline-flex items-center gap-2 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+                    <div class="inline-flex items-center gap-2 bg-emerald-500/15 backdrop-blur-sm border border-emerald-300/25 text-emerald-100 px-3 py-1.5 rounded-full text-sm font-medium mb-6">
                         <x-heroicon-s-hand-raised class="w-4 h-4" />
                         <span>Welcome back</span>
                     </div>
 
-                    <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
-                        Hi, {{ auth()->user()->name }}!
+                    <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                        {{ $selectedHeroBanner['auth_heading'] }}
                     </h1>
 
-                    <p class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-slate-300 max-w-xl">
-                        Need something fixed? We're here to help with <strong>same-day repairs</strong> across Malé City, Hulhumalé and Villingili.
+                    <p class="mt-6 text-lg sm:text-xl text-slate-100/90 max-w-xl">
+                        Hi, {{ auth()->user()->name }}. {!! $selectedHeroBanner['auth_copy'] !!}
                     </p>
 
                     <div class="mt-8 flex flex-col sm:flex-row gap-4">
@@ -230,34 +280,34 @@
                             <x-heroicon-o-wrench-screwdriver class="w-5 h-5" />
                             Request a Service
                         </a>
-                        <a href="{{ route('jobs.index') }}" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-gray-900 dark:text-white px-6 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                        <a href="{{ route('jobs.index') }}" class="inline-flex items-center justify-center gap-2 bg-white/90 text-gray-900 px-6 py-3.5 rounded-xl font-semibold border border-white/50 hover:bg-white transition-colors">
                             <x-heroicon-o-clipboard-document-list class="w-5 h-5" />
                             View My Jobs
                         </a>
-                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-gray-900 dark:text-white px-6 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 bg-white/90 text-gray-900 px-6 py-3.5 rounded-xl font-semibold border border-white/50 hover:bg-white transition-colors">
                             <x-heroicon-o-phone class="w-5 h-5" />
                             Call: 999 6210
                         </a>
                     </div>
 
-                    <p class="mt-6 text-sm text-gray-500 dark:text-slate-400">
+                    <p class="mt-6 text-sm text-slate-200/80">
                         ✓ Same-day service &nbsp; ✓ No hidden charges &nbsp; ✓ Trained team
                     </p>
                 </div>
                 @else
                 {{-- Default Hero for Guests --}}
                 <div class="max-w-3xl">
-                    <div class="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+                    <div class="inline-flex items-center gap-2 bg-blue-500/15 backdrop-blur-sm border border-blue-300/25 text-blue-100 px-3 py-1.5 rounded-full text-sm font-medium mb-6">
                         <x-heroicon-s-map-pin class="w-4 h-4" />
-                        <span>Serving Greater Malé Area</span>
+                        <span>{{ $selectedHeroBanner['guest_badge'] }}</span>
                     </div>
 
-                    <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
-                        Handyman Services in Greater Malé Area
+                    <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                        {{ $selectedHeroBanner['guest_heading'] }}
                     </h1>
 
-                    <p class="mt-6 text-lg sm:text-xl text-gray-600 dark:text-slate-300 max-w-xl">
-                        <strong>Same-day repairs</strong> for your home and office. AC repair, fridge repair, washing machine repair, plumbing, electrical & more in <strong>Malé City, Hulhumalé</strong> and <strong>Villingili</strong>.
+                    <p class="mt-6 text-lg sm:text-xl text-slate-100/90 max-w-xl">
+                        {!! $selectedHeroBanner['guest_copy'] !!}
                     </p>
 
                     <div class="mt-8 flex flex-col sm:flex-row gap-4">
@@ -265,17 +315,17 @@
                             <x-heroicon-o-calendar-days class="w-5 h-5" />
                             Book a Service
                         </a>
-                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-gray-900 dark:text-white px-6 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 bg-white/90 text-gray-900 px-6 py-3.5 rounded-xl font-semibold border border-white/50 hover:bg-white transition-colors">
                             <x-heroicon-o-phone class="w-5 h-5" />
                             Call: 999 6210
                         </a>
-                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 px-6 py-3.5 rounded-xl font-semibold border border-blue-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700 transition-colors">
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-white/90 text-blue-700 px-6 py-3.5 rounded-xl font-semibold border border-white/50 hover:bg-white transition-colors">
                             <x-heroicon-o-user-plus class="w-5 h-5" />
                             Sign Up Free
                         </a>
                     </div>
 
-                    <p class="mt-6 text-sm text-gray-500 dark:text-slate-400">
+                    <p class="mt-6 text-sm text-slate-200/80">
                         ✓ Same-day service &nbsp; ✓ No hidden charges &nbsp; ✓ Trained team
                     </p>
                 </div>

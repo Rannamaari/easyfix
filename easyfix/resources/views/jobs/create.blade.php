@@ -164,13 +164,14 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-slate-200">Preferred Date & Time</label>
                         <div class="mt-2 grid gap-3 sm:grid-cols-2">
-                            <div>
+                            <div class="relative">
                                 <input type="date" name="preferred_date" id="preferred_date" value="{{ old('preferred_date') }}"
-                                    class="block w-full rounded-md border-gray-300 dark:border-slate-700 dark:bg-slate-950 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:[&::-webkit-calendar-picker-indicator]:invert">
+                                    class="easyfix-date-input block w-full rounded-md border-gray-300 dark:border-slate-700 dark:bg-slate-950 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 pr-12">
+                                <x-heroicon-o-calendar-days class="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-300" />
                             </div>
-                            <div>
+                            <div class="relative">
                                 <select name="preferred_time_slot" id="preferred_time_slot"
-                                    class="block w-full rounded-md border-gray-300 dark:border-slate-700 dark:bg-slate-950 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                    class="easyfix-select block w-full rounded-md border-gray-300 dark:border-slate-700 dark:bg-slate-950 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 pr-12">
                                     <option value="">Select a time</option>
                                     <option value="09:00">09:00 AM</option>
                                     <option value="11:00">11:00 AM</option>
@@ -179,6 +180,7 @@
                                     <option value="17:00">05:00 PM</option>
                                     <option value="19:00">07:00 PM</option>
                                 </select>
+                                <x-heroicon-o-chevron-down class="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-300" />
                             </div>
                         </div>
                         <input type="hidden" name="preferred_time" id="preferred_time" value="{{ old('preferred_time') }}">
