@@ -8,6 +8,7 @@ use App\Models\JobRequest;
 use App\Models\RequestPhoto;
 use App\Jobs\ProcessRequestPhotoJob;
 use App\Models\ServiceCategory;
+use App\Services\SmsNotifier;
 use App\Services\TelegramNotifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -167,6 +168,7 @@ class CustomerJobController extends Controller
 
         $quote->approve();
         $jobRequest->updateStatus(JobStatus::Approved, 'Quote approved by customer', auth()->id());
+        app(TelegramNotifier::class)->sendQuoteApproved($jobRequest->fresh(['customer', 'latestQuote', 'category', 'service']));
 
         return back()->with('success', 'Quote approved! We\'ll assign a provider shortly.');
     }

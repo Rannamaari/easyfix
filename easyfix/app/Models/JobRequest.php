@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\JobStatusChanged;
 use App\Models\RequestPhoto;
+use App\Services\SmsNotifier;
 
 class JobRequest extends Model
 {
@@ -209,6 +210,7 @@ class JobRequest extends Model
         }
 
         $this->sendStatusChangeEmail($status, $note);
+        app(SmsNotifier::class)->sendStatusUpdate($this->fresh(['customer']), $status, $note);
     }
 
     private function sendStatusChangeEmail(JobStatus $status, ?string $note): void

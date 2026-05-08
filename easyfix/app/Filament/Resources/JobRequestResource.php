@@ -6,6 +6,7 @@ use App\Enums\JobStatus;
 use App\Filament\Resources\JobRequestResource\Pages;
 use App\Models\JobRequest;
 use App\Models\User;
+use App\Services\SmsNotifier;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -341,6 +342,7 @@ class JobRequestResource extends Resource
                                     'user_id' => auth()->id(),
                                 ]);
                             }
+                            app(SmsNotifier::class)->sendQuoteReady($record->fresh(['customer', 'service', 'category']), $quote->fresh());
                             Notification::make()->title('Quote sent successfully')->success()->send();
                         }),
                     Tables\Actions\Action::make('viewQuote')

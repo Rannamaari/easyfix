@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\JobRequest;
-use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -59,6 +58,50 @@ class TelegramNotifier
             ]);
         } catch (\Throwable $exception) {
             Log::warning('Telegram job request notification failed: ' . $exception->getMessage(), [
+                'job_request_id' => $jobRequest->id,
+            ]);
+        }
+    }
+
+    public function sendQuoteApproved(JobRequest $jobRequest): void
+    {
+        $token = config('services.telegram.bot_token');
+        $chatId = config('services.telegram.chat_id');
+
+        if (! $token || ! $chatId) {
+            return;
+        }
+
+        $fingerprint = 'telegram:quote-approved:' . $jobRequest->id . ':' . optional($jobRequest->latestQuote)->id;
+
+        if (! Cache::add($fingerprint, true, now()->addMinutes(10))) {
+            return;
+        }
+
+        $jobRequest->loadMissing(['customer', 'category', 'service', 'latestQuote']);
+
+        $quote = $jobRequest->latestQuote;
+        $customer = $jobRequest->customer;
+        $amount = number_format((float) ($quote?->total ?? $quote?->amount ?? 0), 2);
+        $includesTax = $quote?->tax_enabled ? ' (incl. GST)' : '';
+
+        $message = "✅ *Quote Approved*\n\n"
+            . "🆔 *Job ID:* #{$jobRequest->id}\n"
+            . "👤 *Customer:* " . ($customer?->name ?: 'Unknown') . "\n"
+            . "📱 *Phone:* " . ($customer?->phone ? '+960 ' . $customer->phone : 'Not provided') . "\n"
+            . "🧰 *Category:* " . ($jobRequest->category?->name ?: 'Uncategorized') . "\n"
+            . "🔧 *Service:* " . ($jobRequest->service?->name ?: 'General service request') . "\n"
+            . "💰 *Approved Amount:* MVR {$amount}{$includesTax}\n"
+            . "📍 *Address:* " . ($jobRequest->address ?: 'Not provided');
+
+        try {
+            Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+                'chat_id' => $chatId,
+                'text' => $message,
+                'parse_mode' => 'Markdown',
+            ]);
+        } catch (\Throwable $exception) {
+            Log::warning('Telegram quote approved notification failed: ' . $exception->getMessage(), [
                 'job_request_id' => $jobRequest->id,
             ]);
         }

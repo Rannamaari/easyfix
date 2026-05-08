@@ -100,6 +100,13 @@
                             </div>
                         </div>
                     </div>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                                class="inline-flex items-center justify-center rounded-lg border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 dark:border-red-900/40 dark:text-red-300 dark:hover:bg-red-500/10 dark:focus-visible:ring-offset-slate-950">
+                            Log Out
+                        </button>
+                    </form>
                 @endguest
                 <a href="{{ $ctaHref }}"
                    class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950">
@@ -178,6 +185,13 @@
                         <x-heroicon-o-clipboard-document-list class="w-5 h-5 opacity-70" />
                         My Jobs
                     </a>
+                    <form method="POST" action="{{ route('logout') }}" class="pt-1">
+                        @csrf
+                        <button type="submit" class="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10">
+                            <x-heroicon-o-arrow-right-on-rectangle class="w-5 h-5 opacity-70" />
+                            Log Out
+                        </button>
+                    </form>
                 @else
                     <a href="{{ route('login') }}" data-nav-link class="flex items-center gap-3 rounded-xl px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-800/50">
                         <x-heroicon-o-arrow-right-on-rectangle class="w-5 h-5 opacity-70" />
