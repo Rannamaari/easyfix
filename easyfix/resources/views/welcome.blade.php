@@ -273,11 +273,11 @@
                             <x-heroicon-o-wrench-screwdriver class="w-5 h-5" />
                             Request a Service
                         </a>
-                        <a href="{{ route('jobs.index') }}" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-slate-200/90 bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-slate-950/10 transition-all hover:border-white hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 dark:border-slate-500/70 dark:bg-slate-900/96 dark:text-white dark:shadow-black/30 dark:hover:border-slate-300 dark:hover:bg-slate-800 sm:text-base">
+                        <a href="{{ route('jobs.index') }}" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-slate-200/90 bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-slate-950/10 transition-all hover:border-white hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 dark:border-slate-300/80 dark:bg-white dark:text-slate-950 dark:shadow-black/30 dark:hover:border-white dark:hover:bg-slate-100 sm:text-base">
                             <x-heroicon-o-clipboard-document-list class="w-5 h-5" />
                             View My Jobs
                         </a>
-                        <a href="tel:+9609996210" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-emerald-300/70 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-950 shadow-lg shadow-emerald-950/10 transition-all hover:bg-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 dark:border-emerald-500/50 dark:bg-emerald-500/14 dark:text-emerald-100 dark:shadow-black/20 dark:hover:bg-emerald-500/22 sm:col-span-2 sm:text-base xl:col-auto">
+                        <a href="tel:+9609996210" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-emerald-300/70 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-950 shadow-lg shadow-emerald-950/10 transition-all hover:bg-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 dark:border-emerald-300/80 dark:bg-emerald-50 dark:text-emerald-950 dark:shadow-black/20 dark:hover:border-emerald-200 dark:hover:bg-emerald-100 sm:col-span-2 sm:text-base xl:col-auto">
                             <x-heroicon-o-phone class="w-5 h-5" />
                             Call: 999 6210
                         </a>
@@ -320,7 +320,7 @@
                             <x-heroicon-o-calendar-days class="w-5 h-5" />
                             Register
                         </a>
-                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-300/70 bg-emerald-50 px-6 py-3.5 font-semibold text-emerald-950 shadow-lg shadow-emerald-950/10 transition-all hover:bg-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 dark:border-emerald-500/50 dark:bg-emerald-500/14 dark:text-emerald-100 dark:shadow-black/20 dark:hover:bg-emerald-500/22">
+                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-300/70 bg-emerald-50 px-6 py-3.5 font-semibold text-emerald-950 shadow-lg shadow-emerald-950/10 transition-all hover:bg-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 dark:border-emerald-300/80 dark:bg-emerald-50 dark:text-emerald-950 dark:shadow-black/20 dark:hover:border-emerald-200 dark:hover:bg-emerald-100">
                             <x-heroicon-o-phone class="w-5 h-5" />
                             Call: 999 6210
                         </a>
@@ -418,7 +418,11 @@
                         How to Book a Handyman
                     </h2>
                     <p class="mt-3 text-gray-600 dark:text-slate-400">
-                        Multiple ways to book. Choose what works for you.
+                        @auth
+                            Choose the fastest way to manage your next request.
+                        @else
+                            Multiple ways to book. Choose what works for you.
+                        @endauth
                     </p>
                 </div>
 
@@ -428,14 +432,25 @@
                         <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                             <x-heroicon-o-device-phone-mobile class="w-7 h-7 text-white" />
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Register</h3>
-                        <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">
-                            Sign up for an account to book services, track jobs, and manage your requests easily.
-                        </p>
-                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm">
-                            <x-heroicon-o-user-plus class="w-4 h-4" />
-                            Sign Up Free
-                        </a>
+                        @auth
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Request a Service</h3>
+                            <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">
+                                Use your EasyFix account to send a new request with your saved details and preferred address.
+                            </p>
+                            <a href="{{ route('jobs.create') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm">
+                                <x-heroicon-o-wrench-screwdriver class="w-4 h-4" />
+                                Request a Service
+                            </a>
+                        @else
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Register</h3>
+                            <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">
+                                Sign up for an account to book services, track jobs, and manage your requests easily.
+                            </p>
+                            <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm">
+                                <x-heroicon-o-user-plus class="w-4 h-4" />
+                                Sign Up Free
+                            </a>
+                        @endauth
                     </div>
 
                     {{-- Option 2: Quick Register Now --}}
@@ -443,14 +458,25 @@
                         <div class="w-14 h-14 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                             <x-heroicon-o-bolt class="w-7 h-7 text-white" />
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Create an Account</h3>
-                        <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">
-                            Create your EasyFix account first so you can request services, track updates, and manage quotes in one place.
-                        </p>
-                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-purple-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-purple-700 transition-colors text-sm">
-                            <x-heroicon-o-calendar-days class="w-4 h-4" />
-                            Register Now
-                        </a>
+                        @auth
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">View My Jobs</h3>
+                            <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">
+                                Track updates, approve quotes, and keep an eye on all your active and completed requests.
+                            </p>
+                            <a href="{{ route('jobs.index') }}" class="inline-flex items-center justify-center gap-2 bg-purple-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-purple-700 transition-colors text-sm">
+                                <x-heroicon-o-clipboard-document-list class="w-4 h-4" />
+                                View My Jobs
+                            </a>
+                        @else
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Create an Account</h3>
+                            <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">
+                                Create your EasyFix account first so you can request services, track updates, and manage quotes in one place.
+                            </p>
+                            <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-purple-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-purple-700 transition-colors text-sm">
+                                <x-heroicon-o-calendar-days class="w-4 h-4" />
+                                Register Now
+                            </a>
+                        @endauth
                     </div>
 
                     {{-- Option 3: Call/WhatsApp --}}
