@@ -8,6 +8,7 @@ use App\Models\JobRequest;
 use App\Models\RequestPhoto;
 use App\Jobs\ProcessRequestPhotoJob;
 use App\Models\ServiceCategory;
+use App\Services\TelegramNotifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -43,7 +44,7 @@ class CustomerJobController extends Controller
         return view('jobs.create', compact('categories', 'addresses'));
     }
 
-    public function store(StoreJobRequest $request)
+    public function store(StoreJobRequest $request, TelegramNotifier $telegramNotifier)
     {
         $user = $request->user();
 
@@ -110,6 +111,7 @@ class CustomerJobController extends Controller
         ]);
 
         Mail::to($user->email)->send(new JobConfirmation($job));
+        $telegramNotifier->sendNewJobRequest($job);
 
         $message = 'Your job request has been submitted. We\'ll send you a quote soon.';
         if ($request->hasFile('photos')) {
