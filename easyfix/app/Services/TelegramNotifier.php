@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\JobRequest;
+use App\Models\JobUpdateRequest;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -107,6 +108,56 @@ class TelegramNotifier
         } catch (\Throwable $exception) {
             Log::warning('Telegram quote approved notification failed: ' . $exception->getMessage(), [
                 'job_request_id' => $jobRequest->id,
+            ]);
+        }
+    }
+
+    public function sendCustomerUpdateRequest(JobRequest $jobRequest, JobUpdateRequest $updateRequest): void
+    {
+        $token = config('services.telegram.bot_token');
+        $chatId = config('services.telegram.chat_id');
+
+        if (! $token || ! $chatId) {
+            return;
+        }
+
+        $fingerprint = 'telegram:customer-update-request:' . $jobRequest->id . ':' . $updateRequest->id;
+
+        if (! Cache::add($fingerprint, true, now()->addMinutes(10))) {
+            return;
+        }
+
+        $jobRequest->loadMissing(['customer', 'category', 'service']);
+
+        $customer = $jobRequest->customer;
+        $messageText = trim((string) $updateRequest->message);
+
+        if (mb_strlen($messageText) > 220) {
+            $messageText = mb_substr($messageText, 0, 217) . '...';
+        }
+
+        $message = "📣 *Customer Requested an Update*\n\n"
+            . "🆔 *Job ID:* #{$jobRequest->id}\n"
+            . "👤 *Customer:* " . ($customer?->name ?: 'Unknown') . "\n"
+            . "📱 *Phone:* " . ($customer?->phone ? '+960 ' . $customer->phone : 'Not provided') . "\n"
+            . "🧰 *Category:* " . ($jobRequest->category?->name ?: 'Uncategorized') . "\n"
+            . "🔧 *Service:* " . ($jobRequest->service?->name ?: 'General service request') . "\n"
+            . "📍 *Address:* " . ($jobRequest->address ?: 'Not provided');
+
+        if ($messageText !== '') {
+            $message .= "\n📝 *Message:* {$messageText}";
+        }
+
+        try {
+            Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+                'chat_id' => $chatId,
+                'text' => $message,
+                'parse_mode' => 'Markdown',
+            ]);
+        } catch (\Throwable $exception) {
+            Log::warning('Telegram update request notification failed: ' . $exception->getMessage(), [
+                'job_request_id' => $jobRequest->id,
+                'job_update_request_id' => $updateRequest->id,
             ]);
         }
     }

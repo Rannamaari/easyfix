@@ -269,15 +269,15 @@
                     </p>
 
                     <div class="mt-8 grid gap-3 sm:grid-cols-2 xl:flex xl:flex-wrap">
-                        <a href="{{ route('jobs.create') }}" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 sm:text-base">
+                        <a href="{{ route('jobs.create') }}" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-blue-400/70 bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-950/30 transition-all hover:bg-blue-500 hover:shadow-blue-950/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 sm:text-base">
                             <x-heroicon-o-wrench-screwdriver class="w-5 h-5" />
                             Request a Service
                         </a>
-                        <a href="{{ route('jobs.index') }}" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-white/15 bg-white/92 px-5 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-800/90 dark:text-white dark:hover:bg-slate-700/90 sm:text-base">
+                        <a href="{{ route('jobs.index') }}" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-slate-200/90 bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-slate-950/10 transition-all hover:border-white hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 dark:border-slate-500/70 dark:bg-slate-900/96 dark:text-white dark:shadow-black/30 dark:hover:border-slate-300 dark:hover:bg-slate-800 sm:text-base">
                             <x-heroicon-o-clipboard-document-list class="w-5 h-5" />
                             View My Jobs
                         </a>
-                        <a href="tel:+9609996210" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-white/15 bg-white/92 px-5 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-800/90 dark:text-white dark:hover:bg-slate-700/90 sm:col-span-2 sm:text-base xl:col-auto">
+                        <a href="tel:+9609996210" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-emerald-300/70 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-950 shadow-lg shadow-emerald-950/10 transition-all hover:bg-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 dark:border-emerald-500/50 dark:bg-emerald-500/14 dark:text-emerald-100 dark:shadow-black/20 dark:hover:bg-emerald-500/22 sm:col-span-2 sm:text-base xl:col-auto">
                             <x-heroicon-o-phone class="w-5 h-5" />
                             Call: 999 6210
                         </a>
@@ -316,15 +316,15 @@
                     </p>
 
                     <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-400/70 bg-blue-600 px-6 py-3.5 font-semibold text-white shadow-lg shadow-blue-950/30 transition-all hover:bg-blue-500 hover:shadow-blue-950/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
                             <x-heroicon-o-calendar-days class="w-5 h-5" />
                             Register
                         </a>
-                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/92 px-6 py-3.5 font-semibold text-gray-900 transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-800/90 dark:text-white dark:hover:bg-slate-700/90">
+                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-300/70 bg-emerald-50 px-6 py-3.5 font-semibold text-emerald-950 shadow-lg shadow-emerald-950/10 transition-all hover:bg-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 dark:border-emerald-500/50 dark:bg-emerald-500/14 dark:text-emerald-100 dark:shadow-black/20 dark:hover:bg-emerald-500/22">
                             <x-heroicon-o-phone class="w-5 h-5" />
                             Call: 999 6210
                         </a>
-                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/92 px-6 py-3.5 font-semibold text-blue-700 transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-800/90 dark:text-blue-200 dark:hover:bg-slate-700/90">
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200/90 bg-white px-6 py-3.5 font-semibold text-blue-700 shadow-lg shadow-slate-950/10 transition-all hover:border-white hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 dark:border-slate-500/70 dark:bg-slate-900/96 dark:text-blue-200 dark:shadow-black/30 dark:hover:border-slate-300 dark:hover:bg-slate-800">
                             <x-heroicon-o-user-plus class="w-5 h-5" />
                             Sign Up Free
                         </a>

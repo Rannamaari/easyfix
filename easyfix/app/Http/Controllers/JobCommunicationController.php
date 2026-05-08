@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JobRequest;
 use App\Models\JobUpdateRequest;
+use App\Services\TelegramNotifier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -50,7 +51,7 @@ class JobCommunicationController extends Controller
         return back()->with('success', 'Message updated.');
     }
 
-    public function requestUpdate(Request $request, JobRequest $jobRequest): RedirectResponse
+    public function requestUpdate(Request $request, JobRequest $jobRequest, TelegramNotifier $telegramNotifier): RedirectResponse
     {
         $this->authorizeAccess($request, $jobRequest, customerOnly: true);
 
@@ -63,12 +64,14 @@ class JobCommunicationController extends Controller
             'message' => ['nullable', 'string', 'max:2000'],
         ]);
 
-        $jobRequest->updateRequests()->create([
+        $updateRequest = $jobRequest->updateRequests()->create([
             'requested_by_user_id' => $request->user()->id,
             'requested_by_role' => $request->user()->role ?? 'customer',
             'message' => $data['message'] ?? null,
             'status' => 'open',
         ]);
+
+        $telegramNotifier->sendCustomerUpdateRequest($jobRequest, $updateRequest);
 
         return back()->with('success', 'Update request sent.');
     }
