@@ -38,7 +38,7 @@ class SmsNotifier
         $includesTax = $quote->tax_enabled ? ' incl. GST' : '';
         $url = $this->dashboardUrl($jobRequest);
 
-        $message = "EasyFix: Quote ready for Job #{$jobRequest->id}. Total MVR {$amount}{$includesTax}. Review it on your dashboard: {$url}";
+        $message = "EasyFix: Your quote is ready. Total MVR {$amount}{$includesTax}. Review it on your dashboard: {$url}. For anything urgent, call 9996210.";
 
         $this->send([$destination], $message, [
             'job_request_id' => $jobRequest->id,
@@ -72,7 +72,7 @@ class SmsNotifier
         }
 
         $url = $this->dashboardUrl($jobRequest);
-        $message = "EasyFix: Job #{$jobRequest->id} status is now {$status->label()}.";
+        $message = "EasyFix: Your request status is now {$status->label()}.";
 
         if ($note) {
             $trimmedNote = trim((string) preg_replace('/\s+/', ' ', $note));
@@ -82,7 +82,7 @@ class SmsNotifier
             }
         }
 
-        $message .= " View update: {$url}";
+        $message .= " View update: {$url}. For anything urgent, call 9996210.";
 
         $this->send([$destination], $message, [
             'job_request_id' => $jobRequest->id,
@@ -112,7 +112,7 @@ class SmsNotifier
         }
 
         $url = $this->dashboardUrl($jobRequest);
-        $message = "EasyFix: Your request for Job #{$jobRequest->id} has been submitted. Our team will call you soon. We may send a quote directly or arrange a site visit first. Check your dashboard: {$url}";
+        $message = "EasyFix: Your request has been submitted. Our team will call you soon. We may send a quote directly or arrange a site visit first. Check your dashboard: {$url}. For anything urgent, call 9996210.";
 
         $this->send([$destination], $message, [
             'job_request_id' => $jobRequest->id,
