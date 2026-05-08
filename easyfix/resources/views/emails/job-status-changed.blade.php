@@ -14,6 +14,11 @@
                 <p style="margin: 0 0 4px; color: #6b7280; font-size: 13px;">Current Status</p>
                 @php
                     $badgeColor = match($status) {
+                        App\Enums\JobStatus::UnderReview => ['bg' => '#fef3c7', 'text' => '#92400e'],
+                        App\Enums\JobStatus::VisitChargeRequired => ['bg' => '#fee2e2', 'text' => '#991b1b'],
+                        App\Enums\JobStatus::VisitChargePaid => ['bg' => '#dcfce7', 'text' => '#166534'],
+                        App\Enums\JobStatus::InspectionScheduled => ['bg' => '#cffafe', 'text' => '#155e75'],
+                        App\Enums\JobStatus::DiagnosisInProgress => ['bg' => '#ffedd5', 'text' => '#9a3412'],
                         App\Enums\JobStatus::Quoted => ['bg' => '#dbeafe', 'text' => '#1e40af'],
                         App\Enums\JobStatus::Approved => ['bg' => '#dcfce7', 'text' => '#166534'],
                         App\Enums\JobStatus::Assigned => ['bg' => '#fef3c7', 'text' => '#92400e'],
@@ -33,6 +38,31 @@
 
     {{-- Contextual message per status --}}
     @switch($status)
+        @case(App\Enums\JobStatus::UnderReview)
+            <p style="margin: 0 0 24px; color: #374151; font-size: 15px; line-height: 1.6;">
+                Our team is reviewing your request and may call you for a few more details before we move ahead.
+            </p>
+            @break
+        @case(App\Enums\JobStatus::VisitChargeRequired)
+            <p style="margin: 0 0 24px; color: #374151; font-size: 15px; line-height: 1.6;">
+                A site visit or diagnosis is required before we can finalize your quotation. Please check your dashboard for the visit charge details.
+            </p>
+            @break
+        @case(App\Enums\JobStatus::VisitChargePaid)
+            <p style="margin: 0 0 24px; color: #374151; font-size: 15px; line-height: 1.6;">
+                We’ve received the visit charge and will arrange the diagnosis or site visit next.
+            </p>
+            @break
+        @case(App\Enums\JobStatus::InspectionScheduled)
+            <p style="margin: 0 0 24px; color: #374151; font-size: 15px; line-height: 1.6;">
+                Your inspection or diagnosis visit has been scheduled. We’ll share any next steps after the visit.
+            </p>
+            @break
+        @case(App\Enums\JobStatus::DiagnosisInProgress)
+            <p style="margin: 0 0 24px; color: #374151; font-size: 15px; line-height: 1.6;">
+                Your site visit or diagnosis is currently in progress. We’ll update you as soon as the assessment is complete.
+            </p>
+            @break
         @case(App\Enums\JobStatus::Quoted)
             <p style="margin: 0 0 24px; color: #374151; font-size: 15px; line-height: 1.6;">
                 We've prepared a quote for your job. Please review it and let us know if you'd like to proceed.

@@ -33,6 +33,11 @@
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mt-1
                         @switch($job->status->value)
                             @case('requested') bg-gray-100 text-gray-800 dark:bg-slate-800 dark:text-slate-200 @break
+                            @case('under_review') bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-200 @break
+                            @case('visit_charge_required') bg-red-100 text-red-800 dark:bg-red-500/20 dark:text-red-200 @break
+                            @case('visit_charge_paid') bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-200 @break
+                            @case('inspection_scheduled') bg-cyan-100 text-cyan-800 dark:bg-cyan-500/20 dark:text-cyan-200 @break
+                            @case('diagnosis_in_progress') bg-orange-100 text-orange-800 dark:bg-orange-500/20 dark:text-orange-200 @break
                             @case('quoted') bg-blue-100 text-blue-800 dark:bg-blue-500/20 dark:text-blue-200 @break
                             @case('approved') bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-200 @break
                             @case('assigned') bg-yellow-100 text-yellow-800 dark:bg-yellow-500/20 dark:text-yellow-200 @break

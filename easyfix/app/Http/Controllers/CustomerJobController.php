@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\JobStatus;
 use App\Http\Requests\StoreJobRequest;
+use App\Models\BookingSetting;
 use App\Models\JobRequest;
 use App\Models\RequestPhoto;
 use App\Jobs\ProcessRequestPhotoJob;
@@ -31,6 +32,7 @@ class CustomerJobController extends Controller
 
     public function create()
     {
+        $bookingSettings = BookingSetting::current();
         $categories = ServiceCategory::with('services')
             ->active()
             ->ordered()
@@ -42,12 +44,14 @@ class CustomerJobController extends Controller
             ->latest()
             ->get();
 
-        return view('jobs.create', compact('categories', 'addresses'));
+        return view('jobs.create', compact('categories', 'addresses', 'bookingSettings'));
     }
 
     public function store(StoreJobRequest $request, TelegramNotifier $telegramNotifier)
     {
         $user = $request->user();
+        $bookingSettings = BookingSetting::current();
+        $isUrgent = $request->boolean('urgent_service');
 
         if ($request->address_mode === 'saved') {
             $selectedAddress = $user->addresses()->whereKey($request->address_id)->firstOrFail();
@@ -76,6 +80,12 @@ class CustomerJobController extends Controller
             'customer_id' => $user->id,
             'service_category_id' => $request->service_category_id,
             'service_id' => $request->service_id,
+            'requires_site_visit' => false,
+            'visit_charge_amount' => null,
+            'urgent_requested' => $isUrgent,
+            'urgent_surcharge_amount' => $isUrgent ? $bookingSettings->urgent_surcharge_amount : 0,
+            'customer_last_seen_at' => now(),
+            'latest_customer_update_at' => now(),
             'description' => $description,
             'address' => $selectedAddress->address,
             'preferred_time' => $preferredTime,
@@ -111,10 +121,13 @@ class CustomerJobController extends Controller
             'user_id' => $request->user()->id,
         ]);
 
-        Mail::to($user->email)->send(new JobConfirmation($job));
+        if ($user->email) {
+            Mail::to($user->email)->send(new JobConfirmation($job));
+        }
         $telegramNotifier->sendNewJobRequest($job);
+        app(SmsNotifier::class)->sendRequestReceived($job->fresh(['customer']));
 
-        $message = 'Your job request has been submitted. We\'ll send you a quote soon.';
+        $message = 'Your job request has been submitted. Our team will call you shortly to confirm the next step.';
         if ($request->hasFile('photos')) {
             $message .= ' Photos uploaded, processing...';
         }
@@ -150,6 +163,7 @@ class CustomerJobController extends Controller
             ['user_id' => auth()->id()],
             ['last_read_at' => now()]
         );
+        $jobRequest->markCustomerSeen();
 
         return view('jobs.show', ['job' => $jobRequest]);
     }

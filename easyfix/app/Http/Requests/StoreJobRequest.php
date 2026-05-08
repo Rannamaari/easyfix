@@ -26,6 +26,7 @@ class StoreJobRequest extends FormRequest
             'preferred_date' => ['nullable', 'date', 'after_or_equal:today'],
             'preferred_time_slot' => ['nullable', 'string', 'max:10'],
             'preferred_time' => ['nullable', 'date', 'after:now'],
+            'urgent_service' => ['nullable', 'boolean'],
             'photos' => ['nullable', 'array', 'max:5'],
             'photos.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'captions' => ['nullable', 'array', 'max:5'],
@@ -39,6 +40,7 @@ class StoreJobRequest extends FormRequest
             'description.min' => 'Please provide at least 10 characters describing your issue.',
             'photos.max' => 'You can upload a maximum of 5 photos.',
             'photos.*.max' => 'Each photo must be under 10MB.',
+            'urgent_service.boolean' => 'Please choose whether you need urgent support.',
         ];
     }
 }

@@ -193,7 +193,52 @@
                         @error('preferred_time')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
-                        <p class="mt-2 text-xs text-gray-500 dark:text-slate-400">Only future dates can be selected.</p>
+                        <p id="preferred-time-help" class="mt-2 text-xs text-gray-500 dark:text-slate-400">
+                            Only future dates can be selected.
+                        </p>
+                    </div>
+
+                    {{-- Urgent Support --}}
+                    <div class="rounded-2xl border border-orange-200 bg-orange-50/70 p-5 dark:border-orange-500/30 dark:bg-orange-500/10">
+                        <div class="flex items-start gap-4">
+                            <div class="mt-0.5 flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-200">
+                                <x-heroicon-o-bolt class="h-5 w-5" />
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                    <div>
+                                        <h3 class="text-base font-semibold text-gray-900 dark:text-white">Urgent Support</h3>
+                                        <p class="mt-1 text-sm text-gray-600 dark:text-slate-300">
+                                            Need faster assistance? Choose urgent support and our team will prioritize your request for the earliest available slot, usually within 1 hour.
+                                        </p>
+                                        <p class="mt-2 text-xs text-gray-500 dark:text-slate-400">
+                                            Urgent support fee:
+                                            <span class="font-semibold text-gray-900 dark:text-white">MVR {{ number_format((float) $bookingSettings->urgent_surcharge_amount, 2) }}</span>
+                                        </p>
+                                        <p class="mt-2 text-xs text-gray-500 dark:text-slate-400">
+                                            Site visit / diagnosis, if required:
+                                            <span class="font-semibold text-gray-700 dark:text-slate-200">MVR {{ number_format((float) $bookingSettings->visit_charge_amount, 2) }}</span>
+                                        </p>
+                                        <p class="mt-2 text-xs text-gray-500 dark:text-slate-400">
+                                            If EasyFix cannot attend urgently, we will waive off the urgent fee.
+                                        </p>
+                                    </div>
+                                    <label class="inline-flex items-center gap-3 rounded-xl border border-orange-200 bg-white px-4 py-3 text-sm font-medium text-gray-900 shadow-sm dark:border-orange-500/30 dark:bg-slate-900 dark:text-white">
+                                        <input type="checkbox" name="urgent_service" value="1" {{ old('urgent_service') ? 'checked' : '' }}
+                                            class="rounded border-gray-300 text-orange-600 focus:ring-orange-500 dark:border-slate-700 dark:bg-slate-950">
+                                        Request urgent support
+                                    </label>
+                                </div>
+                                @error('urgent_service')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                                <div id="urgent-request-notice" class="mt-3 hidden rounded-xl border border-orange-300 bg-white/80 px-4 py-3 text-sm text-orange-800 dark:border-orange-500/40 dark:bg-slate-900/80 dark:text-orange-200">
+                                    This request has been marked as urgent. A surcharge of
+                                    <span class="font-semibold">MVR {{ number_format((float) $bookingSettings->urgent_surcharge_amount, 2) }}</span>
+                                    will be added on top of the service charge. If EasyFix cannot attend urgently, we will waive off this urgent fee.
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     {{-- Photos --}}
@@ -353,14 +398,39 @@
         const preferredDate = document.getElementById('preferred_date');
         const preferredTimeSlot = document.getElementById('preferred_time_slot');
         const preferredTimeHidden = document.getElementById('preferred_time');
+        const preferredTimeHelp = document.getElementById('preferred-time-help');
+        const urgentCheckbox = document.querySelector('input[name="urgent_service"]');
+        const urgentNotice = document.getElementById('urgent-request-notice');
         const today = new Date();
         const yyyy = today.getFullYear();
         const mm = String(today.getMonth() + 1).padStart(2, '0');
         const dd = String(today.getDate()).padStart(2, '0');
         preferredDate.min = `${yyyy}-${mm}-${dd}`;
 
+        function syncUrgentState() {
+            const urgentSelected = urgentCheckbox.checked;
+
+            if (urgentSelected) {
+                urgentNotice.classList.remove('hidden');
+                preferredTimeSlot.value = '';
+                preferredTimeSlot.disabled = true;
+                preferredTimeHidden.value = '';
+                preferredTimeHelp.textContent = 'Preferred time is not required when urgent support is selected.';
+                preferredTimeHelp.classList.remove('text-gray-500', 'dark:text-slate-400');
+                preferredTimeHelp.classList.add('text-orange-700', 'dark:text-orange-200');
+            } else {
+                urgentNotice.classList.add('hidden');
+                preferredTimeSlot.disabled = false;
+                preferredTimeHelp.textContent = 'Only future dates can be selected.';
+                preferredTimeHelp.classList.remove('text-orange-700', 'dark:text-orange-200');
+                preferredTimeHelp.classList.add('text-gray-500', 'dark:text-slate-400');
+            }
+        }
+
         function updatePreferredTime() {
-            if (preferredDate.value && preferredTimeSlot.value) {
+            syncUrgentState();
+
+            if (!preferredTimeSlot.disabled && preferredDate.value && preferredTimeSlot.value) {
                 preferredTimeHidden.value = `${preferredDate.value}T${preferredTimeSlot.value}`;
             } else {
                 preferredTimeHidden.value = '';
@@ -369,6 +439,8 @@
 
         preferredDate.addEventListener('change', updatePreferredTime);
         preferredTimeSlot.addEventListener('change', updatePreferredTime);
+        urgentCheckbox.addEventListener('change', syncUrgentState);
+        syncUrgentState();
 
         // Photo upload with preview and captions
         const photoPicker = document.getElementById('photo-picker');

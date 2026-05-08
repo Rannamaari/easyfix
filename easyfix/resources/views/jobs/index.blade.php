@@ -47,9 +47,26 @@
                                                 ">
                                                     {{ $job->status->label() }}
                                                 </span>
+                                                @if($job->hasUnreadCustomerUpdate())
+                                                    <span class="inline-flex items-center rounded-full bg-red-500 px-2.5 py-0.5 text-xs font-semibold text-white">
+                                                        New update
+                                                    </span>
+                                                @endif
                                             </div>
                                             <p class="mt-1 text-sm text-gray-500 dark:text-slate-400 truncate">{{ Str::limit($job->description, 80) }}</p>
-                                            <p class="mt-1 text-xs text-gray-400 dark:text-slate-500">{{ $job->created_at->diffForHumans() }}</p>
+                                            <div class="mt-1 flex flex-wrap items-center gap-3 text-xs text-gray-400 dark:text-slate-500">
+                                                <span>{{ $job->created_at->diffForHumans() }}</span>
+                                                @if($job->urgent_requested)
+                                                    <span class="rounded-full bg-orange-100 px-2 py-0.5 font-medium text-orange-700 dark:bg-orange-500/20 dark:text-orange-200">
+                                                        Urgent +MVR {{ number_format((float) $job->urgent_surcharge_amount, 2) }}
+                                                    </span>
+                                                @endif
+                                                @if($job->requires_site_visit && $job->visit_charge_amount)
+                                                    <span class="rounded-full bg-amber-100 px-2 py-0.5 font-medium text-amber-700 dark:bg-amber-500/20 dark:text-amber-200">
+                                                        Visit charge MVR {{ number_format((float) $job->visit_charge_amount, 2) }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                         <div class="ml-4 text-right">
                                             @if($job->latestQuote)

@@ -34,6 +34,9 @@ class TelegramNotifier
         $preferredTime = $jobRequest->preferred_time?->timezone(config('app.timezone'))->format('M d, Y h:i A') ?: 'Not specified';
         $address = $jobRequest->address ?: 'Not provided';
         $description = trim((string) $jobRequest->description);
+        $priority = $jobRequest->urgent_requested
+            ? 'Urgent within 1 hour (+MVR ' . number_format((float) $jobRequest->urgent_surcharge_amount, 2) . ')'
+            : 'Standard';
 
         if (mb_strlen($description) > 220) {
             $description = mb_substr($description, 0, 217) . '...';
@@ -46,6 +49,7 @@ class TelegramNotifier
             . "📧 *Email:* {$email}\n"
             . "🧰 *Category:* {$category}\n"
             . "🔧 *Service:* {$service}\n"
+            . "⚡ *Priority:* {$priority}\n"
             . "📍 *Address:* {$address}\n"
             . "🕐 *Preferred Time:* {$preferredTime}\n"
             . "📝 *Issue:* " . ($description !== '' ? $description : 'No description provided');

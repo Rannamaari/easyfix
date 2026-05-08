@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Enums\JobStatus;
 use App\Filament\Resources\JobRequestResource\Pages;
+use App\Models\BookingSetting;
 use App\Models\JobRequest;
 use App\Models\User;
 use App\Services\SmsNotifier;
@@ -165,6 +166,30 @@ class JobRequestResource extends Resource
                             ->options(collect(JobStatus::cases())->mapWithKeys(fn ($status) => [$status->value => $status->label()]))
                             ->required()
                             ->default(JobStatus::Requested->value),
+                    ])->columns(2),
+
+                Forms\Components\Section::make('Workflow & Charges')
+                    ->schema([
+                        Forms\Components\Toggle::make('requires_site_visit')
+                            ->label('Site visit / diagnosis required')
+                            ->live(),
+                        Forms\Components\TextInput::make('visit_charge_amount')
+                            ->label('Visit Charge')
+                            ->numeric()
+                            ->prefix('MVR')
+                            ->step(0.01)
+                            ->minValue(0)
+                            ->visible(fn (Get $get) => (bool) $get('requires_site_visit'))
+                            ->helperText('Only charged when a visit or diagnosis is needed before the final quote.'),
+                        Forms\Components\Toggle::make('urgent_requested')
+                            ->label('Customer requested urgent support')
+                            ->disabled(),
+                        Forms\Components\TextInput::make('urgent_surcharge_amount')
+                            ->label('Urgent Surcharge')
+                            ->numeric()
+                            ->prefix('MVR')
+                            ->step(0.01)
+                            ->minValue(0),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Admin Notes')
@@ -336,6 +361,7 @@ class JobRequestResource extends Resource
                             if ($record->status !== JobStatus::Quoted && $record->status !== JobStatus::Completed) {
                                 $record->updateStatus(JobStatus::Quoted, $note, auth()->id());
                             } else {
+                                $record->markCustomerUpdate();
                                 $record->statusUpdates()->create([
                                     'status' => $record->status->value,
                                     'note' => $note,
@@ -376,34 +402,64 @@ class JobRequestResource extends Resource
                             Notification::make()->title('Provider assigned successfully')->success()->send();
                         }),
 
+                    Tables\Actions\Action::make('requestVisitCharge')
+                        ->label('Require Visit Charge')
+                        ->icon('heroicon-o-banknotes')
+                        ->color('danger')
+                        ->visible(fn ($record) => $record->status !== JobStatus::Completed && $record->status !== JobStatus::Cancelled)
+                        ->form([
+                            Forms\Components\TextInput::make('visit_charge_amount')
+                                ->label('Visit / Diagnosis Charge')
+                                ->numeric()
+                                ->required()
+                                ->prefix('MVR')
+                                ->step(0.01)
+                                ->default(fn () => BookingSetting::current()->visit_charge_amount),
+                            Forms\Components\Textarea::make('note')
+                                ->label('Customer Note')
+                                ->rows(2)
+                                ->default('A site visit is required before we can finalize your quotation.'),
+                        ])
+                        ->action(function ($record, array $data) {
+                            $amount = (float) ($data['visit_charge_amount'] ?? BookingSetting::current()->visit_charge_amount);
+                            $record->update([
+                                'requires_site_visit' => true,
+                                'visit_charge_amount' => $amount,
+                            ]);
+
+                            $note = trim(($data['note'] ?? '') . ' Visit charge: MVR ' . number_format($amount, 2));
+                            $record->updateStatus(JobStatus::VisitChargeRequired, $note, auth()->id());
+
+                            Notification::make()->title('Visit charge requested')->success()->send();
+                        }),
+
+                    Tables\Actions\Action::make('markVisitChargePaid')
+                        ->label('Mark Visit Charge Paid')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->visible(fn ($record) => $record->status === JobStatus::VisitChargeRequired)
+                        ->form([
+                            Forms\Components\Textarea::make('note')
+                                ->label('Internal / Customer Note')
+                                ->rows(2)
+                                ->default('Visit charge payment received.'),
+                        ])
+                        ->action(function ($record, array $data) {
+                            $record->updateStatus(JobStatus::VisitChargePaid, $data['note'] ?? 'Visit charge payment received.', auth()->id());
+                            Notification::make()->title('Visit charge marked as paid')->success()->send();
+                        }),
+
                     // Set Status Action
                     Tables\Actions\Action::make('setStatus')
                         ->label('Set Status')
                         ->icon('heroicon-o-arrow-path')
                         ->color('gray')
-                        ->requiresConfirmation()
                         ->modalHeading('Update Status')
-                        ->modalDescription('Status changes should follow the normal flow. Use override only when necessary, and provide a reason.')
+                        ->modalDescription('Choose the stage that best matches the real job flow. Add a short customer-facing note when helpful.')
                         ->form([
-                            Forms\Components\Toggle::make('override')
-                                ->label('Override transition rules')
-                                ->default(false)
-                                ->helperText('Use only if you need to skip steps.'),
                             Forms\Components\Select::make('status')
                                 ->label('New Status')
-                                ->options(function (Get $get, $record) {
-                                    $current = $record?->status;
-                                    $override = $get('override');
-
-                                    if (!$current || $override) {
-                                        return collect(JobStatus::cases())
-                                            ->mapWithKeys(fn ($status) => [$status->value => $status->label()]);
-                                    }
-
-                                    return collect(JobStatus::cases())
-                                        ->filter(fn ($status) => $current->canTransitionTo($status))
-                                        ->mapWithKeys(fn ($status) => [$status->value => $status->label()]);
-                                })
+                                ->options(collect(JobStatus::cases())->mapWithKeys(fn ($status) => [$status->value => $status->label()]))
                                 ->required(),
                             Forms\Components\Textarea::make('note')
                                 ->label('Reason / Note')
@@ -411,18 +467,6 @@ class JobRequestResource extends Resource
                                 ->required(),
                         ])
                         ->action(function ($record, array $data) {
-                            $override = (bool) ($data['override'] ?? false);
-                            $newStatus = JobStatus::from($data['status']);
-
-                            if (!$override && !$record->status->canTransitionTo($newStatus)) {
-                                Notification::make()
-                                    ->title('Invalid transition')
-                                    ->body('Please follow the normal status flow or enable override with a reason.')
-                                    ->danger()
-                                    ->send();
-                                return;
-                            }
-
                             $record->updateStatus(JobStatus::from($data['status']), $data['note'] ?? null, auth()->id());
                             Notification::make()->title('Status updated successfully')->success()->send();
                         }),

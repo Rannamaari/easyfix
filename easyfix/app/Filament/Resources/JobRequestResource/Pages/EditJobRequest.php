@@ -6,6 +6,8 @@ use App\Filament\Resources\JobRequestResource;
 use App\Models\JobRequest;
 use App\Models\RequestPhoto;
 use App\Jobs\ProcessRequestPhotoJob;
+use App\Services\SmsNotifier;
+use App\Enums\JobStatus;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -37,14 +39,25 @@ class EditJobRequest extends EditRecord
 
     protected function afterSave(): void
     {
+        $job = $this->getRecord();
+
+        if ($job->wasChanged('status')) {
+            $job->markCustomerUpdate();
+            $job->statusUpdates()->create([
+                'status' => $job->status->value,
+                'note' => 'Status updated from admin panel.',
+                'user_id' => auth()->id(),
+            ]);
+
+            app(SmsNotifier::class)->sendStatusUpdate($job->fresh(['customer']), JobStatus::from($job->status->value), 'Status updated from EasyFix.');
+        }
+
         $state = $this->form->getState();
         $files = $state['new_attachments'] ?? [];
 
         if (!$files) {
             return;
         }
-
-        $job = $this->getRecord();
         $userId = auth()->id();
 
         foreach ($files as $path) {

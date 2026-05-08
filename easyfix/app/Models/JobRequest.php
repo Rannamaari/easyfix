@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\JobStatusChanged;
@@ -29,6 +30,12 @@ class JobRequest extends Model
         'service_id',
         'provider_id',
         'status',
+        'requires_site_visit',
+        'visit_charge_amount',
+        'urgent_requested',
+        'urgent_surcharge_amount',
+        'customer_last_seen_at',
+        'latest_customer_update_at',
         'description',
         'address',
         'city',
@@ -42,6 +49,12 @@ class JobRequest extends Model
 
     protected $casts = [
         'status' => JobStatus::class,
+        'requires_site_visit' => 'boolean',
+        'urgent_requested' => 'boolean',
+        'visit_charge_amount' => 'decimal:2',
+        'urgent_surcharge_amount' => 'decimal:2',
+        'customer_last_seen_at' => 'datetime',
+        'latest_customer_update_at' => 'datetime',
         'latitude' => 'decimal:8',
         'longitude' => 'decimal:8',
         'preferred_time' => 'datetime',
@@ -197,7 +210,17 @@ class JobRequest extends Model
 
     public function updateStatus(JobStatus $status, ?string $note = null, ?int $userId = null): void
     {
-        $this->update(['status' => $status]);
+        $attributes = ['status' => $status];
+
+        if ($status !== JobStatus::Requested) {
+            $attributes['latest_customer_update_at'] = now();
+        }
+
+        if ($status === JobStatus::Completed) {
+            $attributes['completed_at'] = now();
+        }
+
+        $this->update($attributes);
 
         $this->statusUpdates()->create([
             'status' => $status->value,
@@ -205,12 +228,35 @@ class JobRequest extends Model
             'user_id' => $userId,
         ]);
 
-        if ($status === JobStatus::Completed) {
-            $this->update(['completed_at' => now()]);
-        }
-
         $this->sendStatusChangeEmail($status, $note);
         app(SmsNotifier::class)->sendStatusUpdate($this->fresh(['customer']), $status, $note);
+    }
+
+    public function markCustomerSeen(?Carbon $seenAt = null): void
+    {
+        $this->forceFill([
+            'customer_last_seen_at' => $seenAt ?? now(),
+        ])->save();
+    }
+
+    public function markCustomerUpdate(?Carbon $timestamp = null): void
+    {
+        $this->forceFill([
+            'latest_customer_update_at' => $timestamp ?? now(),
+        ])->save();
+    }
+
+    public function hasUnreadCustomerUpdate(): bool
+    {
+        if (! $this->customer_id || ! $this->latest_customer_update_at) {
+            return false;
+        }
+
+        if (! $this->customer_last_seen_at) {
+            return true;
+        }
+
+        return $this->latest_customer_update_at->gt($this->customer_last_seen_at);
     }
 
     private function sendStatusChangeEmail(JobStatus $status, ?string $note): void

@@ -36,9 +36,9 @@ class SmsNotifier
 
         $amount = number_format((float) ($quote->total ?? $quote->amount), 2);
         $includesTax = $quote->tax_enabled ? ' incl. GST' : '';
-        $url = $this->jobUrl($jobRequest);
+        $url = $this->dashboardUrl($jobRequest);
 
-        $message = "EasyFix: Quote ready for Job #{$jobRequest->id}. Total MVR {$amount}{$includesTax}. Check dashboard: {$url}";
+        $message = "EasyFix: Quote ready for Job #{$jobRequest->id}. Total MVR {$amount}{$includesTax}. Review it on your dashboard: {$url}";
 
         $this->send([$destination], $message, [
             'job_request_id' => $jobRequest->id,
@@ -71,7 +71,7 @@ class SmsNotifier
             return;
         }
 
-        $url = $this->jobUrl($jobRequest);
+        $url = $this->dashboardUrl($jobRequest);
         $message = "EasyFix: Job #{$jobRequest->id} status is now {$status->label()}.";
 
         if ($note) {
@@ -91,10 +91,39 @@ class SmsNotifier
         ]);
     }
 
-    protected function jobUrl(JobRequest $jobRequest): string
+    public function sendRequestReceived(JobRequest $jobRequest): void
+    {
+        $phone = $jobRequest->contact_phone;
+
+        if (! $phone) {
+            return;
+        }
+
+        $destination = $this->smsClient->normalizeDestination($phone);
+
+        if (! $destination) {
+            return;
+        }
+
+        $fingerprint = 'sms:request-received:' . $jobRequest->id;
+
+        if (! Cache::add($fingerprint, true, now()->addMinutes(10))) {
+            return;
+        }
+
+        $url = $this->dashboardUrl($jobRequest);
+        $message = "EasyFix: Your request for Job #{$jobRequest->id} has been submitted. Our team will call you soon. We may send a quote directly or arrange a site visit first. Check your dashboard: {$url}";
+
+        $this->send([$destination], $message, [
+            'job_request_id' => $jobRequest->id,
+            'type' => 'request_received',
+        ]);
+    }
+
+    protected function dashboardUrl(JobRequest $jobRequest): string
     {
         if ($jobRequest->customer_id) {
-            return route('jobs.show', $jobRequest, true);
+            return route('dashboard', absolute: true);
         }
 
         return $jobRequest->tracking_url ?? url('/');

@@ -5,6 +5,11 @@ namespace App\Enums;
 enum JobStatus: string
 {
     case Requested = 'requested';
+    case UnderReview = 'under_review';
+    case VisitChargeRequired = 'visit_charge_required';
+    case VisitChargePaid = 'visit_charge_paid';
+    case InspectionScheduled = 'inspection_scheduled';
+    case DiagnosisInProgress = 'diagnosis_in_progress';
     case Quoted = 'quoted';
     case Approved = 'approved';
     case Assigned = 'assigned';
@@ -17,6 +22,11 @@ enum JobStatus: string
     {
         return match ($this) {
             self::Requested => 'Requested',
+            self::UnderReview => 'Under Review',
+            self::VisitChargeRequired => 'Visit Charge Required',
+            self::VisitChargePaid => 'Visit Charge Paid',
+            self::InspectionScheduled => 'Inspection Scheduled',
+            self::DiagnosisInProgress => 'Diagnosis In Progress',
             self::Quoted => 'Quote Sent',
             self::Approved => 'Quote Approved',
             self::Assigned => 'Provider Assigned',
@@ -31,6 +41,11 @@ enum JobStatus: string
     {
         return match ($this) {
             self::Requested => 'gray',
+            self::UnderReview => 'warning',
+            self::VisitChargeRequired => 'danger',
+            self::VisitChargePaid => 'success',
+            self::InspectionScheduled => 'primary',
+            self::DiagnosisInProgress => 'warning',
             self::Quoted => 'info',
             self::Approved => 'success',
             self::Assigned => 'warning',
@@ -45,6 +60,11 @@ enum JobStatus: string
     {
         return match ($this) {
             self::Requested => 'heroicon-o-clock',
+            self::UnderReview => 'heroicon-o-phone',
+            self::VisitChargeRequired => 'heroicon-o-banknotes',
+            self::VisitChargePaid => 'heroicon-o-check-circle',
+            self::InspectionScheduled => 'heroicon-o-calendar-days',
+            self::DiagnosisInProgress => 'heroicon-o-magnifying-glass',
             self::Quoted => 'heroicon-o-document-text',
             self::Approved => 'heroicon-o-check-circle',
             self::Assigned => 'heroicon-o-user-plus',
@@ -59,6 +79,11 @@ enum JobStatus: string
     {
         return [
             self::Requested,
+            self::UnderReview,
+            self::VisitChargeRequired,
+            self::VisitChargePaid,
+            self::InspectionScheduled,
+            self::DiagnosisInProgress,
             self::Quoted,
             self::Approved,
             self::Cancelled,
@@ -81,17 +106,6 @@ enum JobStatus: string
 
     public function canTransitionTo(JobStatus $newStatus): bool
     {
-        $transitions = [
-            self::Requested->value => [self::Quoted, self::Cancelled],
-            self::Quoted->value => [self::Approved, self::Cancelled],
-            self::Approved->value => [self::Assigned, self::Cancelled],
-            self::Assigned->value => [self::EnRoute, self::Cancelled],
-            self::EnRoute->value => [self::InProgress, self::Cancelled],
-            self::InProgress->value => [self::Completed, self::Cancelled],
-            self::Completed->value => [],
-            self::Cancelled->value => [],
-        ];
-
-        return in_array($newStatus, $transitions[$this->value] ?? []);
+        return $this !== $newStatus;
     }
 }

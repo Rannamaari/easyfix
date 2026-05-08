@@ -1,4 +1,7 @@
 <x-app-layout>
+    @php
+        $jobUpdateCount = Auth::user()->isCustomer() ? Auth::user()->unreadJobUpdateCount() : 0;
+    @endphp
     <div class="min-h-screen flex flex-col bg-gray-50 dark:bg-slate-950">
         
 
@@ -30,6 +33,11 @@
                                     </a>
                                     <a href="{{ route('jobs.index') }}" class="inline-flex items-center gap-2 bg-white dark:bg-slate-900 text-gray-700 dark:text-slate-200 px-5 py-2.5 rounded-lg border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800">
                                         View My Jobs
+                                        @if($jobUpdateCount > 0)
+                                            <span class="inline-flex min-w-6 items-center justify-center rounded-full bg-red-500 px-2 py-0.5 text-xs font-semibold text-white">
+                                                {{ $jobUpdateCount }}
+                                            </span>
+                                        @endif
                                     </a>
                                 </div>
                             @endif

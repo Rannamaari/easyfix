@@ -80,6 +80,11 @@
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mt-1
                                 @switch($job->status->value)
                                     @case('requested') bg-gray-100 text-gray-800 dark:bg-slate-800 dark:text-slate-200 @break
+                                    @case('under_review') bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-200 @break
+                                    @case('visit_charge_required') bg-red-100 text-red-800 dark:bg-red-500/20 dark:text-red-200 @break
+                                    @case('visit_charge_paid') bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-200 @break
+                                    @case('inspection_scheduled') bg-cyan-100 text-cyan-800 dark:bg-cyan-500/20 dark:text-cyan-200 @break
+                                    @case('diagnosis_in_progress') bg-orange-100 text-orange-800 dark:bg-orange-500/20 dark:text-orange-200 @break
                                     @case('quoted') bg-blue-100 text-blue-800 dark:bg-blue-500/20 dark:text-blue-200 @break
                                     @case('approved') bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-200 @break
                                     @case('assigned') bg-yellow-100 text-yellow-800 dark:bg-yellow-500/20 dark:text-yellow-200 @break
@@ -99,6 +104,47 @@
                     </div>
                 </div>
             </div>
+
+            @if($job->urgent_requested || ($job->requires_site_visit && $job->visit_charge_amount))
+                <div class="grid gap-4 md:grid-cols-2">
+                    @if($job->urgent_requested)
+                        <div class="rounded-2xl border border-orange-200 bg-orange-50 p-5 dark:border-orange-500/30 dark:bg-orange-500/10">
+                            <div class="flex items-start gap-3">
+                                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-200">
+                                    <x-heroicon-o-bolt class="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Urgent Support Requested</h3>
+                                    <p class="mt-1 text-sm text-gray-600 dark:text-slate-300">
+                                        You asked for urgent support within 1 hour. Extra surcharge:
+                                        <span class="font-semibold text-gray-900 dark:text-white">MVR {{ number_format((float) $job->urgent_surcharge_amount, 2) }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($job->requires_site_visit && $job->visit_charge_amount)
+                        <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5 dark:border-amber-500/30 dark:bg-amber-500/10">
+                            <div class="flex items-start gap-3">
+                                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-200">
+                                    <x-heroicon-o-banknotes class="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Visit / Diagnosis Charge</h3>
+                                    <p class="mt-1 text-sm text-gray-600 dark:text-slate-300">
+                                        A site visit is needed before the final quote. Charge due:
+                                        <span class="font-semibold text-gray-900 dark:text-white">MVR {{ number_format((float) $job->visit_charge_amount, 2) }}</span>
+                                    </p>
+                                    @if($job->status === \App\Enums\JobStatus::VisitChargeRequired)
+                                        <p class="mt-2 text-xs font-medium text-amber-700 dark:text-amber-200">Please wait for the EasyFix team to confirm payment instructions before the visit is scheduled.</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            @endif
 
             {{-- Quote Section --}}
             @if($job->latestQuote)

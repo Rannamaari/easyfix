@@ -174,4 +174,19 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
         return (int) $base->count();
     }
+
+    public function unreadJobUpdateCount(): int
+    {
+        if (! $this->isCustomer()) {
+            return 0;
+        }
+
+        return $this->jobRequestsAsCustomer()
+            ->whereNotNull('latest_customer_update_at')
+            ->where(function ($query) {
+                $query->whereNull('customer_last_seen_at')
+                    ->orWhereColumn('latest_customer_update_at', '>', 'customer_last_seen_at');
+            })
+            ->count();
+    }
 }
