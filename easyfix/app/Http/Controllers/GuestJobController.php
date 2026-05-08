@@ -23,86 +23,14 @@ class GuestJobController extends Controller
 {
     public function create()
     {
-        $categories = ServiceCategory::with('services')
-            ->active()
-            ->ordered()
-            ->get();
-
-        return view('guest.create', compact('categories'));
+        return view('guest.create');
     }
 
     public function store(StoreGuestJobRequest $request)
     {
-        $preferredTime = null;
-        if ($request->filled('preferred_date') && $request->filled('preferred_time_slot')) {
-            $preferredTime = \Carbon\Carbon::parse($request->preferred_date . ' ' . $request->preferred_time_slot);
-        } elseif ($request->filled('preferred_time')) {
-            $preferredTime = \Carbon\Carbon::parse($request->preferred_time);
-        }
-
-        $description = $request->description;
-        if ($request->filled('specific_issue')) {
-            $description .= "\n\nSpecific issue: " . $request->specific_issue;
-        }
-
-        $job = JobRequest::create([
-            'guest_name' => $request->guest_name,
-            'guest_phone' => $request->guest_phone,
-            'guest_email' => $request->guest_email,
-            'guest_contact_preference' => $request->guest_contact_preference,
-            'service_category_id' => $request->service_category_id,
-            'service_id' => $request->service_id,
-            'description' => $description,
-            'address' => $request->address,
-            'city' => $request->city,
-            'preferred_time' => $preferredTime,
-            'status' => JobStatus::Requested,
-        ]);
-
-        if ($request->hasFile('photos')) {
-            $captions = $request->input('captions', []);
-            foreach ($request->file('photos') as $index => $file) {
-                $tempPath = $file->storeAs(
-                    'tmp/requests/' . $job->id,
-                    Str::uuid() . '-' . $file->getClientOriginalName(),
-                    'local'
-                );
-
-                $photo = RequestPhoto::create([
-                    'job_request_id' => $job->id,
-                    'original_name' => $file->getClientOriginalName(),
-                    'disk' => config('filesystems.disks.spaces.key') ? 'spaces' : 'public',
-                    'caption' => $captions[$index] ?? null,
-                    'status' => 'processing',
-                ]);
-
-                ProcessRequestPhotoJob::dispatch($photo->id, $tempPath, $file->getClientOriginalName());
-            }
-        }
-
-        // Log initial status
-        $job->statusUpdates()->create([
-            'status' => JobStatus::Requested->value,
-            'note' => 'Job request submitted by guest',
-        ]);
-
-        if ($job->guest_email) {
-            Mail::to($job->guest_email)->send(new JobConfirmation($job));
-        }
-
-        $params = [
-            'name' => $job->guest_name,
-            'email' => $job->guest_email,
-            'phone' => $job->guest_phone,
-            'token' => $job->guest_token,
-        ];
-
-        $redirect = redirect()->route('guest.register', $params);
-        if ($request->hasFile('photos')) {
-            $redirect->with('success', 'Photos uploaded, processing...');
-        }
-
-        return $redirect;
+        return redirect()
+            ->route('register')
+            ->with('status', 'Please register or log in before requesting a service.');
     }
 
     public function showRegister(Request $request)

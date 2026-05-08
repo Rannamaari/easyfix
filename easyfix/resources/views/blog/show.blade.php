@@ -162,7 +162,7 @@
         <p class="text-gray-600 dark:text-slate-400 mb-6">
             Easy Fix provides fast, reliable handyman services across Malé.
         </p>
-        <a href="{{ auth()->check() ? route('jobs.create') : route('guest.create') }}"
+        <a href="{{ auth()->check() ? route('jobs.create') : route('register') }}"
            class="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
             <x-heroicon-o-wrench-screwdriver class="w-5 h-5" />
             Request a Service

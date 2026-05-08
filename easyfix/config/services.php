@@ -40,4 +40,13 @@ return [
         ],
     ],
 
+    'dhiraagu_sms' => [
+        'base_url' => env('DHIRAAGU_SMS_BASE_URL', 'https://messaging.dhiraagu.com.mv/v1/api'),
+        'authorization_key' => env('DHIRAAGU_SMS_AUTH_KEY'),
+        'source' => env('DHIRAAGU_SMS_SOURCE', 'EasyFix'),
+        'dry_run' => (bool) env('DHIRAAGU_SMS_DRY_RUN', false),
+        'chunk_size' => (int) env('DHIRAAGU_SMS_CHUNK_SIZE', 200),
+        'timeout' => (int) env('DHIRAAGU_SMS_TIMEOUT', 20),
+    ],
+
 ];

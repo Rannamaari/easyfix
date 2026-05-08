@@ -25,6 +25,10 @@ Route::get('/terms', function () {
     return view('terms');
 })->name('terms');
 
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
+
 Route::prefix('professionals')->name('professionals.')->group(function () {
     Route::get('/apply', [ProfessionalApplicationController::class, 'create'])->name('create');
     Route::post('/apply', [ProfessionalApplicationController::class, 'store'])->name('store');

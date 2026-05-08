@@ -29,6 +29,14 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perHour(10)->by($request->ip());
         });
 
+        RateLimiter::for('auth-phone-start', function (Request $request) {
+            return Limit::perMinute(3)->by($request->ip());
+        });
+
+        RateLimiter::for('auth-phone-verify', function (Request $request) {
+            return Limit::perMinute(10)->by($request->ip());
+        });
+
         Event::listen(Registered::class, SendTelegramNewUserNotification::class);
     }
 }

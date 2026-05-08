@@ -54,6 +54,30 @@
             @endif
         </div>
 
+        <div>
+            <x-input-label for="phone_display" :value="__('Phone Number Used for Sign Up')" />
+            <div class="mt-1 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
+                <div class="flex items-center justify-between gap-3">
+                    <span class="font-medium">
+                        {{ $user->phone ? '+960 ' . $user->phone : 'No phone number added' }}
+                    </span>
+
+                    @if ($user->hasVerifiedPhone())
+                        <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700 dark:bg-green-900/40 dark:text-green-300">
+                            Verified
+                        </span>
+                    @else
+                        <span class="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
+                            Not verified
+                        </span>
+                    @endif
+                </div>
+            </div>
+            <p class="mt-2 text-xs text-gray-500 dark:text-slate-400">
+                This is the phone number currently linked to your EasyFix account.
+            </p>
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

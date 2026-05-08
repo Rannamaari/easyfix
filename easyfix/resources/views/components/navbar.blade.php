@@ -6,7 +6,7 @@
         ['label' => 'Blog', 'href' => route('blog.index'), 'active' => request()->is('blog*'), 'icon' => 'newspaper'],
     ];
 
-    $ctaHref = auth()->check() ? route('jobs.create') : route('guest.create');
+    $ctaHref = auth()->check() ? route('jobs.create') : route('register');
     $ctaLabel = 'Request a Service';
     $user = auth()->user();
     $needsAddress = auth()->check() && !$user->addresses()->exists();

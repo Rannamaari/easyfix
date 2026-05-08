@@ -22,8 +22,10 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
     protected $fillable = [
         'name',
+        'username',
         'email',
         'phone',
+        'phone_verified_at',
         'address_type',
         'address_line1',
         'address_line2',
@@ -40,12 +42,17 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
+            'phone_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
 
     public function sendEmailVerificationNotification(): void
     {
+        if (! $this->email) {
+            return;
+        }
+
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
             now()->addMinutes(60),
@@ -53,6 +60,30 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         );
 
         Mail::to($this->email)->send(new VerifyEmail($this, $verificationUrl));
+    }
+
+    public function hasVerifiedPhone(): bool
+    {
+        return ! is_null($this->phone_verified_at);
+    }
+
+    public function hasVerifiedEmail(): bool
+    {
+        return ! is_null($this->email_verified_at) || $this->hasVerifiedPhone();
+    }
+
+    public static function generateUniqueUsername(string $value): string
+    {
+        $base = strtolower(trim($value));
+        $base = preg_replace('/[^a-z0-9_]+/', '_', $base) ?? 'user';
+        $base = trim($base, '_') ?: 'user';
+        $candidate = substr($base, 0, 40);
+
+        while (static::query()->where('username', $candidate)->exists()) {
+            $candidate = substr($base, 0, 34) . random_int(100000, 999999);
+        }
+
+        return $candidate;
     }
 
     public function canAccessPanel(Panel $panel): bool

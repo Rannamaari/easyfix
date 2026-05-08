@@ -74,12 +74,12 @@
                         @auth
                             <a href="{{ route('jobs.create') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
                                 <x-heroicon-o-calendar-days class="w-5 h-5" />
-                                Book a Job
+                                Register
                             </a>
                         @else
-                            <a href="{{ route('guest.create') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                            <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
                                 <x-heroicon-o-calendar-days class="w-5 h-5" />
-                                Book a Job
+                                Register
                             </a>
                         @endauth
                     </div>
@@ -409,12 +409,12 @@
                     @auth
                         <a href="{{ route('jobs.create') }}" class="inline-flex items-center justify-center gap-2 bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-800 transition-colors border border-blue-500">
                             <x-heroicon-o-calendar-days class="w-5 h-5" />
-                            Book Online
+                            Register
                         </a>
                     @else
-                        <a href="{{ route('guest.create') }}" class="inline-flex items-center justify-center gap-2 bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-800 transition-colors border border-blue-500">
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-800 transition-colors border border-blue-500">
                             <x-heroicon-o-calendar-days class="w-5 h-5" />
-                            Book Online
+                            Register
                         </a>
                     @endauth
                 </div>

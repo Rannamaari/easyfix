@@ -16,6 +16,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
+        return view('auth.phone-entry', [
+            'mode' => 'login',
+        ]);
+    }
+
+    public function createPasswordLogin(): View
+    {
         return view('auth.login');
     }
 

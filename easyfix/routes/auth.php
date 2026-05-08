@@ -15,10 +15,32 @@ Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::post('auth/phone', [RegisteredUserController::class, 'store'])
+        ->middleware('throttle:auth-phone-start')
+        ->name('auth.phone.start');
+
+    Route::get('register/verify/{signupVerification}', [RegisteredUserController::class, 'showVerification'])
+        ->name('register.verify');
+
+    Route::post('register/verify/{signupVerification}', [RegisteredUserController::class, 'verifyOtp'])
+        ->middleware('throttle:auth-phone-verify')
+        ->name('register.verify.store');
+
+    Route::post('register/verify/{signupVerification}/resend', [RegisteredUserController::class, 'resendOtp'])
+        ->middleware('throttle:auth-phone-start')
+        ->name('register.verify.resend');
+
+    Route::get('register/complete/{signupVerification}', [RegisteredUserController::class, 'showComplete'])
+        ->name('register.complete');
+
+    Route::post('register/complete/{signupVerification}', [RegisteredUserController::class, 'complete'])
+        ->name('register.complete.store');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
+
+    Route::get('login/password', [AuthenticatedSessionController::class, 'createPasswordLogin'])
+        ->name('login.password');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 

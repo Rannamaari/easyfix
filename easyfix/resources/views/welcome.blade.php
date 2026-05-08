@@ -247,87 +247,112 @@
             $selectedHeroBanner = $heroBanners[array_rand($heroBanners)];
         @endphp
         <section id="hero" class="relative overflow-hidden bg-slate-950" aria-labelledby="hero-heading">
-            <div class="absolute inset-0">
+            <div class="absolute inset-0 hidden md:block">
                 <img
                     src="{{ $selectedHeroBanner['image'] }}"
                     alt="{{ $selectedHeroBanner['alt'] }}"
                     class="h-full w-full object-cover object-center"
                 >
-                <div class="absolute inset-0 bg-slate-950/55"></div>
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.22),transparent_38%),linear-gradient(to_bottom,rgba(15,23,42,0.2),rgba(15,23,42,0.78))]"></div>
+                <div class="absolute inset-0 bg-slate-950/42 dark:bg-slate-950/56"></div>
+                <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,23,0.78)_0%,rgba(2,6,23,0.56)_38%,rgba(2,6,23,0.16)_70%,rgba(2,6,23,0.44)_100%)] dark:bg-[linear-gradient(90deg,rgba(2,6,23,0.84)_0%,rgba(2,6,23,0.64)_38%,rgba(2,6,23,0.24)_70%,rgba(2,6,23,0.5)_100%)]"></div>
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.14),transparent_34%),linear-gradient(to_bottom,rgba(15,23,42,0.08),rgba(15,23,42,0.68))] dark:bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.12),transparent_34%),linear-gradient(to_bottom,rgba(15,23,42,0.16),rgba(15,23,42,0.76))]"></div>
             </div>
             {{-- Interactive glow blob --}}
-            <div id="hero-glow" class="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-0 transition-opacity duration-500 bg-[radial-gradient(circle,rgba(59,130,246,0.15)_0%,transparent_70%)] dark:bg-[radial-gradient(circle,rgba(59,130,246,0.1)_0%,transparent_70%)]" style="left:-100px;top:-100px"></div>
+            <div id="hero-glow" class="pointer-events-none absolute hidden md:block -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-0 transition-opacity duration-500 bg-[radial-gradient(circle,rgba(59,130,246,0.15)_0%,transparent_70%)] dark:bg-[radial-gradient(circle,rgba(59,130,246,0.1)_0%,transparent_70%)]" style="left:-100px;top:-100px"></div>
             <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
                 @auth
                 {{-- Personalized Hero for Logged-in Users --}}
-                <div class="max-w-3xl">
-                    <div class="inline-flex items-center gap-2 bg-emerald-500/15 backdrop-blur-sm border border-emerald-300/25 text-emerald-100 px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+                <div class="grid items-center gap-8 md:grid-cols-[minmax(0,1fr)_20rem] lg:grid-cols-[minmax(0,1fr)_24rem]">
+                    <div class="max-w-3xl rounded-[2rem] border border-white/10 bg-slate-950/34 px-6 py-8 shadow-2xl shadow-slate-950/30 backdrop-blur-md sm:px-8 sm:py-10 dark:bg-slate-950/46 dark:border-white/10">
+                    <div class="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-500/12 px-3 py-1.5 text-sm font-medium text-emerald-50 backdrop-blur-sm mb-6">
                         <x-heroicon-s-hand-raised class="w-4 h-4" />
                         <span>Welcome back</span>
                     </div>
 
-                    <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                    <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-white [text-shadow:0_10px_30px_rgba(2,6,23,0.55)]">
                         {{ $selectedHeroBanner['auth_heading'] }}
                     </h1>
 
-                    <p class="mt-6 text-lg sm:text-xl text-slate-100/90 max-w-xl">
+                    <p class="mt-6 max-w-xl text-lg text-slate-100 sm:text-xl">
                         Hi, {{ auth()->user()->name }}. {!! $selectedHeroBanner['auth_copy'] !!}
                     </p>
 
-                    <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                        <a href="{{ route('jobs.create') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                    <div class="mt-8 grid gap-3 sm:grid-cols-2 xl:flex xl:flex-wrap">
+                        <a href="{{ route('jobs.create') }}" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 sm:text-base">
                             <x-heroicon-o-wrench-screwdriver class="w-5 h-5" />
                             Request a Service
                         </a>
-                        <a href="{{ route('jobs.index') }}" class="inline-flex items-center justify-center gap-2 bg-white/90 text-gray-900 px-6 py-3.5 rounded-xl font-semibold border border-white/50 hover:bg-white transition-colors">
+                        <a href="{{ route('jobs.index') }}" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-white/15 bg-white/92 px-5 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-800/90 dark:text-white dark:hover:bg-slate-700/90 sm:text-base">
                             <x-heroicon-o-clipboard-document-list class="w-5 h-5" />
                             View My Jobs
                         </a>
-                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 bg-white/90 text-gray-900 px-6 py-3.5 rounded-xl font-semibold border border-white/50 hover:bg-white transition-colors">
+                        <a href="tel:+9609996210" class="inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-white/15 bg-white/92 px-5 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-800/90 dark:text-white dark:hover:bg-slate-700/90 sm:col-span-2 sm:text-base xl:col-auto">
                             <x-heroicon-o-phone class="w-5 h-5" />
                             Call: 999 6210
                         </a>
                     </div>
 
-                    <p class="mt-6 text-sm text-slate-200/80">
+                    <p class="mt-6 text-sm text-slate-200/95">
                         ✓ Same-day service &nbsp; ✓ No hidden charges &nbsp; ✓ Trained team
                     </p>
+                    </div>
+
+                    <div class="md:hidden">
+                        <div class="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 shadow-2xl shadow-slate-950/20">
+                            <img
+                                src="{{ $selectedHeroBanner['image'] }}"
+                                alt="{{ $selectedHeroBanner['alt'] }}"
+                                class="h-64 w-full object-contain object-center bg-slate-950/30"
+                            >
+                        </div>
+                    </div>
                 </div>
                 @else
                 {{-- Default Hero for Guests --}}
-                <div class="max-w-3xl">
-                    <div class="inline-flex items-center gap-2 bg-blue-500/15 backdrop-blur-sm border border-blue-300/25 text-blue-100 px-3 py-1.5 rounded-full text-sm font-medium mb-6">
+                <div class="grid items-center gap-8 md:grid-cols-[minmax(0,1fr)_20rem] lg:grid-cols-[minmax(0,1fr)_24rem]">
+                    <div class="max-w-3xl rounded-[2rem] border border-white/10 bg-slate-950/34 px-6 py-8 shadow-2xl shadow-slate-950/30 backdrop-blur-md sm:px-8 sm:py-10 dark:bg-slate-950/46 dark:border-white/10">
+                    <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-300/20 bg-blue-500/12 px-3 py-1.5 text-sm font-medium text-blue-50 backdrop-blur-sm">
                         <x-heroicon-s-map-pin class="w-4 h-4" />
                         <span>{{ $selectedHeroBanner['guest_badge'] }}</span>
                     </div>
 
-                    <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                    <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-white [text-shadow:0_10px_30px_rgba(2,6,23,0.55)]">
                         {{ $selectedHeroBanner['guest_heading'] }}
                     </h1>
 
-                    <p class="mt-6 text-lg sm:text-xl text-slate-100/90 max-w-xl">
+                    <p class="mt-6 max-w-xl text-lg text-slate-100 sm:text-xl">
                         {!! $selectedHeroBanner['guest_copy'] !!}
                     </p>
 
                     <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                        <a href="{{ route('guest.create') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
                             <x-heroicon-o-calendar-days class="w-5 h-5" />
-                            Book a Service
+                            Register
                         </a>
-                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 bg-white/90 text-gray-900 px-6 py-3.5 rounded-xl font-semibold border border-white/50 hover:bg-white transition-colors">
+                        <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/92 px-6 py-3.5 font-semibold text-gray-900 transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-800/90 dark:text-white dark:hover:bg-slate-700/90">
                             <x-heroicon-o-phone class="w-5 h-5" />
                             Call: 999 6210
                         </a>
-                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-white/90 text-blue-700 px-6 py-3.5 rounded-xl font-semibold border border-white/50 hover:bg-white transition-colors">
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/92 px-6 py-3.5 font-semibold text-blue-700 transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-800/90 dark:text-blue-200 dark:hover:bg-slate-700/90">
                             <x-heroicon-o-user-plus class="w-5 h-5" />
                             Sign Up Free
                         </a>
                     </div>
 
-                    <p class="mt-6 text-sm text-slate-200/80">
+                    <p class="mt-6 text-sm text-slate-200/95">
                         ✓ Same-day service &nbsp; ✓ No hidden charges &nbsp; ✓ Trained team
                     </p>
+                    </div>
+
+                    <div class="md:hidden">
+                        <div class="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 shadow-2xl shadow-slate-950/20">
+                            <img
+                                src="{{ $selectedHeroBanner['image'] }}"
+                                alt="{{ $selectedHeroBanner['alt'] }}"
+                                class="h-64 w-full object-contain object-center bg-slate-950/30"
+                            >
+                        </div>
+                    </div>
                 </div>
                 @endauth
             </div>
@@ -407,12 +432,12 @@
                 </div>
 
                 <div class="grid sm:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
-                    {{-- Option 1: Book Online --}}
+                    {{-- Option 1: Register --}}
                     <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-gray-200 dark:border-slate-700 text-center">
                         <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                             <x-heroicon-o-device-phone-mobile class="w-7 h-7 text-white" />
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Book Online</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Register</h3>
                         <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">
                             Sign up for an account to book services, track jobs, and manage your requests easily.
                         </p>
@@ -422,18 +447,18 @@
                         </a>
                     </div>
 
-                    {{-- Option 2: Quick Book as Guest --}}
+                    {{-- Option 2: Quick Register Now --}}
                     <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-gray-200 dark:border-slate-700 text-center">
                         <div class="w-14 h-14 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                             <x-heroicon-o-bolt class="w-7 h-7 text-white" />
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Quick Book (No Account)</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Create an Account</h3>
                         <p class="text-gray-600 dark:text-slate-400 text-sm mb-4">
-                            In a hurry? Book as a guest - no signup required. Just fill the form and we'll call you.
+                            Create your EasyFix account first so you can request services, track updates, and manage quotes in one place.
                         </p>
-                        <a href="{{ route('guest.create') }}" class="inline-flex items-center justify-center gap-2 bg-purple-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-purple-700 transition-colors text-sm">
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-purple-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-purple-700 transition-colors text-sm">
                             <x-heroicon-o-calendar-days class="w-4 h-4" />
-                            Book as Guest
+                            Register Now
                         </a>
                     </div>
 
@@ -668,12 +693,12 @@
                     @auth
                         <a href="{{ route('jobs.create') }}" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-300 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
                             <x-heroicon-o-calendar-days class="w-5 h-5" />
-                            Book Online
+                            Register
                         </a>
                     @else
-                        <a href="{{ route('guest.create') }}" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-300 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-300 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
                             <x-heroicon-o-calendar-days class="w-5 h-5" />
-                            Book Online
+                            Register
                         </a>
                     @endauth
                     <a href="tel:+9609996210" class="inline-flex items-center justify-center gap-2 bg-blue-700 dark:bg-blue-800 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-800 dark:hover:bg-blue-900 transition-colors border border-blue-500">
