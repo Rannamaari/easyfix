@@ -1,30 +1,18 @@
 <x-public-layout>
-    <x-slot name="title">{{ $post->meta_title ?: $post->title }} | {{ config('app.name', 'EasyFix') }}</x-slot>
+    <x-slot name="title">{{ $post->title }} | EasyFix Blog</x-slot>
     <x-slot name="wide">true</x-slot>
 
     <x-slot name="head">
-        <meta name="description" content="{{ $post->meta_description ?: $post->excerpt ?: Str::limit(strip_tags($post->content), 160) }}">
-
-        {{-- Open Graph --}}
-        <meta property="og:type" content="article">
-        <meta property="og:url" content="{{ route('blog.show', $post->slug) }}">
-        <meta property="og:title" content="{{ $post->meta_title ?: $post->title }}">
-        <meta property="og:description" content="{{ $post->meta_description ?: $post->excerpt ?: Str::limit(strip_tags($post->content), 160) }}">
-        @if($post->featured_image_url)
-            <meta property="og:image" content="{{ $post->featured_image_url }}">
-        @endif
-        <meta property="article:published_time" content="{{ $post->published_at->toIso8601String() }}">
-        <meta property="article:modified_time" content="{{ $post->updated_at->toIso8601String() }}">
-
-        {{-- Twitter Card --}}
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="{{ $post->meta_title ?: $post->title }}">
-        <meta name="twitter:description" content="{{ $post->meta_description ?: $post->excerpt ?: Str::limit(strip_tags($post->content), 160) }}">
-        @if($post->featured_image_url)
-            <meta name="twitter:image" content="{{ $post->featured_image_url }}">
-        @endif
-
-        <link rel="canonical" href="{{ route('blog.show', $post->slug) }}">
+        <x-seo-meta
+            :title="$post->title"
+            :description="$post->social_description"
+            :image="$post->social_image_url"
+            :url="$post->canonical_url"
+            type="article"
+            :published-time="$post->published_at?->toIso8601String()"
+            :modified-time="$post->updated_at?->toIso8601String()"
+            :author="$post->author_name"
+        />
 
         {{-- JSON-LD --}}
         <script type="application/ld+json">
@@ -32,21 +20,21 @@
             '@context' => 'https://schema.org',
             '@type' => 'BlogPosting',
             'headline' => $post->title,
-            'description' => $post->meta_description ?: $post->excerpt ?: Str::limit(strip_tags($post->content), 160),
-            'image' => $post->featured_image_url,
+            'description' => $post->social_description,
+            'image' => $post->social_image_url,
             'datePublished' => $post->published_at->toIso8601String(),
             'dateModified' => $post->updated_at->toIso8601String(),
             'author' => [
                 '@type' => 'Organization',
-                'name' => 'Easy Fix',
+                'name' => $post->author_name ?: 'EasyFix',
             ],
             'publisher' => [
                 '@type' => 'Organization',
-                'name' => 'Easy Fix',
+                'name' => 'EasyFix',
             ],
             'mainEntityOfPage' => [
                 '@type' => 'WebPage',
-                '@id' => route('blog.show', $post->slug),
+                '@id' => $post->canonical_url,
             ],
         ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
         </script>

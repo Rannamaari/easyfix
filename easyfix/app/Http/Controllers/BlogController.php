@@ -22,8 +22,9 @@ class BlogController extends Controller
 
         $posts = $query->paginate(4)->appends($request->query());
         $categories = BlogCategory::orderBy('name')->get();
+        $latestOgImage = $posts->first()?->social_image_url ?? BlogPost::defaultOgImageUrl();
 
-        return view('blog.index', compact('posts', 'categories'));
+        return view('blog.index', compact('posts', 'categories', 'latestOgImage'));
     }
 
     public function show(string $slug)

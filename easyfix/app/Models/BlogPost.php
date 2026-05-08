@@ -58,6 +58,41 @@ class BlogPost extends Model
             return null;
         }
 
-        return Storage::disk('public')->url($this->featured_image);
+        return static::absoluteUrl(Storage::disk('public')->url($this->featured_image));
+    }
+
+    public function getSocialDescriptionAttribute(): string
+    {
+        $excerpt = trim((string) $this->excerpt);
+
+        if ($excerpt !== '') {
+            return Str::limit($excerpt, 160);
+        }
+
+        return Str::limit(trim(strip_tags((string) $this->content)), 160);
+    }
+
+    public function getSocialImageUrlAttribute(): string
+    {
+        return $this->featured_image_url ?: static::defaultOgImageUrl();
+    }
+
+    public function getCanonicalUrlAttribute(): string
+    {
+        return route('blog.show', $this->slug, true);
+    }
+
+    public static function defaultOgImageUrl(): string
+    {
+        return url('/og-image.png');
+    }
+
+    protected static function absoluteUrl(string $path): string
+    {
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            return $path;
+        }
+
+        return url($path);
     }
 }

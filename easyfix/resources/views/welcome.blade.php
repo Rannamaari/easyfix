@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- SEO Optimized Title --}}
-    <title>Easy Fix | AC Repair, Plumbing, Electrical & Handyman Services in Greater Malé Area, Maldives</title>
+    <title>EasyFix.mv - Book Home &amp; Repair Services Online</title>
 
     {{-- SEO Meta Description --}}
-    <meta name="description" content="Need AC repair, plumbing or electrical services in Greater Malé Area? Easy Fix provides same-day AC repair, fridge repair, washing machine repair, plumbing, electrical & cleaning services across Malé City, Hulhumalé & Villingili. Call +960 999 6210.">
+    <meta name="description" content="Book AC repair, electrical, plumbing, appliance repair, door lock repair, and more in Greater Malé.">
 
     {{-- SEO Keywords --}}
     <meta name="keywords" content="AC repair Malé, plumbing Malé, electrical Malé, handyman Maldives, fridge repair Malé, washing machine repair Maldives, refrigerator repair Hulhumalé, appliance repair Malé, plumbing Hulhumalé, home repair Maldives">
@@ -19,23 +19,14 @@
     <meta name="geo.position" content="4.1755;73.5093">
     <meta name="ICBM" content="4.1755, 73.5093">
 
-    {{-- Open Graph / Facebook --}}
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://easyfix.mv/">
-    <meta property="og:title" content="Easy Fix | Handyman Services in Greater Malé Area">
-    <meta property="og:description" content="Same-day home repairs across Malé City, Hulhumalé & Villingili. AC repair, plumbing, electrical, appliance repair & more. Call +960 999 6210.">
-    <meta property="og:image" content="https://easyfix.mv/images/easyfix-og.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <x-seo-meta
+        title="EasyFix.mv - Book Home & Repair Services Online"
+        description="Book AC repair, electrical, plumbing, appliance repair, door lock repair, and more in Greater Malé."
+        :image="url('/og-image.png')"
+        :url="url('/')"
+        type="website"
+    />
     <meta property="og:locale" content="en_MV">
-
-    {{-- Twitter Card --}}
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Easy Fix | Handyman Services in Greater Malé Area">
-    <meta name="twitter:description" content="Same-day plumbing, electrical & AC repair across Malé City, Hulhumalé & Villingili. Call +960 999 6210.">
-
-    {{-- Canonical URL --}}
-    <link rel="canonical" href="https://easyfix.mv/">
 
     {{-- Favicons --}}
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">

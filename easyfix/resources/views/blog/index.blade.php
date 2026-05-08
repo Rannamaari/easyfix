@@ -1,14 +1,15 @@
 <x-public-layout>
-    <x-slot name="title">Blog | {{ config('app.name', 'EasyFix') }} - Home Repair Tips & Updates</x-slot>
+    <x-slot name="title">EasyFix Blog</x-slot>
     <x-slot name="wide">true</x-slot>
 
     <x-slot name="head">
-        <meta name="description" content="Tips, guides, and updates from Easy Fix - Malé's trusted handyman service. Learn about home maintenance, repairs, and more.">
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="{{ route('blog.index') }}">
-        <meta property="og:title" content="Blog | {{ config('app.name', 'EasyFix') }}">
-        <meta property="og:description" content="Tips, guides, and updates from Easy Fix - Malé's trusted handyman service.">
-        <link rel="canonical" href="{{ route('blog.index') }}">
+        <x-seo-meta
+            title="EasyFix Blog"
+            description="Useful repair, maintenance, and home service tips from EasyFix.mv"
+            :image="$latestOgImage"
+            :url="route('blog.index', absolute: true)"
+            type="website"
+        />
     </x-slot>
 
     {{-- Header --}}
