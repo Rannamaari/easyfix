@@ -124,41 +124,59 @@
     </script>
     @endverbatim
 
+    @php
+        $faqItems = [
+            [
+                'question' => 'Do you provide plumbing services in Hulhumalé?',
+                'answer' => 'Yes, we provide plumbing, electrical, AC repair, appliance repair, and handyman services in Hulhumalé Phase 1 and Phase 2, as well as Malé City and Villingili. A minimum MVR 350 site visit / service charge applies before arranging a technician visit. If the issue is small and can be fixed quickly without extra parts or major work, it may be completed within this charge.',
+            ],
+            [
+                'question' => 'What is the cost of AC repair in Malé?',
+                'answer' => 'AC repair costs depend on the issue. We can provide a basic estimate by phone or WhatsApp, but an accurate price may require a technician to inspect the AC. A minimum MVR 350 site visit / diagnosis charge applies. After inspection, we will provide a clear quotation before starting any additional repair work. Extra parts, gas refill, major repairs, or additional labour will be quoted separately.',
+            ],
+            [
+                'question' => 'Do you work on Fridays and weekends?',
+                'answer' => 'For the time being, we are closed on Fridays. On Saturdays, we are available from 2 PM to 10 PM. On other working days, we are available from 8 AM to 10 PM. For urgent requests, please contact us on WhatsApp. Urgent visits may be charged MVR 500, plus any additional repair, parts, or service charges if required.',
+            ],
+            [
+                'question' => 'Can I book a handyman for small jobs?',
+                'answer' => 'Yes. We handle small and quick fixes such as door handles, leaky taps, electrical switches, wall mounting, furniture assembly, and other handyman work. A minimum MVR 350 site visit / service charge applies. If the job is small and does not require extra parts or major work, we may complete it within this charge.',
+            ],
+            [
+                'question' => 'Is the MVR 350 a diagnosis fee or service charge?',
+                'answer' => 'The MVR 350 is our minimum site visit / service charge. It covers the technician’s visit and diagnosis. If the issue is small and can be fixed quickly without extra parts or major work, we may complete it within this charge.',
+            ],
+            [
+                'question' => 'Do I have to pay before the technician comes?',
+                'answer' => 'Yes. The minimum site visit / service charge must be paid before we arrange the technician visit. After payment, please share the payment slip via WhatsApp so we can confirm and schedule the visit.',
+            ],
+            [
+                'question' => 'Will I be charged more than MVR 350?',
+                'answer' => 'Only if the job requires extra parts, materials, additional labour, transport, or more time. We will explain the cost and get your approval before starting additional work.',
+            ],
+            [
+                'question' => 'What if spare parts or materials are needed?',
+                'answer' => 'Spare parts, materials, fittings, accessories, or replacement items are charged separately. We will inform you of the cost before proceeding.',
+            ],
+        ];
+        $featuredFaqItems = array_slice($faqItems, 0, 4);
+    @endphp
+
     {{-- FAQ Schema --}}
-    @verbatim
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "How fast can you come for repairs in Malé?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "We offer same-day service for most repairs in Malé City, Hulhumalé, and Villingili. For urgent issues like water leaks or AC problems, we try to arrive within 1-2 hours."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Do you provide plumbing services in Hulhumalé?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes, we provide plumbing, electrical, AC repair and all handyman services in Hulhumalé Phase 1 and Phase 2, as well as Malé City and Villingili."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What is the cost of AC repair in Malé?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "AC repair costs vary depending on the issue. We provide a clear quote before starting any work. There are no hidden charges. Call us at +960 999 6210 for a free estimate."
-                }
-            }
-        ]
-    }
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'FAQPage',
+        'mainEntity' => collect($featuredFaqItems)->map(fn ($item) => [
+            '@type' => 'Question',
+            'name' => $item['question'],
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => $item['answer'],
+            ],
+        ])->values()->all(),
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
     </script>
-    @endverbatim
 </head>
 <body class="antialiased bg-white text-gray-900 dark:bg-slate-950 dark:text-slate-100">
 
@@ -644,55 +662,28 @@
                         Frequently Asked Questions
                     </h2>
                     <p class="mt-3 text-gray-600 dark:text-slate-400">
-                        Common questions about our services.
+                        A few key answers before you book. Visit the full FAQ page for everything else.
                     </p>
                 </div>
 
                 <div class="space-y-4">
-                    <details class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4">
-                        <summary class="font-semibold text-gray-900 dark:text-white cursor-pointer">
-                            How fast can you come for repairs in Malé?
-                        </summary>
-                        <p class="mt-3 text-gray-600 dark:text-slate-400 text-sm">
-                            We offer same-day service for most repairs in Malé City, Hulhumalé, and Villingili. For urgent issues like water leaks or AC problems, we try to arrive within 1-2 hours depending on availability.
-                        </p>
-                    </details>
+                    @foreach($featuredFaqItems as $item)
+                        <details class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4">
+                            <summary class="font-semibold text-gray-900 dark:text-white cursor-pointer">
+                                {{ $item['question'] }}
+                            </summary>
+                            <p class="mt-3 text-gray-600 dark:text-slate-400 text-sm">
+                                {{ $item['answer'] }}
+                            </p>
+                        </details>
+                    @endforeach
+                </div>
 
-                    <details class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4">
-                        <summary class="font-semibold text-gray-900 dark:text-white cursor-pointer">
-                            Do you provide plumbing services in Hulhumalé?
-                        </summary>
-                        <p class="mt-3 text-gray-600 dark:text-slate-400 text-sm">
-                            Yes, we provide plumbing, electrical, AC repair and all handyman services in Hulhumalé Phase 1 and Phase 2, as well as Malé City and Villingili. Same-day service available.
-                        </p>
-                    </details>
-
-                    <details class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4">
-                        <summary class="font-semibold text-gray-900 dark:text-white cursor-pointer">
-                            What is the cost of AC repair in Malé?
-                        </summary>
-                        <p class="mt-3 text-gray-600 dark:text-slate-400 text-sm">
-                            AC repair costs vary depending on the issue. We provide a clear quote before starting any work, and there are no hidden charges. Call us at <a href="tel:+9609996210" class="text-blue-600 hover:underline">+960 999 6210</a> for a free estimate.
-                        </p>
-                    </details>
-
-                    <details class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4">
-                        <summary class="font-semibold text-gray-900 dark:text-white cursor-pointer">
-                            Do you work on Fridays and weekends?
-                        </summary>
-                        <p class="mt-3 text-gray-600 dark:text-slate-400 text-sm">
-                            Yes, we work 7 days a week. On Fridays and Saturdays, we are available from 2 PM to 10 PM. Other days we work from 8 AM to 10 PM. For emergencies, reach us on WhatsApp.
-                        </p>
-                    </details>
-
-                    <details class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-4">
-                        <summary class="font-semibold text-gray-900 dark:text-white cursor-pointer">
-                            Can I book a handyman for small jobs?
-                        </summary>
-                        <p class="mt-3 text-gray-600 dark:text-slate-400 text-sm">
-                            Yes! We specialize in small, quick fixes. Door handles, leaky taps, electrical switches, wall mounting, furniture assembly - no job is too small.
-                        </p>
-                    </details>
+                <div class="mt-8 text-center">
+                    <a href="{{ route('faq') }}" class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
+                        <x-heroicon-o-question-mark-circle class="w-5 h-5" />
+                        View all FAQs
+                    </a>
                 </div>
             </div>
         </section>
