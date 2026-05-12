@@ -209,7 +209,7 @@
                                     <div>
                                         <h3 class="text-base font-semibold text-gray-900 dark:text-white">Urgent Support</h3>
                                         <p class="mt-1 text-sm text-gray-600 dark:text-slate-300">
-                                            Need faster assistance? Choose urgent support and our team will prioritize your request for the earliest available slot, usually within 1 hour.
+                                            Need help faster? Choose urgent support for priority attendance.
                                         </p>
                                         <p class="mt-2 text-xs text-gray-500 dark:text-slate-400">
                                             Urgent support fee:
@@ -220,7 +220,7 @@
                                             <span class="font-semibold text-gray-700 dark:text-slate-200">MVR {{ number_format((float) $bookingSettings->visit_charge_amount, 2) }}</span>
                                         </p>
                                         <p class="mt-2 text-xs text-gray-500 dark:text-slate-400">
-                                            If EasyFix cannot attend urgently, we will waive off the urgent fee.
+                                            If we cannot attend urgently, the urgent fee will be waived.
                                         </p>
                                     </div>
                                     <label class="inline-flex items-center gap-3 rounded-xl border border-orange-200 bg-white px-4 py-3 text-sm font-medium text-gray-900 shadow-sm dark:border-orange-500/30 dark:bg-slate-900 dark:text-white">
@@ -237,6 +237,27 @@
                                     <span class="font-semibold">MVR {{ number_format((float) $bookingSettings->urgent_surcharge_amount, 2) }}</span>
                                     will be added on top of the service charge. If EasyFix cannot attend urgently, we will waive off this urgent fee.
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Pricing Notice --}}
+                    <div class="rounded-2xl border border-blue-200 bg-blue-50/80 p-5 dark:border-blue-500/30 dark:bg-blue-500/10">
+                        <div class="flex items-start gap-4">
+                            <div class="mt-0.5 flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-200">
+                                <x-heroicon-o-banknotes class="h-5 w-5" />
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-base font-semibold text-gray-900 dark:text-white">Before We Arrange a Visit</h3>
+                                <p class="mt-2 text-sm text-gray-700 dark:text-slate-300">
+                                    A minimum <span class="font-semibold text-gray-900 dark:text-white">MVR {{ number_format((float) $bookingSettings->visit_charge_amount, 2) }}</span>
+                                    site visit / service charge must be paid before we arrange a technician visit.
+                                </p>
+                                <ul class="mt-3 space-y-2 text-sm text-gray-600 dark:text-slate-400">
+                                    <li>Small issues may be completed within this charge.</li>
+                                    <li>Extra work or parts will be quoted before we proceed.</li>
+                                    <li>This charge is refundable if we cannot attend or cannot resolve the issue.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
