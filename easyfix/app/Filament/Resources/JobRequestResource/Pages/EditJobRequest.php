@@ -49,7 +49,9 @@ class EditJobRequest extends EditRecord
                 'user_id' => auth()->id(),
             ]);
 
-            app(SmsNotifier::class)->sendStatusUpdate($job->fresh(['customer']), JobStatus::from($job->status->value), 'Status updated from EasyFix.');
+            if ((bool) ($this->data['notify_customer_status_change'] ?? false)) {
+                app(SmsNotifier::class)->sendStatusUpdate($job->fresh(['customer']), JobStatus::from($job->status->value), 'Status updated from EasyFix.');
+            }
         }
 
         $state = $this->form->getState();

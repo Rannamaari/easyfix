@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>EasyFix Quote</title>
+        <title>{{ $quote->status === 'approved' ? 'EasyFix Invoice' : 'EasyFix Quotation' }}</title>
         <style>
             body {
                 font-family: DejaVu Sans, Arial, sans-serif;
@@ -10,17 +10,22 @@
                 font-size: 12px;
             }
             .header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
                 border-bottom: 1px solid #e2e8f0;
                 padding-bottom: 12px;
                 margin-bottom: 20px;
             }
+            .header table,
+            .company table {
+                width: 100%;
+            }
             .logo {
-                font-size: 18px;
+                font-size: 20px;
                 font-weight: 700;
                 color: #1d4ed8;
+            }
+            .company-name {
+                font-size: 14px;
+                font-weight: 700;
             }
             .badge {
                 display: inline-block;
@@ -60,21 +65,52 @@
             .right {
                 text-align: right;
             }
+            .company {
+                margin-bottom: 18px;
+            }
+            .company td {
+                vertical-align: top;
+                border: none;
+                padding: 0;
+            }
         </style>
     </head>
     <body>
         <div class="header">
-            <div>
-                <div class="logo">EasyFix</div>
-                <div class="muted">Quote Summary</div>
-            </div>
-            <div class="right">
-                <div class="badge">{{ ucfirst($quote->status) }}</div>
-                <div class="muted">Quote #{{ $quote->id }}</div>
-                @if($quote->invoice_number)
-                    <div class="muted">Invoice #{{ $quote->invoice_number }}</div>
-                @endif
-            </div>
+            <table>
+                <tr>
+                    <td>
+                        <div class="logo">EasyFix by Micronet</div>
+                        <div class="muted">{{ $quote->status === 'approved' ? 'Invoice' : 'Quotation' }}</div>
+                    </td>
+                    <td class="right">
+                        <div class="badge">{{ $quote->status === 'approved' ? 'Approved' : 'Quotation' }}</div>
+                        @if($quote->status === 'approved' && $quote->invoice_number)
+                            <div class="muted" style="margin-top: 6px;">Invoice #{{ $quote->invoice_number }}</div>
+                        @endif
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="company">
+            <table>
+                <tr>
+                    <td style="width: 60%;">
+                        <div class="company-name">Micronet</div>
+                        <div class="muted">M. Ithaamuiyge, 10th Floor, Alimasmagu</div>
+                        <div class="muted">EasyFix by Micronet</div>
+                        <div class="muted">hello@micronet.mv</div>
+                        <div class="muted">7779493</div>
+                    </td>
+                    <td class="right">
+                        <div class="muted">Issued: {{ $quote->created_at->format('M d, Y') }}</div>
+                        @if($quote->status === 'approved' && $quote->approved_at)
+                            <div class="muted">Approved: {{ $quote->approved_at->format('M d, Y') }}</div>
+                        @endif
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <div class="section">

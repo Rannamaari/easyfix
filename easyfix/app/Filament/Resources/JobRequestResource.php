@@ -197,6 +197,12 @@ class JobRequestResource extends Resource
                         Forms\Components\Textarea::make('admin_notes')
                             ->rows(2)
                             ->columnSpanFull(),
+                        Forms\Components\Toggle::make('notify_customer_status_change')
+                            ->label('Send SMS when status is changed from this edit page')
+                            ->default(false)
+                            ->dehydrated(false)
+                            ->helperText('This is usually kept off unless you specifically want the customer notified immediately.')
+                            ->columnSpanFull(),
                     ]),
 
                 Forms\Components\Section::make('Attachments')
@@ -333,6 +339,18 @@ class JobRequestResource extends Resource
                                 ->minItems(1)
                                 ->defaultItems(1)
                                 ->columns(2),
+                            Forms\Components\Toggle::make('include_urgent_surcharge')
+                                ->label('Add urgent surcharge')
+                                ->helperText(fn ($record) => $record->urgent_requested
+                                    ? 'Customer requested urgent service. Add MVR ' . number_format((float) ($record->urgent_surcharge_amount ?: BookingSetting::current()->urgent_surcharge_amount), 2) . ' if this quote should include it.'
+                                    : 'This request was not marked urgent.')
+                                ->default(false),
+                            Forms\Components\Toggle::make('include_visit_charge')
+                                ->label('Add visit / diagnosis charge')
+                                ->helperText(fn ($record) => $record->visit_charge_amount
+                                    ? 'Add the visit charge of MVR ' . number_format((float) $record->visit_charge_amount, 2) . ' to this quote if needed.'
+                                    : 'No visit charge is attached to this request yet.')
+                                ->default(false),
                             Forms\Components\Toggle::make('tax_enabled')
                                 ->label('Apply Tax (8%)')
                                 ->default(true),
@@ -341,7 +359,28 @@ class JobRequestResource extends Resource
                                 ->rows(2),
                         ])
                         ->action(function ($record, array $data) {
-                            $items = $data['items'] ?? [];
+                            $items = collect($data['items'] ?? [])
+                                ->reject(fn ($item) => in_array($item['description'] ?? '', [
+                                    'Urgent Support Surcharge',
+                                    'Site Visit / Diagnosis Charge',
+                                ], true))
+                                ->values()
+                                ->all();
+
+                            if (! empty($data['include_urgent_surcharge']) && $record->urgent_requested) {
+                                $items[] = [
+                                    'description' => 'Urgent Support Surcharge',
+                                    'amount' => (float) ($record->urgent_surcharge_amount ?: BookingSetting::current()->urgent_surcharge_amount),
+                                ];
+                            }
+
+                            if (! empty($data['include_visit_charge']) && $record->visit_charge_amount) {
+                                $items[] = [
+                                    'description' => 'Site Visit / Diagnosis Charge',
+                                    'amount' => (float) $record->visit_charge_amount,
+                                ];
+                            }
+
                             $taxEnabled = (bool) ($data['tax_enabled'] ?? false);
 
                             $quote = $record->quotes()->create([
@@ -472,9 +511,18 @@ class JobRequestResource extends Resource
                                 ->label('Reason / Note')
                                 ->rows(2)
                                 ->required(),
+                            Forms\Components\Toggle::make('notify_customer')
+                                ->label('Send SMS to customer')
+                                ->default(false)
+                                ->helperText('Usually keep this off unless the customer needs to be notified right away.'),
                         ])
                         ->action(function ($record, array $data) {
-                            $record->updateStatus(JobStatus::from($data['status']), $data['note'] ?? null, auth()->id());
+                            $record->updateStatus(
+                                JobStatus::from($data['status']),
+                                $data['note'] ?? null,
+                                auth()->id(),
+                                (bool) ($data['notify_customer'] ?? false)
+                            );
                             Notification::make()->title('Status updated successfully')->success()->send();
                         }),
                 ]),

@@ -208,7 +208,7 @@ class JobRequest extends Model
 
     // === Status ===
 
-    public function updateStatus(JobStatus $status, ?string $note = null, ?int $userId = null): void
+    public function updateStatus(JobStatus $status, ?string $note = null, ?int $userId = null, bool $sendSms = true): void
     {
         $attributes = ['status' => $status];
 
@@ -229,7 +229,10 @@ class JobRequest extends Model
         ]);
 
         $this->sendStatusChangeEmail($status, $note);
-        app(SmsNotifier::class)->sendStatusUpdate($this->fresh(['customer']), $status, $note);
+
+        if ($sendSms) {
+            app(SmsNotifier::class)->sendStatusUpdate($this->fresh(['customer']), $status, $note);
+        }
     }
 
     public function markCustomerSeen(?Carbon $seenAt = null): void

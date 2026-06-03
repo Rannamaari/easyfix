@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\SmsLog;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
@@ -36,7 +37,7 @@ class DhiraaguSmsClient
      * @param array<int,string> $destinations
      * @return array{ok:bool,responses:array<int,array<string,mixed>>,sent:int,failed:int}
      */
-    public function send(array $destinations, string $content, ?string $source = null): array
+    public function send(array $destinations, string $content, ?string $source = null, array $metadata = []): array
     {
         $destinations = array_values(array_unique(array_filter($destinations)));
 
@@ -62,13 +63,15 @@ class DhiraaguSmsClient
 
         foreach (array_chunk($destinations, $chunkSize) as $chunk) {
             if ($dryRun) {
-                $responses[] = [
+                $payload = [
                     'transactionId' => 'dry-run-' . bin2hex(random_bytes(6)),
                     'transactionStatus' => 'true',
                     'transactionDescription' => 'DRY RUN: message accepted.',
                     'referenceNumber' => '',
                     '_chunk_size' => count($chunk),
                 ];
+                $responses[] = $payload;
+                $this->logChunk($chunk, $content, $source, 'dry_run', $payload, null, $metadata);
                 $sent += count($chunk);
                 continue;
             }
@@ -84,13 +87,15 @@ class DhiraaguSmsClient
                         'authorizationKey' => $authKey,
                     ]);
             } catch (ConnectionException $exception) {
-                $responses[] = [
+                $payload = [
                     'transactionId' => null,
                     'transactionStatus' => 'false',
                     'transactionDescription' => 'Connection error: ' . $exception->getMessage(),
                     'referenceNumber' => '',
                     '_chunk_size' => count($chunk),
                 ];
+                $responses[] = $payload;
+                $this->logChunk($chunk, $content, $source, 'failed', $payload, $exception->getMessage(), $metadata);
                 $failed += count($chunk);
                 continue;
             }
@@ -110,6 +115,15 @@ class DhiraaguSmsClient
             $responses[] = $payload;
 
             $ok = (string) ($payload['transactionStatus'] ?? '') === 'true' && $response->successful();
+            $this->logChunk(
+                $chunk,
+                $content,
+                $source,
+                $ok ? 'sent' : 'failed',
+                $payload,
+                $ok ? null : (string) ($payload['transactionDescription'] ?? 'SMS delivery failed.'),
+                $metadata
+            );
 
             if ($ok) {
                 $sent += count($chunk);
@@ -124,5 +138,36 @@ class DhiraaguSmsClient
             'sent' => $sent,
             'failed' => $failed,
         ];
+    }
+
+    protected function logChunk(
+        array $destinations,
+        string $content,
+        ?string $source,
+        string $status,
+        array $payload,
+        ?string $errorMessage,
+        array $metadata = [],
+    ): void {
+        $base = [
+            'user_id' => $metadata['user_id'] ?? null,
+            'job_request_id' => $metadata['job_request_id'] ?? null,
+            'job_quote_id' => $metadata['job_quote_id'] ?? null,
+            'type' => $metadata['type'] ?? 'general',
+            'status' => $status,
+            'source' => $source,
+            'provider_transaction_id' => $payload['transactionId'] ?? null,
+            'content' => $content,
+            'error_message' => $errorMessage,
+            'provider_response' => $payload,
+            'meta' => $metadata,
+            'sent_at' => now(),
+        ];
+
+        foreach ($destinations as $destination) {
+            SmsLog::create($base + [
+                'destination' => $destination,
+            ]);
+        }
     }
 }

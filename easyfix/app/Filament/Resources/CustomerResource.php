@@ -154,6 +154,7 @@ class CustomerResource extends Resource
         return [
             RelationManagers\AddressesRelationManager::class,
             RelationManagers\JobRequestsRelationManager::class,
+            RelationManagers\SmsLogsRelationManager::class,
         ];
     }
 

@@ -10,6 +10,7 @@ use App\Jobs\ProcessRequestPhotoJob;
 use App\Models\User;
 use App\Mail\JobConfirmation;
 use App\Models\ServiceCategory;
+use App\Services\SmsNotifier;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,7 +84,8 @@ class GuestJobController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        Auth::login($user, remember: true);
+        $request->session()->regenerate();
 
         return redirect()->route('dashboard');
     }
@@ -117,6 +119,7 @@ class GuestJobController extends Controller
 
         $quote->approve();
         $job->updateStatus(JobStatus::Approved, 'Quote approved by guest');
+        app(SmsNotifier::class)->sendQuoteApprovedPaymentDetails($job->fresh(), $quote->fresh());
 
         return back()->with('success', 'Quote approved! We\'ll assign a provider shortly.');
     }

@@ -3,10 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\JobQuoteResource\Pages;
+use App\Models\BookingSetting;
 use App\Models\JobQuote;
 use App\Models\JobRequest;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -65,6 +67,60 @@ class JobQuoteResource extends Resource
                             ->defaultItems(1)
                             ->columns(2)
                             ->columnSpanFull(),
+                        Forms\Components\Section::make('Optional Charges')
+                            ->description('These help you include request-specific surcharges without typing them manually every time.')
+                            ->schema([
+                                Forms\Components\Placeholder::make('request_charge_context')
+                                    ->label('Request Context')
+                                    ->content(function (Get $get, ?JobQuote $record) {
+                                        $job = $record?->jobRequest ?: ($get('job_request_id') ? JobRequest::find($get('job_request_id')) : null);
+
+                                        if (! $job) {
+                                            return 'Select a job request to see urgent and visit-charge details.';
+                                        }
+
+                                        $parts = [];
+
+                                        if ($job->urgent_requested) {
+                                            $parts[] = 'Customer requested urgent support (+MVR ' . number_format((float) ($job->urgent_surcharge_amount ?: BookingSetting::current()->urgent_surcharge_amount), 2) . ')';
+                                        }
+
+                                        if ($job->visit_charge_amount) {
+                                            $parts[] = 'Visit / diagnosis charge available (MVR ' . number_format((float) $job->visit_charge_amount, 2) . ')';
+                                        }
+
+                                        return $parts !== [] ? implode(' | ', $parts) : 'No urgent or visit surcharge is attached to this request.';
+                                    })
+                                    ->columnSpanFull(),
+                                Forms\Components\Toggle::make('include_urgent_surcharge')
+                                    ->label('Add urgent surcharge to quote')
+                                    ->helperText('Turn this on only if you want the urgent service fee included in this quote.')
+                                    ->default(false)
+                                    ->live()
+                                    ->afterStateHydrated(function ($component, ?JobQuote $record) {
+                                        if (! $record) {
+                                            return;
+                                        }
+
+                                        $hasItem = $record->items->contains(fn ($item) => $item->description === 'Urgent Support Surcharge');
+                                        $component->state($hasItem);
+                                    }),
+                                Forms\Components\Toggle::make('include_visit_charge')
+                                    ->label('Add visit / diagnosis charge to quote')
+                                    ->helperText('Turn this on if the visit charge should appear inside the quote total.')
+                                    ->default(false)
+                                    ->live()
+                                    ->afterStateHydrated(function ($component, ?JobQuote $record) {
+                                        if (! $record) {
+                                            return;
+                                        }
+
+                                        $hasItem = $record->items->contains(fn ($item) => $item->description === 'Site Visit / Diagnosis Charge');
+                                        $component->state($hasItem);
+                                    }),
+                            ])
+                            ->columns(2)
+                            ->columnSpanFull(),
                         Forms\Components\Toggle::make('tax_enabled')
                             ->label('Apply Tax (8%)')
                             ->default(true),
@@ -77,6 +133,11 @@ class JobQuoteResource extends Resource
                             ->required(),
                         Forms\Components\Textarea::make('notes')
                             ->rows(3)
+                            ->columnSpanFull(),
+                        Forms\Components\Toggle::make('notify_customer_after_save')
+                            ->label('Send SMS to customer after saving quote')
+                            ->default(true)
+                            ->helperText('If the quote changes after approval, this should usually stay on so the customer can review and approve again.')
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('subtotal')
                             ->prefix('MVR')
@@ -100,6 +161,11 @@ class JobQuoteResource extends Resource
                             ->seconds(false)
                             ->disabled()
                             ->dehydrated(false),
+                        Forms\Components\Placeholder::make('approval_warning')
+                            ->label('Approval Workflow')
+                            ->content('If you change an already approved quote, the system will send it back for customer approval again.')
+                            ->visible(fn (?JobQuote $record) => (bool) $record?->isApproved())
+                            ->columnSpanFull(),
                     ])->columns(2),
             ]);
     }

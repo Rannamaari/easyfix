@@ -183,6 +183,10 @@ class CustomerJobController extends Controller
         $quote->approve();
         $jobRequest->updateStatus(JobStatus::Approved, 'Quote approved by customer', auth()->id());
         app(TelegramNotifier::class)->sendQuoteApproved($jobRequest->fresh(['customer', 'latestQuote', 'category', 'service']));
+        app(SmsNotifier::class)->sendQuoteApprovedPaymentDetails(
+            $jobRequest->fresh(['customer']),
+            $quote->fresh()
+        );
 
         return back()->with('success', 'Quote approved! We\'ll assign a provider shortly.');
     }

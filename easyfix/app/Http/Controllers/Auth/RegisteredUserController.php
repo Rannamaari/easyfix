@@ -80,7 +80,11 @@ class RegisteredUserController extends Controller
 
         $result = $smsClient->send([
             $destination,
-        ], "Your EasyFix verification code is {$otp}. It expires in 10 minutes.");
+        ], "Your EasyFix verification code is {$otp}. It expires in 10 minutes.", null, [
+            'type' => 'auth_otp',
+            'flow' => $mode,
+            'phone' => $localPhone,
+        ]);
 
         if (! $result['ok']) {
             $verification->delete();
@@ -112,7 +116,7 @@ class RegisteredUserController extends Controller
         ]);
 
         if ($signupVerification->verified_at) {
-            return $this->handleVerifiedPhone($signupVerification);
+            return $this->handleVerifiedPhone($signupVerification, $request);
         }
 
         if (! $signupVerification->otp_expires_at || now()->greaterThan($signupVerification->otp_expires_at)) {
@@ -139,7 +143,7 @@ class RegisteredUserController extends Controller
             'verified_at' => now(),
         ])->save();
 
-        return $this->handleVerifiedPhone($signupVerification);
+        return $this->handleVerifiedPhone($signupVerification, $request);
     }
 
     public function resendOtp(SignupVerification $signupVerification, Request $request, DhiraaguSmsClient $smsClient): RedirectResponse
@@ -168,7 +172,11 @@ class RegisteredUserController extends Controller
 
         $result = $smsClient->send([
             $destination,
-        ], "Your EasyFix verification code is {$otp}. It expires in 10 minutes.");
+        ], "Your EasyFix verification code is {$otp}. It expires in 10 minutes.", null, [
+            'type' => 'auth_otp_resend',
+            'flow' => $request->query('mode', 'register'),
+            'phone' => $signupVerification->phone,
+        ]);
 
         if (! $result['ok']) {
             return back()->withErrors([
@@ -179,14 +187,14 @@ class RegisteredUserController extends Controller
         return back()->with('status', 'A fresh verification code is on its way.');
     }
 
-    public function showComplete(SignupVerification $signupVerification): RedirectResponse|View
+    public function showComplete(SignupVerification $signupVerification, Request $request): RedirectResponse|View
     {
         if (! $signupVerification->verified_at) {
             return redirect()->route('register.verify', $signupVerification);
         }
 
         if (User::query()->where('phone', $signupVerification->phone)->exists()) {
-            return $this->handleVerifiedPhone($signupVerification);
+            return $this->handleVerifiedPhone($signupVerification, $request);
         }
 
         return view('auth.register', [
@@ -250,13 +258,14 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        Auth::login($user, remember: true);
+        $request->session()->regenerate();
         $signupVerification->delete();
 
         return redirect(route('dashboard', absolute: false));
     }
 
-    protected function handleVerifiedPhone(SignupVerification $signupVerification): RedirectResponse
+    protected function handleVerifiedPhone(SignupVerification $signupVerification, Request $request): RedirectResponse
     {
         $user = User::query()->where('phone', $signupVerification->phone)->first();
 
@@ -266,7 +275,8 @@ class RegisteredUserController extends Controller
                 'email_verified_at' => $user->email_verified_at ?: now(),
             ])->save();
 
-            Auth::login($user);
+            Auth::login($user, remember: true);
+            $request->session()->regenerate();
             $signupVerification->delete();
 
             return redirect()->intended(route('dashboard', absolute: false));
