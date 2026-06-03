@@ -233,6 +233,7 @@ class JobRequestResource extends Resource
                               ->orWhere('guest_name', 'like', "%{$search}%");
                         });
                     })
+                    ->url(fn ($record) => $record->customer_id ? CustomerResource::getUrl('edit', ['record' => $record->customer_id]) : null)
                     ->description(fn ($record) => $record->isGuest() ? 'Guest' : 'Registered'),
                 Tables\Columns\TextColumn::make('contact_phone')
                     ->label('Phone')
@@ -377,6 +378,12 @@ class JobRequestResource extends Resource
                         ->color('gray')
                         ->visible(fn ($record) => (bool) $record->latestQuote)
                         ->url(fn ($record) => route('quotes.pdf', $record->latestQuote), true),
+                    Tables\Actions\Action::make('editQuote')
+                        ->label('Update Quote')
+                        ->icon('heroicon-o-pencil-square')
+                        ->color('warning')
+                        ->visible(fn ($record) => (bool) $record->latestQuote)
+                        ->url(fn ($record) => JobQuoteResource::getUrl('edit', ['record' => $record->latestQuote])),
 
                     // Assign Provider Action
                     Tables\Actions\Action::make('assignProvider')

@@ -38,6 +38,8 @@ class CustomerResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
+                        Forms\Components\TextInput::make('username')
+                            ->maxLength(50),
                         Forms\Components\TextInput::make('email')
                             ->email()
                             ->maxLength(255),
@@ -59,6 +61,25 @@ class CustomerResource extends Resource
                             ->live(),
                     ])
                     ->columns(2),
+                Forms\Components\Section::make('Job Summary')
+                    ->schema([
+                        Forms\Components\Placeholder::make('total_jobs')
+                            ->label('Total Jobs')
+                            ->content(fn (?User $record) => $record ? $record->jobRequestsAsCustomer()->count() : '0'),
+                        Forms\Components\Placeholder::make('open_jobs')
+                            ->label('Open Jobs')
+                            ->content(fn (?User $record) => $record ? $record->jobRequestsAsCustomer()->whereNotIn('status', ['completed', 'cancelled'])->count() : '0'),
+                        Forms\Components\Placeholder::make('latest_job')
+                            ->label('Latest Request')
+                            ->content(function (?User $record) {
+                                $job = $record?->jobRequestsAsCustomer()->latest()->first();
+
+                                return $job ? "#{$job->id} · {$job->status->label()} · {$job->created_at->format('M d, Y g:i A')}" : 'No jobs yet';
+                            })
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(2)
+                    ->visible(fn (?User $record) => filled($record)),
             ]);
     }
 
@@ -98,6 +119,12 @@ class CustomerResource extends Resource
                     ->label('Jobs')
                     ->counts('jobRequestsAsCustomer')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('latest_job_requested_at')
+                    ->label('Latest Job')
+                    ->state(fn (User $record) => $record->jobRequestsAsCustomer()->latest('created_at')->value('created_at'))
+                    ->since()
+                    ->sortable(false)
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
@@ -113,7 +140,11 @@ class CustomerResource extends Resource
                     ->modalDescription('Mark this user\'s email as verified?')
                     ->visible(fn ($record) => is_null($record->email_verified_at))
                     ->action(fn ($record) => $record->update(['email_verified_at' => now()])),
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\Action::make('viewJobs')
+                    ->label('View Jobs')
+                    ->icon('heroicon-o-clipboard-document-list')
+                    ->color('info')
+                    ->url(fn (User $record) => static::getUrl('edit', ['record' => $record])),
                 Tables\Actions\EditAction::make(),
             ]);
     }
@@ -122,6 +153,7 @@ class CustomerResource extends Resource
     {
         return [
             RelationManagers\AddressesRelationManager::class,
+            RelationManagers\JobRequestsRelationManager::class,
         ];
     }
 
