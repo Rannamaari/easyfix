@@ -22,10 +22,6 @@ class JobQuote extends Model
         'total',
         'invoice_number',
         'invoiced_at',
-        'micronet_items_synced_at',
-        'micronet_invoice_synced_at',
-        'micronet_invoice_number',
-        'micronet_sync_error',
         'approved_at',
         'rejected_at',
     ];
@@ -38,8 +34,6 @@ class JobQuote extends Model
         'tax_amount' => 'decimal:2',
         'total' => 'decimal:2',
         'invoiced_at' => 'datetime',
-        'micronet_items_synced_at' => 'datetime',
-        'micronet_invoice_synced_at' => 'datetime',
         'approved_at' => 'datetime',
         'rejected_at' => 'datetime',
     ];

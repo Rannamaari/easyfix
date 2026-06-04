@@ -31,9 +31,6 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         'address_line2',
         'password',
         'role',
-        'micronet_customer_id',
-        'micronet_last_synced_at',
-        'micronet_sync_error',
     ];
 
     protected $hidden = [
@@ -46,7 +43,6 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'phone_verified_at' => 'datetime',
-            'micronet_last_synced_at' => 'datetime',
             'password' => 'hashed',
         ];
     }

@@ -3,14 +3,6 @@
 namespace App\Providers;
 
 use App\Listeners\SendTelegramNewUserNotification;
-use App\Models\JobQuote;
-use App\Models\JobRequest;
-use App\Models\Payment;
-use App\Models\User;
-use App\Observers\JobQuoteObserver;
-use App\Observers\JobRequestObserver;
-use App\Observers\PaymentObserver;
-use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -46,9 +38,5 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Event::listen(Registered::class, SendTelegramNewUserNotification::class);
-        User::observe(UserObserver::class);
-        JobRequest::observe(JobRequestObserver::class);
-        JobQuote::observe(JobQuoteObserver::class);
-        Payment::observe(PaymentObserver::class);
     }
 }

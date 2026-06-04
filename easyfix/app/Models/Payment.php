@@ -19,15 +19,11 @@ class Payment extends Model
         'notes',
         'confirmed_at',
         'confirmed_by',
-        'micronet_payment_id',
-        'micronet_payment_synced_at',
-        'micronet_sync_error',
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
         'confirmed_at' => 'datetime',
-        'micronet_payment_synced_at' => 'datetime',
     ];
 
     public function jobRequest(): BelongsTo

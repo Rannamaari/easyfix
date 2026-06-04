@@ -49,11 +49,4 @@ return [
         'timeout' => (int) env('DHIRAAGU_SMS_TIMEOUT', 20),
     ],
 
-    'micronet' => [
-        'enabled' => (bool) env('MICRONET_SYNC_ENABLED', false),
-        'base_url' => env('MICRONET_API_BASE_URL', 'https://micronet.mv/api'),
-        'token' => env('MICRONET_API_TOKEN'),
-        'timeout' => (int) env('MICRONET_API_TIMEOUT', 20),
-    ],
-
 ];
