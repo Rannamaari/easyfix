@@ -21,6 +21,10 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::get('/subcontractor-maldives', function () {
+    return view('subcontractor-maldives');
+})->name('subcontractor');
+
 Route::get('/terms', function () {
     return view('terms');
 })->name('terms');

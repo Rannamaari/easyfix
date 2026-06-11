@@ -599,6 +599,37 @@
             </div>
         </section>
 
+        <section class="py-16 sm:py-20 bg-gray-50 dark:bg-slate-900" aria-labelledby="projects-heading">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="overflow-hidden rounded-[2rem] border border-gray-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950">
+                    <div class="grid gap-8 px-6 py-10 sm:px-10 lg:grid-cols-[minmax(0,1.15fr)_auto] lg:items-center lg:gap-10 lg:px-12 lg:py-12">
+                        <div>
+                            <div class="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1.5 text-sm font-medium text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
+                                <x-heroicon-s-building-office-2 class="w-4 h-4" />
+                                B2B Project Support
+                            </div>
+                            <h2 id="projects-heading" class="mt-5 text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
+                                Have a project in Maldives?
+                            </h2>
+                            <p class="mt-4 max-w-3xl text-lg text-gray-600 dark:text-slate-400">
+                                Need reliable local technicians or subcontractors for your project? EasyFix supports contractors, hotels, guest houses, offices, and property owners with AC, electrical, plumbing, maintenance, appliance installation, IT/networking, and handyman works.
+                            </p>
+                        </div>
+                        <div class="flex flex-col gap-4 sm:flex-row lg:flex-col">
+                            <a href="{{ route('subcontractor') }}" class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 font-semibold text-white shadow-lg shadow-blue-950/20 transition hover:bg-blue-700">
+                                <x-heroicon-o-building-office-2 class="w-5 h-5" />
+                                Hire EasyFix as a Subcontractor
+                            </a>
+                            <a href="mailto:munaad@micronet.mv?subject=Project%20Support%20Inquiry%20-%20EasyFix" class="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-3.5 font-semibold text-gray-900 transition hover:bg-gray-50 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800">
+                                <x-heroicon-o-envelope class="w-5 h-5" />
+                                Email Project Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         {{-- LATEST FROM THE BLOG --}}
         @if($latestPosts->count())
         <section class="py-16 sm:py-20 bg-gray-50 dark:bg-slate-900">
