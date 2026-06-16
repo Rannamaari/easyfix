@@ -28,11 +28,7 @@
                                     data-category-name="{{ $category->name }}">
                                     <div class="flex items-center gap-3">
                                         <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center dark:bg-blue-900/30 dark:text-blue-400">
-                                            @if($category->icon)
-                                                <x-dynamic-component :component="'heroicon-o-' . $category->icon" class="w-5 h-5" />
-                                            @else
-                                                <x-heroicon-o-wrench-screwdriver class="w-5 h-5" />
-                                            @endif
+                                            <x-dynamic-component :component="$category->heroiconComponent()" class="w-5 h-5" />
                                         </div>
                                         <div>
                                             <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ $category->name }}</p>

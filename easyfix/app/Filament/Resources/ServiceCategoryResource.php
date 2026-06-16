@@ -58,7 +58,7 @@ class ServiceCategoryResource extends Resource
             ->columns([
                 Tables\Columns\IconColumn::make('icon')
                     ->label('Icon')
-                    ->icon(fn (?string $state): string => $state ? "heroicon-o-{$state}" : 'heroicon-o-question-mark-circle')
+                    ->icon(fn (ServiceCategory $record): string => $record->heroiconComponent())
                     ->color('primary')
                     ->size(Tables\Columns\IconColumn\IconColumnSize::Large),
                 Tables\Columns\TextColumn::make('name')
