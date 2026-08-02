@@ -89,7 +89,7 @@ class CustomerResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Customer')
-                    ->searchable()
+                    ->searchable(['name', 'username', 'email', 'phone'])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
@@ -104,6 +104,7 @@ class CustomerResource extends Resource
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('phone')
                     ->label('Phone')
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('addresses')
                     ->label('Default Address')
@@ -147,6 +148,16 @@ class CustomerResource extends Resource
                     ->url(fn (User $record) => static::getUrl('edit', ['record' => $record])),
                 Tables\Actions\EditAction::make(),
             ]);
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+            'username',
+            'email',
+            'phone',
+        ];
     }
 
     public static function getRelations(): array

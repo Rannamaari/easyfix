@@ -243,6 +243,12 @@ class JobRequestResource extends Resource
                     ->description(fn ($record) => $record->isGuest() ? 'Guest' : 'Registered'),
                 Tables\Columns\TextColumn::make('contact_phone')
                     ->label('Phone')
+                    ->searchable(query: function ($query, string $search) {
+                        $query->where(function ($q) use ($search) {
+                            $q->whereHas('customer', fn ($customerQuery) => $customerQuery->where('phone', 'like', "%{$search}%"))
+                                ->orWhere('guest_phone', 'like', "%{$search}%");
+                        });
+                    })
                     ->placeholder('—')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('category.name')
