@@ -11,7 +11,7 @@
     <meta name="description" content="Book AC repair, electrical, plumbing, appliance repair, door lock repair, and more in Greater Malé.">
 
     {{-- SEO Keywords --}}
-    <meta name="keywords" content="AC repair Malé, plumbing Malé, electrical Malé, handyman Maldives, fridge repair Malé, washing machine repair Maldives, refrigerator repair Hulhumalé, appliance repair Malé, plumbing Hulhumalé, home repair Maldives">
+    <meta name="keywords" content="AC repair Malé, plumbing Malé, electrical Malé, handyman Maldives, appliances repair Malé, washing machine repair Maldives, appliance repair Hulhumalé, carpentry Maldives, plumbing Hulhumalé, home repair Maldives">
 
     {{-- Geo Tags for Local SEO --}}
     <meta name="geo.region" content="MV-MLE">
@@ -64,7 +64,7 @@
         "@id": "https://easyfix.mv/#business",
         "name": "Easy Fix",
         "alternateName": "Easy Fix Maldives",
-        "description": "Professional handyman and home repair services in Greater Malé Area, Maldives. AC repair, fridge repair, washing machine repair, plumbing, electrical & more. Same-day service available.",
+        "description": "Professional handyman and home repair services in Greater Malé Area, Maldives. AC repair, appliances repair, washing machine repair, plumbing, electrical, carpentry and more. Same-day service available.",
         "url": "https://easyfix.mv",
         "telephone": "+960-999-6210",
         "email": "hello@micronet.mv",
@@ -194,7 +194,7 @@
                         BETA
                     </span>
                     <span class="text-gray-900 dark:text-white text-sm font-semibold">
-                        We're just getting started!
+                        Soft opening with limited daily slots
                     </span>
                 </div>
 
@@ -202,11 +202,11 @@
                 <div class="flex flex-wrap items-center gap-2">
                     <span class="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300 text-xs font-medium px-2.5 py-1 rounded-full">
                         <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
-                        Available: AC Repair & Installation · Appliance Repair · On-Site Motorcycle Mechanic
+                        Available: AC Repair · Appliances Repair · Cleaning · Carpentry · On-Site Motorcycle Mechanic
                     </span>
                     <span class="inline-flex items-center gap-1.5 bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-slate-300 text-xs font-medium px-2.5 py-1 rounded-full">
                         <span class="w-1.5 h-1.5 bg-gray-400 dark:bg-slate-500 rounded-full"></span>
-                        More services & features coming soon
+                        We have limited staff and fewer slots right now. Thank you for your patience if we cannot attend to every request immediately — we will always do our best to help.
                     </span>
                 </div>
             </div>
@@ -240,7 +240,7 @@
                     'alt' => 'EasyFix handyman services banner in Greater Male Area',
                     'guest_badge' => 'Trusted Handyman Support',
                     'guest_heading' => 'Handyman Services in Greater Malé Area',
-                    'guest_copy' => '<strong>Same-day repairs</strong> for your home and office. AC repair, fridge repair, washing machine repair, plumbing, electrical and more in <strong>Malé City, Hulhumalé</strong> and <strong>Villingili</strong>.',
+                    'guest_copy' => '<strong>Same-day repairs</strong> for your home and office. AC repair, appliances repair, washing machine repair, plumbing, electrical and more in <strong>Malé City, Hulhumalé</strong> and <strong>Villingili</strong>.',
                     'auth_heading' => 'Let’s get that repair sorted today',
                     'auth_copy' => 'Need something fixed? We handle <strong>home repairs, appliance issues, and on-site service calls</strong> across the Greater Malé area.',
                 ],
@@ -252,6 +252,15 @@
                     'guest_copy' => 'From <strong>plumbing and appliance repair</strong> to urgent home fixes, EasyFix helps you book quickly and get updates without chasing providers.',
                     'auth_heading' => 'Your next service request is a few clicks away',
                     'auth_copy' => 'Use your dashboard to request <strong>repairs, follow updates, and manage jobs</strong> with one clean workflow.',
+                ],
+                [
+                    'image' => asset('hero/easyfix-carpentry-services-maldives.png'),
+                    'alt' => 'EasyFix carpentry services banner in Greater Male Area',
+                    'guest_badge' => 'New: Carpentry Support',
+                    'guest_heading' => 'Carpentry Help for Doors, Shelves and Small Fixes',
+                    'guest_copy' => 'Need help with <strong>doors, locks, cabinets, shelves, fittings or small woodwork fixes</strong>? EasyFix is now taking carpentry requests across <strong>Malé City, Hulhumalé</strong> and <strong>Villingili</strong>.',
+                    'auth_heading' => 'Need a carpenter for a small fix?',
+                    'auth_copy' => 'Book <strong>carpentry support for doors, cabinets, shelves and interior touch-ups</strong> and we will try to assign the earliest available slot.',
                 ],
             ];
             $selectedHeroBanner = $heroBanners[array_rand($heroBanners)];
@@ -386,12 +395,13 @@
                     @php
                         $services = [
                             ['icon' => 'sun', 'name' => 'AC Repair', 'desc' => 'Not cooling, leaking, error codes — quick diagnosis & fix.'],
-                            ['icon' => 'cube-transparent', 'name' => 'Fridge Repair', 'desc' => 'Not cooling, noisy, ice build-up — fast troubleshooting.'],
+                            ['icon' => 'cube-transparent', 'name' => 'Appliances Repair', 'desc' => 'Fridges, microwaves and small appliances — troubleshooting & repair.'],
                             ['icon' => 'arrow-path', 'name' => 'Washing Machine Repair', 'desc' => 'Not spinning, not draining, error codes — repairs & fixes.'],
                             ['icon' => 'bolt', 'name' => 'Electrical', 'desc' => 'Switches, sockets, lights, wiring checks & minor repairs.'],
                             ['icon' => 'wrench-screwdriver', 'name' => 'Plumbing', 'desc' => 'Leaks, taps, blocked drains — small fixes & replacements.'],
                             ['icon' => 'key', 'name' => 'Door & Lock Repair', 'desc' => 'Locks, handles, hinges, alignment — repair or replace.'],
-                            ['icon' => 'sparkles', 'name' => 'Cleaning', 'desc' => 'Deep clean, move-out cleaning, bathroom/kitchen refresh.', 'coming_soon' => true],
+                            ['icon' => 'home-modern', 'name' => 'Carpentry', 'desc' => 'Shelves, cabinets, fittings and light woodwork jobs.', 'is_new' => true],
+                            ['icon' => 'sparkles', 'name' => 'Cleaning', 'desc' => 'Deep clean, move-out cleaning, bathroom/kitchen refresh.'],
                             ['icon' => 'cube', 'name' => 'Small Moving', 'desc' => 'Small loads: furniture & appliances within Greater Malé.'],
                         ];
                     @endphp
@@ -405,6 +415,10 @@
                             @if($comingSoon)
                                 <span class="absolute top-2 right-2 inline-flex items-center bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">
                                     Coming Soon
+                                </span>
+                            @elseif(!empty($service['is_new']))
+                                <span class="absolute top-2 right-2 inline-flex items-center bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">
+                                    NEW
                                 </span>
                             @else
                                 <span class="absolute top-2 right-2 inline-flex items-center bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">
@@ -425,6 +439,9 @@
                 {{-- Additional Services --}}
                 <p class="text-center mt-8 text-gray-600 dark:text-slate-400">
                     Also: Cabinet/hinge repairs, furniture assembly, wall mounting (TV/shelves), curtain installation, and other small handyman tasks.
+                </p>
+                <p class="text-center mt-4 text-sm text-gray-500 dark:text-slate-400 max-w-3xl mx-auto">
+                    We are currently on a soft opening with limited staff and fewer daily slots. Thank you for bearing with us if we are unable to attend every request immediately — we truly appreciate your patience and will always try our best to help.
                 </p>
             </div>
         </section>
@@ -779,10 +796,11 @@
                     <h4 class="text-white font-semibold mb-4">Our Services</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="#services" class="hover:text-white">AC Repair</a></li>
-                        <li><a href="#services" class="hover:text-white">Fridge Repair</a></li>
+                        <li><a href="#services" class="hover:text-white">Appliances Repair</a></li>
                         <li><a href="#services" class="hover:text-white">Washing Machine Repair</a></li>
                         <li><a href="#services" class="hover:text-white">Electrical</a></li>
                         <li><a href="#services" class="hover:text-white">Plumbing</a></li>
+                        <li><a href="#services" class="hover:text-white">Carpentry</a></li>
                         <li><a href="#services" class="hover:text-white">Door & Lock Repair</a></li>
                         <li><a href="#services" class="hover:text-white">Cleaning</a></li>
                         <li><a href="#services" class="hover:text-white">Small Moving</a></li>
