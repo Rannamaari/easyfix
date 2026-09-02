@@ -6,18 +6,17 @@
 
     <title>About Us | Easy Fix - Trusted Handyman Services in Greater Malé Area</title>
 
-    <meta name="description" content="Learn about Easy Fix - Greater Malé Area's trusted handyman service. Fast response, transparent pricing, and a vetted team for AC repair, fridge repair, washing machine repair, plumbing, electrical & more across Malé City, Hulhumalé & Villingili.">
+    <meta name="description" content="Learn about EasyFix, Greater Malé's trusted home repair service for AC, appliance repair, plumbing, electrical, carpentry, and more across Malé City, Hulhumalé, and Villingili.">
 
     <meta name="keywords" content="about Easy Fix, handyman Malé, home repair Maldives, handyman Hulhumalé, Micro Cool AC, Micronet services">
 
-    {{-- Open Graph --}}
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://easyfix.mv/about">
-    <meta property="og:title" content="About Easy Fix | Handyman Services in Greater Malé Area">
-    <meta property="og:description" content="Greater Malé Area's trusted handyman service. Malé City, Hulhumalé & Villingili. Fast response, transparent pricing, vetted team.">
-    <meta property="og:image" content="https://easyfix.mv/images/easyfix-og.png">
-
-    <link rel="canonical" href="https://easyfix.mv/about">
+    <x-seo-meta
+        title="About EasyFix | Home Repair Services in Greater Malé"
+        description="Learn about EasyFix, Greater Malé's trusted home repair service for AC, appliance repair, plumbing, electrical, carpentry, and more across Malé City, Hulhumalé, and Villingili."
+        :image="url('/og-image.png')"
+        :url="route('about', absolute: true)"
+        type="website"
+    />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
