@@ -10,6 +10,7 @@ use App\Http\Controllers\QuotePdfController;
 use App\Http\Controllers\ProfileAddressController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProviderJobController;
+use App\Http\Controllers\ServicePageController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,9 @@ Route::get('/about', function () {
 Route::get('/subcontractor-maldives', function () {
     return view('subcontractor-maldives');
 })->name('subcontractor');
+
+Route::get('/services', [ServicePageController::class, 'index'])->name('services.index');
+Route::get('/services/{service}', [ServicePageController::class, 'show'])->name('services.show');
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 

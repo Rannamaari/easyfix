@@ -394,21 +394,22 @@
                 <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4">
                     @php
                         $services = [
-                            ['icon' => 'sun', 'name' => 'AC Repair', 'desc' => 'Not cooling, leaking, error codes — quick diagnosis & fix.'],
-                            ['icon' => 'cube-transparent', 'name' => 'Appliances Repair', 'desc' => 'Fridges, microwaves and small appliances — troubleshooting & repair.'],
-                            ['icon' => 'arrow-path', 'name' => 'Washing Machine Repair', 'desc' => 'Not spinning, not draining, error codes — repairs & fixes.'],
-                            ['icon' => 'bolt', 'name' => 'Electrical', 'desc' => 'Switches, sockets, lights, wiring checks & minor repairs.'],
-                            ['icon' => 'wrench-screwdriver', 'name' => 'Plumbing', 'desc' => 'Leaks, taps, blocked drains — small fixes & replacements.'],
-                            ['icon' => 'key', 'name' => 'Door & Lock Repair', 'desc' => 'Locks, handles, hinges, alignment — repair or replace.'],
-                            ['icon' => 'home-modern', 'name' => 'Carpentry', 'desc' => 'Shelves, cabinets, fittings and light woodwork jobs.', 'is_new' => true],
-                            ['icon' => 'sparkles', 'name' => 'Cleaning', 'desc' => 'Deep clean, move-out cleaning, bathroom/kitchen refresh.'],
-                            ['icon' => 'cube', 'name' => 'Small Moving', 'desc' => 'Small loads: furniture & appliances within Greater Malé.'],
+                            ['icon' => 'sun', 'name' => 'AC Repair', 'slug' => 'ac-repair', 'desc' => 'Not cooling, leaking, error codes — quick diagnosis & fix.'],
+                            ['icon' => 'cube-transparent', 'name' => 'Appliances Repair', 'slug' => 'appliance-repair', 'desc' => 'Fridges, microwaves and small appliances — troubleshooting & repair.'],
+                            ['icon' => 'arrow-path', 'name' => 'Washing Machine Repair', 'slug' => 'washing-machine-repair', 'desc' => 'Not spinning, not draining, error codes — repairs & fixes.'],
+                            ['icon' => 'bolt', 'name' => 'Electrical', 'slug' => 'electrical', 'desc' => 'Switches, sockets, lights, wiring checks & minor repairs.'],
+                            ['icon' => 'wrench-screwdriver', 'name' => 'Plumbing', 'slug' => 'plumbing', 'desc' => 'Leaks, taps, blocked drains — small fixes & replacements.'],
+                            ['icon' => 'key', 'name' => 'Door & Lock Repair', 'slug' => 'door-lock-repair', 'desc' => 'Locks, handles, hinges, alignment — repair or replace.'],
+                            ['icon' => 'home-modern', 'name' => 'Carpentry', 'slug' => 'carpentry', 'desc' => 'Shelves, cabinets, fittings and light woodwork jobs.', 'is_new' => true],
+                            ['icon' => 'sparkles', 'name' => 'Cleaning', 'slug' => 'cleaning', 'desc' => 'Deep clean, move-out cleaning, bathroom/kitchen refresh.'],
+                            ['icon' => 'cube', 'name' => 'Small Moving', 'slug' => 'small-moving', 'desc' => 'Small loads: furniture & appliances within Greater Malé.'],
+                            ['icon' => 'wrench', 'name' => 'Moto Mechanic', 'slug' => 'moto-mechanic', 'desc' => 'On-site help for tyres, batteries, brakes and basic bike service.'],
                         ];
                     @endphp
 
                     @foreach($services as $service)
                         @php $comingSoon = !empty($service['coming_soon']); @endphp
-                        <article class="relative rounded-2xl p-5 text-center border transition-colors
+                        <a href="{{ route('services.show', $service['slug']) }}" class="relative rounded-2xl p-5 text-center border transition-all hover:-translate-y-1 hover:shadow-md
                             {{ $comingSoon
                                 ? 'bg-gray-100 dark:bg-slate-900/60 border-gray-200 dark:border-slate-800 opacity-60 cursor-not-allowed pointer-events-none'
                                 : 'bg-gray-50 dark:bg-slate-900 border-gray-100 dark:border-slate-800 hover:border-blue-200 dark:hover:border-slate-700' }}">
@@ -432,8 +433,15 @@
                             </div>
                             <h3 class="font-semibold {{ $comingSoon ? 'text-gray-400 dark:text-slate-500' : 'text-gray-900 dark:text-white' }}">{{ $service['name'] }}</h3>
                             <p class="text-xs mt-1 {{ $comingSoon ? 'text-gray-400 dark:text-slate-600' : 'text-gray-500 dark:text-slate-400' }}">{{ $service['desc'] }}</p>
-                        </article>
+                        </a>
                     @endforeach
+                </div>
+
+                <div class="mt-8 text-center">
+                    <a href="{{ route('services.index') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-200">
+                        Explore all EasyFix services
+                        <x-heroicon-o-arrow-right class="h-4 w-4" />
+                    </a>
                 </div>
 
                 {{-- Additional Services --}}
@@ -795,15 +803,16 @@
                 <div>
                     <h4 class="text-white font-semibold mb-4">Our Services</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#services" class="hover:text-white">AC Repair</a></li>
-                        <li><a href="#services" class="hover:text-white">Appliances Repair</a></li>
-                        <li><a href="#services" class="hover:text-white">Washing Machine Repair</a></li>
-                        <li><a href="#services" class="hover:text-white">Electrical</a></li>
-                        <li><a href="#services" class="hover:text-white">Plumbing</a></li>
-                        <li><a href="#services" class="hover:text-white">Carpentry</a></li>
-                        <li><a href="#services" class="hover:text-white">Door & Lock Repair</a></li>
-                        <li><a href="#services" class="hover:text-white">Cleaning</a></li>
-                        <li><a href="#services" class="hover:text-white">Small Moving</a></li>
+                        <li><a href="{{ route('services.show', 'ac-repair') }}" class="hover:text-white">AC Repair</a></li>
+                        <li><a href="{{ route('services.show', 'appliance-repair') }}" class="hover:text-white">Appliances Repair</a></li>
+                        <li><a href="{{ route('services.show', 'washing-machine-repair') }}" class="hover:text-white">Washing Machine Repair</a></li>
+                        <li><a href="{{ route('services.show', 'electrical') }}" class="hover:text-white">Electrical</a></li>
+                        <li><a href="{{ route('services.show', 'plumbing') }}" class="hover:text-white">Plumbing</a></li>
+                        <li><a href="{{ route('services.show', 'carpentry') }}" class="hover:text-white">Carpentry</a></li>
+                        <li><a href="{{ route('services.show', 'door-lock-repair') }}" class="hover:text-white">Door & Lock Repair</a></li>
+                        <li><a href="{{ route('services.show', 'cleaning') }}" class="hover:text-white">Cleaning</a></li>
+                        <li><a href="{{ route('services.show', 'small-moving') }}" class="hover:text-white">Small Moving</a></li>
+                        <li><a href="{{ route('services.show', 'moto-mechanic') }}" class="hover:text-white">Moto Mechanic</a></li>
                     </ul>
                 </div>
 
