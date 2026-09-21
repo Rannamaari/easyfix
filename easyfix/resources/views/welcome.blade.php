@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <x-adsense-verification />
+
     {{-- SEO Optimized Title --}}
     <title>EasyFix.mv - Book Home &amp; Repair Services Online</title>
 

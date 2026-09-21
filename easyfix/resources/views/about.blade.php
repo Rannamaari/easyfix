@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <x-adsense-verification />
+
     <title>About Us | Easy Fix - Trusted Handyman Services in Greater Malé Area</title>
 
     <meta name="description" content="Learn about EasyFix, Greater Malé's trusted home repair service for AC, appliance repair, plumbing, electrical, carpentry, and more across Malé City, Hulhumalé, and Villingili.">
