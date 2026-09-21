@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <x-adsense-verification />
+    <x-local-business-schema />
     <title>Subcontractor in Maldives | Project & Maintenance Support | EasyFix.mv</title>
     <meta name="description" content="Need a subcontractor in Maldives? EasyFix provides trusted technicians for AC, electrical, plumbing, maintenance, repairs, appliance installation, IT/networking, and small project works in Malé, Hulhumalé, and across Maldives.">
     <meta name="keywords" content="subcontractor in Maldives, project support Maldives, maintenance contractor Maldives, AC contractor Maldives, electrical and plumbing works Maldives, hotel maintenance Maldives, handyman services Maldives">

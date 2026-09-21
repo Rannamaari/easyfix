@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <x-adsense-verification />
+    <x-local-business-schema />
 
     <title>About Us | Easy Fix - Trusted Handyman Services in Greater Malé Area</title>
 

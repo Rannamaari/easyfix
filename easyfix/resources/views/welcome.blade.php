@@ -57,74 +57,7 @@
         body { font-family: 'Inter', system-ui, sans-serif; }
     </style>
 
-    {{-- LocalBusiness Schema Markup - wrapped in verbatim to prevent Blade parsing @ symbols --}}
-    @verbatim
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "HomeAndConstructionBusiness",
-        "@id": "https://easyfix.mv/#business",
-        "name": "Easy Fix",
-        "alternateName": "Easy Fix Maldives",
-        "description": "Professional handyman and home repair services in Greater Malé Area, Maldives. AC repair, appliances repair, washing machine repair, plumbing, electrical, carpentry and more. Same-day service available.",
-        "url": "https://easyfix.mv",
-        "telephone": "+960-999-6210",
-        "email": "hello@micronet.mv",
-        "image": "https://easyfix.mv/images/easyfix-logo.png",
-        "logo": "https://easyfix.mv/images/easyfix-logo.png",
-        "priceRange": "MVR",
-        "currenciesAccepted": "MVR",
-        "paymentAccepted": "Cash, Bank Transfer",
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Malé City",
-            "addressRegion": "Malé",
-            "addressCountry": "MV"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": "4.1755",
-            "longitude": "73.5093"
-        },
-        "areaServed": [
-            {
-                "@type": "City",
-                "name": "Malé City",
-                "containedInPlace": {
-                    "@type": "Country",
-                    "name": "Maldives"
-                }
-            },
-            {
-                "@type": "City",
-                "name": "Hulhumalé"
-            },
-            {
-                "@type": "City",
-                "name": "Villingili"
-            }
-        ],
-        "openingHoursSpecification": [
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Sunday"],
-                "opens": "08:00",
-                "closes": "22:00"
-            },
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Friday", "Saturday"],
-                "opens": "14:00",
-                "closes": "22:00"
-            }
-        ],
-        "sameAs": [
-            "https://www.facebook.com/easyfixmv",
-            "https://www.instagram.com/easyfixmv"
-        ]
-    }
-    </script>
-    @endverbatim
+    <x-local-business-schema />
 
     @php
         $faqItems = [
@@ -138,7 +71,7 @@
             ],
             [
                 'question' => 'Do you work on Fridays and weekends?',
-                'answer' => 'For the time being, we are closed on Fridays. On Saturdays, we are available from 2 PM to 10 PM. On other working days, we are available from 8 AM to 10 PM. For urgent requests, please contact us on WhatsApp. Urgent visits may be charged MVR 500, plus any additional repair, parts, or service charges if required.',
+                'answer' => 'For the time being, we are closed on Fridays. On Saturdays, we are available from 8 AM to 10 PM. On other working days, we are available from 8 AM to 10 PM. For urgent requests, please contact us on WhatsApp. Urgent visits may be charged MVR 500, plus any additional repair, parts, or service charges if required.',
             ],
             [
                 'question' => 'Can I book a handyman for small jobs?',

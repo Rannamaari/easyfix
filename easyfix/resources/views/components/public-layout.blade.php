@@ -15,6 +15,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <x-adsense-verification />
+        <x-local-business-schema />
 
         <title>{{ $title ?? config('app.name', 'EasyFix') }}</title>
 

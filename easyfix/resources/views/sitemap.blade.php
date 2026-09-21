@@ -3,7 +3,7 @@
 @foreach($pages as $page)
     <url>
         <loc>{{ $page['loc'] }}</loc>
-        <changefreq>weekly</changefreq>
+        <changefreq>{{ $page['changefreq'] ?? 'monthly' }}</changefreq>
         <priority>{{ $page['priority'] }}</priority>
     </url>
 @endforeach

@@ -29,8 +29,7 @@
                 'name' => $post->author_name ?: 'EasyFix',
             ],
             'publisher' => [
-                '@type' => 'Organization',
-                'name' => 'EasyFix',
+                '@id' => url('/').'#localbusiness',
             ],
             'mainEntityOfPage' => [
                 '@type' => 'WebPage',
