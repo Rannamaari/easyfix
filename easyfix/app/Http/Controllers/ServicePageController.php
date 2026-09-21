@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookingSetting;
 use Illuminate\View\View;
 
 class ServicePageController extends Controller
@@ -20,17 +21,6 @@ class ServicePageController extends Controller
                 'icon' => 'sun',
                 'intro' => 'When your aircon stops cooling in Maldives heat, you need clear, practical help. EasyFix connects you with local support for split AC troubleshooting, leaks, weak cooling, drainage issues, and common error codes.',
                 'items' => ['AC not cooling or weak airflow', 'Water leaks and blocked drain issues', 'Noise, smells, and error-code troubleshooting', 'AC maintenance and service requests'],
-                'rates' => [
-                    ['name' => 'AC Installation', 'price' => 1000, 'detail' => 'Installation support for your air conditioner.'],
-                    ['name' => 'AC Relocation', 'price' => 1250, 'detail' => 'Moving your AC to a new position or location.'],
-                    ['name' => 'Full Service (On-Site)', 'price' => 800, 'detail' => 'Full servicing at your home or workplace.'],
-                    ['name' => 'Full Service (Workshop)', 'price' => 1350, 'detail' => 'Workshop servicing when your unit needs more attention.'],
-                    ['name' => 'Gas Refill — Half', 'price' => 550, 'detail' => 'Refrigerant refill following assessment.'],
-                    ['name' => 'Gas Refill — Full', 'price' => 950, 'detail' => 'Full refill requirements confirmed during assessment.'],
-                    ['name' => 'Water Leak Fix', 'price' => 550, 'detail' => 'Troubleshooting and repair for a leaking AC.'],
-                    ['name' => 'Indoor Service', 'price' => 550, 'detail' => 'Service focused on the indoor unit.'],
-                    ['name' => 'AC Diagnosis', 'price' => 500, 'detail' => 'Find the fault before deciding on repair work.'],
-                ],
                 'faqs' => [
                     ['question' => 'Do you charge extra for AC service in Hulhumalé Phase 2?', 'answer' => 'No. There is no additional area charge for Malé City, Hulhumalé Phase 1 or Hulhumalé Phase 2.'],
                     ['question' => 'How much does AC servicing cost?', 'answer' => 'Full on-site service is listed at MVR 800, full workshop service at MVR 1,350 and indoor service at MVR 550. We confirm the scope and final quotation before proceeding.'],
@@ -172,8 +162,14 @@ class ServicePageController extends Controller
     {
         abort_unless(isset(self::pages()[$service]), 404);
 
+        $servicePage = self::pages()[$service];
+
+        if ($service === 'ac-repair') {
+            $servicePage['rates'] = BookingSetting::current()->acServiceRates();
+        }
+
         return view('services.show', [
-            'service' => self::pages()[$service],
+            'service' => $servicePage,
             'slug' => $service,
         ]);
     }

@@ -12,6 +12,7 @@ class BookingSetting extends Model
     protected $fillable = [
         'visit_charge_amount',
         'urgent_surcharge_amount',
+        'ac_service_rates',
         'support_hotline',
         'micronet_bank_name',
         'micronet_account_name',
@@ -27,13 +28,35 @@ class BookingSetting extends Model
     protected $casts = [
         'visit_charge_amount' => 'decimal:2',
         'urgent_surcharge_amount' => 'decimal:2',
+        'ac_service_rates' => 'array',
     ];
+
+    public static function defaultAcServiceRates(): array
+    {
+        return [
+            ['name' => 'AC Installation', 'price' => 1000, 'detail' => 'Installation support for your air conditioner.'],
+            ['name' => 'AC Relocation', 'price' => 1250, 'detail' => 'Moving your AC to a new position or location.'],
+            ['name' => 'Full Service (On-Site)', 'price' => 800, 'detail' => 'Full servicing at your home or workplace.'],
+            ['name' => 'Full Service (Workshop)', 'price' => 1350, 'detail' => 'Workshop servicing when your unit needs more attention.'],
+            ['name' => 'Gas Refill - Half', 'price' => 550, 'detail' => 'Refrigerant refill following assessment.'],
+            ['name' => 'Gas Refill - Full', 'price' => 950, 'detail' => 'Full refill requirements confirmed during assessment.'],
+            ['name' => 'Water Leak Fix', 'price' => 550, 'detail' => 'Troubleshooting and repair for a leaking AC.'],
+            ['name' => 'Indoor Service', 'price' => 550, 'detail' => 'Service focused on the indoor unit.'],
+            ['name' => 'AC Diagnosis', 'price' => 500, 'detail' => 'Find the fault before deciding on repair work.'],
+        ];
+    }
+
+    public function acServiceRates(): array
+    {
+        return filled($this->ac_service_rates) ? $this->ac_service_rates : static::defaultAcServiceRates();
+    }
 
     public static function current(): self
     {
         $defaults = [
             'visit_charge_amount' => 350,
             'urgent_surcharge_amount' => 500,
+            'ac_service_rates' => static::defaultAcServiceRates(),
             'support_hotline' => '9996210',
             'micronet_account_name' => 'Micronet MVR',
             'micronet_account_number' => '7730000140010',
