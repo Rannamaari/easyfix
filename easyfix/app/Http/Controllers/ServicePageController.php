@@ -15,14 +15,29 @@ class ServicePageController extends Controller
         return [
             'ac-repair' => [
                 'name' => 'AC Repair',
-                'title' => 'AC Repair & Aircon Services in Malé | EasyFix',
-                'description' => 'Book AC repair and aircon services in Malé, Hulhumalé, and Villingili. Help for AC units that are not cooling, leaking, noisy, or showing error codes.',
+                'title' => 'AC Service, Installation & Repair in Malé & Hulhumalé | EasyFix',
+                'description' => 'AC installation, servicing, gas refill and repair in Malé and Hulhumalé. View rates, book maintenance or call 7779493 for emergency aircon breakdowns.',
                 'icon' => 'sun',
                 'intro' => 'When your aircon stops cooling in Maldives heat, you need clear, practical help. EasyFix connects you with local support for split AC troubleshooting, leaks, weak cooling, drainage issues, and common error codes.',
                 'items' => ['AC not cooling or weak airflow', 'Water leaks and blocked drain issues', 'Noise, smells, and error-code troubleshooting', 'AC maintenance and service requests'],
+                'rates' => [
+                    ['name' => 'AC Installation', 'price' => 1000, 'detail' => 'Installation support for your air conditioner.'],
+                    ['name' => 'AC Relocation', 'price' => 1250, 'detail' => 'Moving your AC to a new position or location.'],
+                    ['name' => 'Full Service (On-Site)', 'price' => 800, 'detail' => 'Full servicing at your home or workplace.'],
+                    ['name' => 'Full Service (Workshop)', 'price' => 1350, 'detail' => 'Workshop servicing when your unit needs more attention.'],
+                    ['name' => 'Gas Refill — Half', 'price' => 550, 'detail' => 'Refrigerant refill following assessment.'],
+                    ['name' => 'Gas Refill — Full', 'price' => 950, 'detail' => 'Full refill requirements confirmed during assessment.'],
+                    ['name' => 'Water Leak Fix', 'price' => 550, 'detail' => 'Troubleshooting and repair for a leaking AC.'],
+                    ['name' => 'Indoor Service', 'price' => 550, 'detail' => 'Service focused on the indoor unit.'],
+                    ['name' => 'AC Diagnosis', 'price' => 500, 'detail' => 'Find the fault before deciding on repair work.'],
+                ],
                 'faqs' => [
-                    ['question' => 'Do you provide AC repair in Hulhumalé?', 'answer' => 'Yes. EasyFix accepts AC repair and aircon service requests in Malé City, Hulhumalé Phase 1 and 2, and Villingili.'],
-                    ['question' => 'Can you quote an AC repair before visiting?', 'answer' => 'We can give a basic indication from the symptoms, but some AC faults need an inspection before we can provide an accurate quotation.'],
+                    ['question' => 'Do you charge extra for AC service in Hulhumalé Phase 2?', 'answer' => 'No. There is no additional area charge for Malé City, Hulhumalé Phase 1 or Hulhumalé Phase 2.'],
+                    ['question' => 'How much does AC servicing cost?', 'answer' => 'Full on-site service is listed at MVR 800, full workshop service at MVR 1,350 and indoor service at MVR 550. We confirm the scope and final quotation before proceeding.'],
+                    ['question' => 'Who do I call for an emergency AC breakdown?', 'answer' => 'Call 7779493 and describe the fault and your location. Our team will confirm the earliest available assistance.'],
+                    ['question' => 'Do you service ceiling-mounted air conditioners?', 'answer' => 'Yes. Call 7779493 for a quotation for ceiling-mounted AC installation, repair or servicing.'],
+                    ['question' => 'Can you arrange weekly or monthly AC maintenance?', 'answer' => 'Yes. Call 7779493 to discuss weekly or monthly servicing, including regular maintenance for guest houses and offices.'],
+                    ['question' => 'Do air-conditioner shops get special rates?', 'answer' => 'Shops selling air conditioners can call 7779493 to discuss special installation and service rates.'],
                 ],
             ],
             'appliance-repair' => [

@@ -45,6 +45,9 @@
         $ctaLabel = auth()->check() ? 'Request This Service' : 'Register to Request Service';
     @endphp
 
+    @if($slug === 'ac-repair')
+        @include('services.partials.ac')
+    @else
     <section class="py-6 sm:py-12">
         <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1.2fr)_0.8fr] lg:items-center">
             <div>
@@ -71,6 +74,8 @@
             </aside>
         </div>
     </section>
+
+    @endif
 
     <section class="border-y border-gray-200 bg-white py-14 dark:border-slate-800 dark:bg-slate-900/50">
         <div class="mx-auto max-w-4xl">
