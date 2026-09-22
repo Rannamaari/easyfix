@@ -56,6 +56,8 @@
 
     @if($slug === 'ac-repair')
         @include('services.partials.ac')
+    @elseif($slug === 'cleaning')
+        @include('services.partials.cleaning')
     @else
     <section class="py-6 sm:py-12">
         <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1.2fr)_0.8fr] lg:items-center">
