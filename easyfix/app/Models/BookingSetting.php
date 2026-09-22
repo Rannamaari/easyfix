@@ -13,6 +13,7 @@ class BookingSetting extends Model
         'visit_charge_amount',
         'urgent_surcharge_amount',
         'ac_service_rates',
+        'cleaning_service_rates',
         'support_hotline',
         'micronet_bank_name',
         'micronet_account_name',
@@ -29,6 +30,7 @@ class BookingSetting extends Model
         'visit_charge_amount' => 'decimal:2',
         'urgent_surcharge_amount' => 'decimal:2',
         'ac_service_rates' => 'array',
+        'cleaning_service_rates' => 'array',
     ];
 
     public static function defaultAcServiceRates(): array
@@ -51,12 +53,32 @@ class BookingSetting extends Model
         return filled($this->ac_service_rates) ? $this->ac_service_rates : static::defaultAcServiceRates();
     }
 
+    public static function defaultCleaningServiceRates(): array
+    {
+        return [
+            ['name' => 'Toilet / Bathroom Cleaning', 'price' => 600, 'detail' => 'A focused clean for one bathroom or toilet.'],
+            ['name' => 'Deep Toilet / Bathroom Cleaning', 'price' => 800, 'detail' => 'A deeper clean for built-up dirt and harder-to-reach areas.'],
+            ['name' => '1 Bedroom Home Cleaning', 'price' => 750, 'detail' => 'General cleaning for a one-bedroom home.'],
+            ['name' => '2 Bedroom Home Cleaning', 'price' => 1400, 'detail' => 'General cleaning for a two-bedroom home.'],
+            ['name' => '3 Bedroom Home Cleaning', 'price' => 2500, 'detail' => 'General cleaning for a three-bedroom home.'],
+            ['name' => '1 Bedroom Deep Cleaning', 'price' => 1100, 'detail' => 'A more detailed clean for a one-bedroom home.'],
+            ['name' => '2 Bedroom Deep Cleaning', 'price' => 2200, 'detail' => 'A more detailed clean for a two-bedroom home.'],
+            ['name' => '3 Bedroom Deep Cleaning', 'price' => 3500, 'detail' => 'A more detailed clean for a three-bedroom home.'],
+        ];
+    }
+
+    public function cleaningServiceRates(): array
+    {
+        return filled($this->cleaning_service_rates) ? $this->cleaning_service_rates : static::defaultCleaningServiceRates();
+    }
+
     public static function current(): self
     {
         $defaults = [
             'visit_charge_amount' => 350,
             'urgent_surcharge_amount' => 500,
             'ac_service_rates' => static::defaultAcServiceRates(),
+            'cleaning_service_rates' => static::defaultCleaningServiceRates(),
             'support_hotline' => '9996210',
             'micronet_account_name' => 'Micronet MVR',
             'micronet_account_number' => '7730000140010',

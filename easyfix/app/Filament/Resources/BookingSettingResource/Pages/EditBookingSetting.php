@@ -13,7 +13,7 @@ class EditBookingSetting extends EditRecord
 
     public function getTitle(): string | Htmlable
     {
-        return 'AC Service Prices & Booking Settings';
+        return 'Service Prices & Booking Settings';
     }
 
     protected function getHeaderActions(): array

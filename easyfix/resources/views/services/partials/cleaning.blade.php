@@ -1,15 +1,4 @@
 @php
-    $cleaningRates = [
-        ['name' => 'Toilet / Bathroom Cleaning', 'price' => 600, 'detail' => 'A focused clean for one bathroom or toilet.'],
-        ['name' => 'Deep Toilet / Bathroom Cleaning', 'price' => 800, 'detail' => 'A deeper clean for built-up dirt and harder-to-reach areas.'],
-        ['name' => '1 Bedroom Home Cleaning', 'price' => 750, 'detail' => 'General cleaning for a one-bedroom home.'],
-        ['name' => '2 Bedroom Home Cleaning', 'price' => 1400, 'detail' => 'General cleaning for a two-bedroom home.'],
-        ['name' => '3 Bedroom Home Cleaning', 'price' => 2500, 'detail' => 'General cleaning for a three-bedroom home.'],
-        ['name' => '1 Bedroom Deep Cleaning', 'price' => 1100, 'detail' => 'A more detailed clean for a one-bedroom home.'],
-        ['name' => '2 Bedroom Deep Cleaning', 'price' => 2200, 'detail' => 'A more detailed clean for a two-bedroom home.'],
-        ['name' => '3 Bedroom Deep Cleaning', 'price' => 3500, 'detail' => 'A more detailed clean for a three-bedroom home.'],
-    ];
-
     $quoteUrl = 'https://wa.me/9609996210?text='.urlencode('Hi EasyFix, I would like a quote for cleaning.');
 @endphp
 
@@ -48,7 +37,7 @@
     </div>
 
     <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        @foreach($cleaningRates as $rate)
+        @foreach($service['rates'] as $rate)
             <article class="flex min-h-48 flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
                 <h3 class="text-lg font-bold leading-6 text-slate-950 dark:text-white">{{ $rate['name'] }}</h3>
                 <p class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">{{ $rate['detail'] }}</p>

@@ -171,6 +171,10 @@ class ServicePageController extends Controller
             $servicePage['rates'] = BookingSetting::current()->acServiceRates();
         }
 
+        if ($service === 'cleaning') {
+            $servicePage['rates'] = BookingSetting::current()->cleaningServiceRates();
+        }
+
         return view('services.show', [
             'service' => $servicePage,
             'slug' => $service,

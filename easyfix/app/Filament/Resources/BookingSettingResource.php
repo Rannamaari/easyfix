@@ -20,7 +20,7 @@ class BookingSettingResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationLabel = 'AC Prices & Booking';
+    protected static ?string $navigationLabel = 'Service Prices & Booking';
 
     /**
      * EasyFix has one shared settings record, so the sidebar should open its
@@ -60,6 +60,36 @@ class BookingSettingResource extends Resource
                         ])
                         ->columns(2)
                         ->addActionLabel('Add AC service rate')
+                        ->reorderableWithButtons()
+                        ->collapsible()
+                        ->itemLabel(fn (array $state): ?string => $state['name'] ?? null),
+                ]),
+            Forms\Components\Section::make('Cleaning Public Rates')
+                ->description('These prices appear on the public Cleaning services page. All listed rates should include GST.')
+                ->schema([
+                    Forms\Components\Repeater::make('cleaning_service_rates')
+                        ->label('Cleaning Services and Prices')
+                        ->default(fn () => BookingSetting::defaultCleaningServiceRates())
+                        ->schema([
+                            Forms\Components\TextInput::make('name')
+                                ->label('Service name')
+                                ->required()
+                                ->maxLength(100),
+                            Forms\Components\TextInput::make('price')
+                                ->label('Public rate (GST included)')
+                                ->numeric()
+                                ->required()
+                                ->prefix('MVR')
+                                ->step(0.01)
+                                ->minValue(0),
+                            Forms\Components\TextInput::make('detail')
+                                ->label('Short description')
+                                ->required()
+                                ->maxLength(180)
+                                ->columnSpanFull(),
+                        ])
+                        ->columns(2)
+                        ->addActionLabel('Add cleaning service rate')
                         ->reorderableWithButtons()
                         ->collapsible()
                         ->itemLabel(fn (array $state): ?string => $state['name'] ?? null),
